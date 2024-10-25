@@ -11,15 +11,26 @@ const userSchema = new Schema<IUser>(
     {
         firstName: { type: String },
         lastName: { type: String },
-        email: { type: String, required: true, unique: true },
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+            match: [
+                /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                "Please fill a valid email",
+            ],
+        },
         password: { type: String, required: true },
         phone: { type: String },
         role: {
             type: String,
-            required: true,
             enum: Roles,
+            default: Roles.PATIENT,
+            required: true,
         },
         status: { type: Boolean, required: true, default: true },
+        resetToken: { type: String, default: "" },
+        resetTokenExpires: { type: Number, default: 0 },
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now },
         updatedBy: { type: String },

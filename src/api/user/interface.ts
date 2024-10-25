@@ -12,6 +12,8 @@ export interface IUser extends Document {
     phone?: string;
     status: boolean;
     role: Roles;
+    resetToken?: string;
+    resetTokenExpires?: number;
     createdAt: Date;
     updatedAt?: Date;
     updatedBy?: string;
