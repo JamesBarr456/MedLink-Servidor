@@ -1,25 +1,16 @@
-import cors from "cors";
-import dotenv from "dotenv";
+// LIBRARIES
 import express from "express";
-import morgan from "morgan";
+// CONFIGS
+import ExpressAppCreator from "./config/createApp";
+import MiddlewaresConfig from "./config/middlewares.config";
+// ROUTERS
+import apiRouter from "./routers";
 
-// Configurar las variables de entorno
-dotenv.config();
+const appCreator = new ExpressAppCreator();
+const app: express.Application = appCreator.createExpressApp();
 
-const app = express();
+MiddlewaresConfig.config(app);
 
-// Middlewares
-app.use(cors()); // Habilitar CORS
-app.use(morgan("dev")); // Ver peticiones en la consola
-app.use(express.json()); // Para parsear JSON en el cuerpo de las peticiones
+app.use("/api", apiRouter);
 
-// Ruta básica
-app.get("/", (_req, res) => {
-  res.send("Hello, World!");
-});
-
-// Puerto
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+export default app;
