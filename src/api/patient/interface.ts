@@ -28,3 +28,8 @@ export interface PatientResponse {
     role: string;
     avatarUrl?: string;
 }
+
+export interface PatientLoginFields {
+    email: string;
+    password: string;
+}
