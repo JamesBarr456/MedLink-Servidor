@@ -1,12 +1,21 @@
 import { Router } from "express";
-import patientController from "../patient/controller";
 import schemaValidator from "../../middleware/schemaValidators.middlewares";
-import { patientCreatePayloadValidator } from "../patient/validator";
+import {
+    userCreatePayloadValidator,
+    userLoginPayloadValidator,
+} from "./validator";
+import AuthController from "./controller";
 
 const authRouter = Router();
 
 authRouter.post(
     "/register",
-    schemaValidator(patientCreatePayloadValidator, null),
-    patientController.register
+    schemaValidator(userCreatePayloadValidator, null),
+    AuthController.register
+);
+
+authRouter.post(
+    "/login",
+    schemaValidator(userLoginPayloadValidator, null),
+    AuthController.login
 );

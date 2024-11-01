@@ -18,7 +18,6 @@ const Patient = User.discriminator(
         address: { type: String },
         insuranceProvider: { type: String },
         insuranceNumber: { type: String },
-        avatar: { type: String },
         files: [{ type: String }],
         allergies: [{ type: String }],
         medications: [{ type: String }],
