@@ -6,7 +6,7 @@ import patientController from "./controller";
 import { uploadFields } from "../../middleware/uploadFields.middlewares";
 import schemaValidator from "../../middleware/schemaValidators.middlewares";
 // VALIDATORS
-import { patientCreatePayloadValidator } from "./validator";
+import { patientCreatePayloadValidator, patientLoginPayloadValidator } from "./validator";
 
 const patientRouter = Router();
 
@@ -15,6 +15,12 @@ patientRouter.post(
     uploadFields,
     schemaValidator(patientCreatePayloadValidator, null),
     patientController.register
+);
+
+patientRouter.post(
+    "/login",
+    schemaValidator(patientLoginPayloadValidator, null),
+    patientController.login
 );
 
 export default patientRouter;
