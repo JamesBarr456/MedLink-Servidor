@@ -33,12 +33,10 @@ const schemaValidator = (
                         message: issue.message,
                     }))
                 );
-                return;
             }
             res.status(HTTP_STATUS.SERVER_ERROR).json({
                 message: "Internal server error",
             });
-            return;
         }
     };
 };
