@@ -6,6 +6,7 @@ import { Roles } from "../../constants/Roles";
 import { BcryptUtils } from "../../utils/bcrypt.utils";
 // INTERFACES
 import { IUser } from "./interface";
+import { number } from "zod";
 
 const userSchema = new Schema<IUser>(
     {
@@ -21,13 +22,14 @@ const userSchema = new Schema<IUser>(
             ],
         },
         password: { type: String, required: true },
-        phone: { type: String },
+        phone: { type: number },
         role: {
             type: String,
             enum: Roles,
             default: Roles.PATIENT,
             required: true,
         },
+        avatar: { type: String },
         status: { type: Boolean, required: true, default: true },
         resetToken: { type: String, default: "" },
         resetTokenExpires: { type: Number, default: 0 },

@@ -9,7 +9,8 @@ export interface IUser extends Document {
     lastName?: string;
     email: string;
     password: string;
-    phone?: string;
+    avatar?: string;
+    phone?: number;
     status: boolean;
     role: Roles;
     resetToken?: string;
@@ -17,4 +18,9 @@ export interface IUser extends Document {
     createdAt: Date;
     updatedAt?: Date;
     updatedBy?: string;
+}
+
+export interface UserLoginFields {
+    email: string;
+    password: string;
 }

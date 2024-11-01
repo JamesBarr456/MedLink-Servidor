@@ -7,7 +7,6 @@ export interface IPatient extends IUser {
     address: string;
     insuranceProvider: string;
     insuranceNumber: string;
-    avatar: string;
     files: string[];
     allergies: string[];
     medications: string[];
@@ -17,7 +16,6 @@ export interface IPatient extends IUser {
 export interface PatientCreateFields {
     email: string;
     password: string;
-    avatarUrl?: string;
 }
 
 export interface PatientResponse {

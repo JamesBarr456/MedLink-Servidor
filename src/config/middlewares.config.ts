@@ -3,6 +3,9 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
+import { rootPath } from "../utils/path.utils";
 
 /**
  * Configures the middleware for the Express application.
@@ -40,5 +43,40 @@ export default class MiddlewareConfig {
 
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
+
+        const swaggerOptions = {
+            definition: {
+                openapi: "3.0.1",
+                info: {
+                    title: "Documentacion del proyecto",
+                    description: "API del proyecto",
+                    version: "1.0.0",
+                },
+                components: {
+                    securitySchemes: {
+                        bearerAuth: {
+                            type: "http",
+                            scheme: "bearer",
+                            bearerFormat: "JWT",
+                        },
+                    },
+                },
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
+            },
+            apis: [`${rootPath}/docs/**/*.yaml`],
+        };
+
+        console.log("🚀 ~ swagger docs dir", `${__dirname}/docs/**/*.yaml`);
+
+        const specs = swaggerJSDoc(swaggerOptions);
+        app.use(
+            "/apidocs",
+            swaggerUiExpress.serve,
+            swaggerUiExpress.setup(specs)
+        );
     }
 }
