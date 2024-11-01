@@ -20,3 +20,9 @@ export interface IConsultation {
     treatment: string;
     notes: string;
 }
+
+export interface DoctorCreateFields {
+    email: string;
+    password: string;
+    professionalregistration: number;
+}

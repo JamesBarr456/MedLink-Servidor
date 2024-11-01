@@ -17,7 +17,6 @@ export interface IPatient extends IUser {
 export interface PatientCreateFields {
     email: string;
     password: string;
-    avatarUrl?: string;
 }
 
 export interface PatientResponse {
