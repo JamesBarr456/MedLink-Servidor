@@ -22,7 +22,7 @@ const userSchema = new Schema<IUser>(
             ],
         },
         password: { type: String, required: true },
-        phone: { type: number },
+        phone: { type: Number },
         role: {
             type: String,
             enum: Roles,
