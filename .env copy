@@ -1,13 +1,16 @@
-# # MongoDB
-# MONGO_URI = 'mongodb+srv://Cluster1:gqh2IHZEVbhgdEWc@cluster0.cewleq6.mongodb.net/'
-# DATABASE = 'devLightApp'
-# TEST_DATABASE = 'testdb'
+# MongoDB
+MONGO_URI = 'mongodb+srv://Cluster1:gqh2IHZEVbhgdEWc@cluster0.cewleq6.mongodb.net'
+DATABASE = 'devLightApp'
+TEST_DATABASE = 'testdb'
 
 
-# # Express
-# BACKPORT=8081
-# MODE='FORK'
+# Express
+BACKPORT=8081
+MODE='FORK'
 
-# # JWT
-# JWT_SECRET = 'devLightAppSECRET'
-# SESSION_KEY = 'devLightApp'
+# JWT
+JWT_SECRET = 'devLightAppSECRET'
+SESSION_KEY = 'devLightApp'
+
+# Frontend
+FRONTEND_URL = 'http://localhost:3000'
