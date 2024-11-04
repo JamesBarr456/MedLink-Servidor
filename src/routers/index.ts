@@ -1,10 +1,10 @@
 // LIBRARIES
 import { Router } from "express";
+import authRouter from "../api/auth/routes";
 // Routes
-import patientRouter from "../api/patient/routes";
 
 const apiRouter = Router();
 
-apiRouter.use("/auth", patientRouter);
+apiRouter.use("/auth", authRouter);
 
 export default apiRouter;

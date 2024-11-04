@@ -19,3 +19,5 @@ authRouter.post(
     schemaValidator(userLoginPayloadValidator, null),
     AuthController.login
 );
+
+export default authRouter;
