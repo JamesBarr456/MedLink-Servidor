@@ -4,6 +4,8 @@ import {
     userCreatePayloadValidator,
     userLoginPayloadValidator,
     userForgotPasswordPayloadValidator,
+    userResetPasswordPayloadValidator,
+    resetPasswordTokenValidator,
 } from "./validator";
 import AuthController from "./controller";
 
@@ -25,6 +27,15 @@ authRouter.post(
     "/forgot-password",
     schemaValidator(userForgotPasswordPayloadValidator, null),
     AuthController.forgotPassword
+);
+
+authRouter.post(
+    "/reset-password/:token",
+    schemaValidator(
+        userResetPasswordPayloadValidator,
+        resetPasswordTokenValidator
+    ),
+    AuthController.resetPassword
 );
 
 export default authRouter;
