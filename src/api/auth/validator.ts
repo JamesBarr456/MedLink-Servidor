@@ -20,3 +20,7 @@ export const userLoginPayloadValidator = z.object({
     email: z.string().email({ message: "Invalid credentials" }),
     password: z.string().min(1, { message: "Invalid credentials" }),
 });
+
+export const userForgotPasswordPayloadValidator = z.object({
+    email: z.string().email({ message: "Invalid mail format" }),
+});

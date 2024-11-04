@@ -67,4 +67,27 @@ export default class AuthController {
             res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
         }
     }
+
+    static async forgotPassword(req: Request, res: Response): Promise<void> {
+        try {
+            const { email } = req.body;
+            const somethig = await UserService.generetePasswordResetToken(
+                email
+            );
+
+            const response = apiResponse(true, somethig);
+
+            res.status(HTTP_STATUS.OK).json(response);
+        } catch (err: any) {
+            const response = apiResponse(
+                false,
+                new HttpError(
+                    err.description || err.message,
+                    err.details || err.message,
+                    err.status || HTTP_STATUS.SERVER_ERROR
+                )
+            );
+            res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
+        }
+    }
 }
