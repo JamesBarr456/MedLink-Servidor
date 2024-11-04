@@ -14,3 +14,11 @@ SESSION_KEY = 'devLightApp'
 
 # Frontend
 FRONTEND_URL = 'http://localhost:3000'
+
+# Email
+EMAIL_HOST = 'smtp.gmail.com'
+SERVICE_NAME = 'gmail'
+EMAIL_USERNAME = 'medlinkdevlights@gmail.com'
+EMAIL_PASSWORD = 'kesg huap endc wlkc'
+EMAIL_PORT = 587
+contraseña del gmail:FFPy2m2MxeS9edMY

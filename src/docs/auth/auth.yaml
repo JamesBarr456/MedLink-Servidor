@@ -198,3 +198,96 @@ paths:
                                             details:
                                                 type: string
                                                 example: SERVER_ERROR
+
+    /auth/forgot-password:
+        post:
+            summary: Request a password reset
+            tags:
+                - Auth
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                    format: email
+                                    example: user@example.com
+                            required:
+                                - email
+            responses:
+                200:
+                    description: Password reset token generated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    data:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Token generated successfully
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    error:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Invalid input
+                                            details:
+                                                type: string
+                                                example: Email is required
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    error:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Invalid credentials
+                                            details:
+                                                type: string
+                                                example: INVALID_CREDENTIALS
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    error:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Server error
+                                            details:
+                                                type: string
+                                                example: SERVER_ERROR
