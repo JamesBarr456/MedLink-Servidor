@@ -6,6 +6,7 @@ import {
     userForgotPasswordPayloadValidator,
 } from "./validator";
 import AuthController from "./controller";
+import authenticate from "../../middleware/authenticate.middleware";
 
 const authRouter = Router();
 
@@ -26,5 +27,7 @@ authRouter.post(
     schemaValidator(userForgotPasswordPayloadValidator, null),
     AuthController.forgotPassword
 );
+
+authRouter.get("/test", authenticate);
 
 export default authRouter;

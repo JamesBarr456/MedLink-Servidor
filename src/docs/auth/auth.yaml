@@ -44,7 +44,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: true
-                                    data:
+                                    payload:
                                         type: object
                                         properties:
                                             id:
@@ -75,15 +75,17 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
-                                        type: object
-                                        properties:
-                                            message:
-                                                type: string
-                                                example: Invalid input
-                                            details:
-                                                type: string
-                                                example: Email is required
+                                    payload:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                message:
+                                                    type: string
+                                                    example: Invalid input
+                                                details:
+                                                    type: string
+                                                    example: Email is required
                 409:
                     description: Conflict
                     content:
@@ -94,7 +96,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -113,7 +115,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -154,7 +156,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: true
-                                    data:
+                                    payload:
                                         type: object
                                         properties:
                                             token:
@@ -170,7 +172,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -189,7 +191,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -228,7 +230,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: true
-                                    data:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -244,15 +246,17 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
-                                        type: object
-                                        properties:
-                                            message:
-                                                type: string
-                                                example: Invalid input
-                                            details:
-                                                type: string
-                                                example: Email is required
+                                    payload:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                message:
+                                                    type: string
+                                                    example: Invalid input
+                                                details:
+                                                    type: string
+                                                    example: Email is required
                 401:
                     description: Unauthorized
                     content:
@@ -263,7 +267,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -282,7 +286,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:

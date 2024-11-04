@@ -3,7 +3,7 @@ import { BcryptUtils } from "../../utils/bcrypt.utils";
 import { sign } from "jsonwebtoken";
 import HttpError from "../../utils/HttpError.utils";
 import UserDAO from "./dao";
-import { UserLoginFields } from "./interface";
+import { IUser, UserLoginFields } from "./interface";
 import User from "./model";
 import { generetePasswordResetToken } from "../../utils/resetToken.utils";
 import config from "../../config/enviroment.config";
@@ -128,6 +128,31 @@ export default class UserService {
             return {
                 message: "Token generated successfully",
             };
+        } catch (err: any) {
+            const error: HttpError = new HttpError(
+                err.description || err.message,
+                err.details || err.message,
+                err.status || HTTP_STATUS.SERVER_ERROR
+            );
+            throw error;
+        }
+    }
+
+    static async getUserById(id: string): Promise<IUser | null> {
+        try {
+            const userDao = new UserDAO(User);
+            const user = await userDao.read(id);
+            console.log("🚀 ~ user:", user);
+
+            if (!user) {
+                throw new HttpError(
+                    "User not found",
+                    "USER_NOT_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
+
+            return user;
         } catch (err: any) {
             const error: HttpError = new HttpError(
                 err.description || err.message,

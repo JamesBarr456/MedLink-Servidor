@@ -20,6 +20,7 @@ export default class MiddlewareConfig {
      * - Serving static files from the "src/public" directory
      * - Parsing cookies
      * - Parsing JSON and URL-encoded request bodies
+     * - Serving the Swagger UI for API documentation
      */
     static config(app: express.Application): void {
         app.use(
@@ -48,8 +49,8 @@ export default class MiddlewareConfig {
             definition: {
                 openapi: "3.0.1",
                 info: {
-                    title: "Documentacion del proyecto",
-                    description: "API del proyecto",
+                    title: "Documentacion de MedLink",
+                    description: "API de MedLink",
                     version: "1.0.0",
                 },
                 components: {
@@ -69,8 +70,6 @@ export default class MiddlewareConfig {
             },
             apis: [`${rootPath}/docs/**/*.yaml`],
         };
-
-        console.log("🚀 ~ swagger docs dir", `${__dirname}/docs/**/*.yaml`);
 
         const specs = swaggerJSDoc(swaggerOptions);
         app.use(
