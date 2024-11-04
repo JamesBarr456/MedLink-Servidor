@@ -126,7 +126,68 @@ export default class UserService {
             }
 
             return {
-                message: "Token generated successfully",
+                message: "Token generated successfully and email sent",
+            };
+        } catch (err: any) {
+            const error: HttpError = new HttpError(
+                err.description || err.message,
+                err.details || err.message,
+                err.status || HTTP_STATUS.SERVER_ERROR
+            );
+            throw error;
+        }
+    }
+
+    static async resetPassword(
+        token: string,
+        newPassword: string
+    ): Promise<{ message: string }> {
+        try {
+            const userDao = new UserDAO(User);
+            const userFound = await userDao.find({
+                resetToken: token,
+                resetTokenExpires: { $gt: new Date() },
+            });
+            if (!userFound || userFound.length === 0) {
+                throw new HttpError(
+                    "Invalid credentials",
+                    "INVALID_CREDENTIALS",
+                    HTTP_STATUS.UNAUTHORIZED
+                );
+            }
+            const user = userFound[0];
+
+            if (BcryptUtils.isValidPassword(user, newPassword)) {
+                throw new HttpError(
+                    "Password is the same as the current one",
+                    "SAME_PASSWORD",
+                    HTTP_STATUS.BAD_REQUEST
+                );
+            }
+
+            const userPayload = {
+                password: BcryptUtils.createHash(newPassword),
+                resetToken: undefined,
+                resetTokenExpires: undefined,
+                updatedAt: new Date(),
+                updatedBy: user._id.toString(),
+            };
+
+            const userUpdated = await userDao.update(
+                user._id.toString(),
+                userPayload
+            );
+
+            if (!userUpdated) {
+                throw new HttpError(
+                    "Error during password reset",
+                    "ERROR_RESETING_PASSWORD",
+                    HTTP_STATUS.SERVER_ERROR
+                );
+            }
+
+            return {
+                message: "Password reset successfully",
             };
         } catch (err: any) {
             const error: HttpError = new HttpError(
