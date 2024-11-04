@@ -29,7 +29,7 @@ paths:
                                     example: 123456
                                 specialization:
                                     type: string
-                                    example: CARDIOLOGY
+                                    example: Cardiology
                             required:
                                 - email
                                 - password
