@@ -15,7 +15,7 @@ export default class AuthController {
         try {
             let userResponse: PatientResponse | DoctorResponse;
 
-            if (req.body.rofessionalregistration) {
+            if (req.body.licenseNumber) {
                 const doctorData: DoctorCreateFields = req.body;
                 userResponse = await DoctorService.createDoctor(doctorData);
             } else {
