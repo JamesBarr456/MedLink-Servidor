@@ -20,9 +20,10 @@ const schemaValidator = (
             }
 
             if (paramsSchema) {
-                paramsSchema.parse(req.params.id);
-                if (req.params.productId) {
-                    paramsSchema.parse(req.params.productId);
+                if (req.params.id) {
+                    paramsSchema.parse(req.params.id);
+                } else if (req.params.token) {
+                    paramsSchema.parse(req.params.token);
                 }
             }
             return next();

@@ -4,9 +4,10 @@ import {
     userCreatePayloadValidator,
     userLoginPayloadValidator,
     userForgotPasswordPayloadValidator,
+    userResetPasswordPayloadValidator,
+    resetPasswordTokenValidator,
 } from "./validator";
 import AuthController from "./controller";
-import authenticate from "../../middleware/authenticate.middleware";
 
 const authRouter = Router();
 
@@ -28,6 +29,13 @@ authRouter.post(
     AuthController.forgotPassword
 );
 
-authRouter.get("/test", authenticate);
+authRouter.post(
+    "/reset-password/:token",
+    schemaValidator(
+        userResetPasswordPayloadValidator,
+        resetPasswordTokenValidator
+    ),
+    AuthController.resetPassword
+);
 
 export default authRouter;
