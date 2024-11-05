@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+        "testeo": "ts-node-dev --respawn --transpile-only src/middleware/authenticate.middleware.ts",
         "build": "tsc",
         "start": "node dist/index.js",
         "test": "NODE_ENV=test jest"
