@@ -11,8 +11,13 @@ export default async function authenticate(
     res: Response,
     next: NextFunction
 ) {
-    const token = req.headers.authorization?.substring(7);
-    console.log("🚀 ~ token:", token);
+    let token: string | undefined;
+    if (
+        !req.headers.authorization ||
+        req.headers.authorization.indexOf("Bearer ") === -1
+    ) {
+        token = req.headers.authorization?.substring(7);
+    }
 
     if (!token) {
         const response = apiResponse(
