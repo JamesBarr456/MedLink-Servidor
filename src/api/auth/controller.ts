@@ -17,7 +17,7 @@ export default class AuthController {
     try {
       let userResponse: PatientResponse | DoctorResponse;
 
-      if (req.body.rofessionalregistration) {
+      if (req.body.licenseNumber) {
         const doctorData: DoctorCreateFields = req.body;
         userResponse = await DoctorService.createDoctor(doctorData);
       } else {
@@ -56,6 +56,51 @@ export default class AuthController {
       }
 
       const response = apiResponse(true, token);
+      res.status(HTTP_STATUS.OK).json(response);
+    } catch (err: any) {
+      const response = apiResponse(
+        false,
+        new HttpError(
+          err.description || err.message,
+          err.details || err.message,
+          err.status || HTTP_STATUS.SERVER_ERROR
+        )
+      );
+      res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
+    }
+  }
+
+  static async forgotPassword(req: Request, res: Response): Promise<void> {
+    try {
+      const { email } = req.body;
+      const generatedResponse = await UserService.generetePasswordResetToken(
+        email
+      );
+
+      const response = apiResponse(true, generatedResponse);
+
+      res.status(HTTP_STATUS.OK).json(response);
+    } catch (err: any) {
+      const response = apiResponse(
+        false,
+        new HttpError(
+          err.description || err.message,
+          err.details || err.message,
+          err.status || HTTP_STATUS.SERVER_ERROR
+        )
+      );
+      res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
+    }
+  }
+
+  static async resetPassword(req: Request, res: Response): Promise<void> {
+    try {
+      const { token } = req.params;
+      const { password } = req.body;
+
+      const passwordRestored = await UserService.resetPassword(token, password);
+
+      const response = apiResponse(true, passwordRestored);
       res.status(HTTP_STATUS.OK).json(response);
     } catch (err: any) {
       const response = apiResponse(
