@@ -4,7 +4,6 @@ import HTTP_STATUS from "../constants/HttpStatus";
 import HttpError from "../utils/HttpError.utils";
 import apiResponse from "../utils/apiResponse.utils";
 import config from "../config/enviroment.config";
-import UserService from "../api/user/service";
 
 export default async function authenticate(
     req: Request,
@@ -37,20 +36,11 @@ export default async function authenticate(
 
         const tokenData = JSON.stringify(decodedToken);
 
-        const user = await UserService.getUserById(JSON.parse(tokenData).id);
+        const user = {
+            id: JSON.parse(tokenData).id,
+            role: JSON.parse(tokenData).role,
+        };
 
-        if (!user) {
-            const response = apiResponse(
-                false,
-                new HttpError(
-                    "User not found",
-                    "USER_NOT_FOUND",
-                    HTTP_STATUS.NOT_FOUND
-                )
-            );
-            res.status(HTTP_STATUS.NOT_FOUND).json(response);
-            return;
-        }
         req.body.user = user;
         next();
     } catch (error) {
