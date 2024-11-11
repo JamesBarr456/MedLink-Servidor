@@ -492,3 +492,4 @@ paths:
                                             details:
                                                 type: string
                                                 example: SERVER_ERROR
+    

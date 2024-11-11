@@ -2,6 +2,8 @@ import HTTP_STATUS from "../../constants/HttpStatus";
 import HttpError from "../../utils/HttpError.utils";
 import UserDAO from "../user/dao";
 import DoctorDto from "./dto";
+//ROLES
+import { Roles } from "../../constants/Roles";
 
 import { DoctorCreateFields, DoctorResponse, IDoctor } from "./interface";
 import Doctor from "./model";
@@ -58,6 +60,30 @@ export default class DoctorService {
             );
 
             throw error;
+        }
+    }
+    static async getAllDoctors(): Promise<DoctorResponse[] | null> {
+        try {
+          const doctorDao = new UserDAO(Doctor);
+          const doctors = await doctorDao.find({ role: Roles.DOCTOR });
+    
+    
+          if (!doctors || doctors.length === 0) {
+            throw new HttpError(
+                "No doctors found",
+                "NO_DOCTORS_FOUND",
+                HTTP_STATUS.NOT_FOUND
+            );
+          }
+          const doctorsReponse = DoctorDto.doctorsArrayDTO(doctors);
+          return doctorsReponse;
+        } catch (err: any) {
+          const error: HttpError = new HttpError(
+            err.description || err.message,
+            err.details || err.message,
+            err.status || HTTP_STATUS.SERVER_ERROR
+          );
+          throw error;
         }
     }
 }
