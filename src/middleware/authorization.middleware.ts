@@ -5,9 +5,9 @@ import HTTP_STATUS from "../constants/HttpStatus";
 
 const authorizeRoles = (roles: Roles[]) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        const userRole = req.body.role;
-
+        const userRole = res.locals.user.role;
         if (roles.includes(userRole)) {
+            res.locals.user.role = userRole;
             next();
         } else {
             const response = apiResponse(false, {

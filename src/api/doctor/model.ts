@@ -9,7 +9,7 @@ const Doctor = User.discriminator(
     "Doctor",
     new Schema<IDoctor>({
         specialization: { type: String, required: true },
-        address: { type: String },
+        location: { type: String },
         licenseNumber: { type: Number, required: true },
         clinic: { type: String },
         patients: [{ type: Schema.Types.ObjectId, ref: "Patient" }],

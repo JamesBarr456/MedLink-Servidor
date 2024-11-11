@@ -1,16 +1,23 @@
 // INTERFACES
+import { Types } from "mongoose";
 import { IUser } from "../user/interface";
+import { Genders } from "../../constants/Genders";
+import { BloodPressureTrend } from "../../constants/BloodPressureTrend";
+import IPatientClinicalData from "../patientClinicalData/interface";
 
 export interface IPatient extends IUser {
-    dateOfBirth: Date;
-    gender: string;
-    address: string;
     insuranceProvider: string;
     insuranceNumber: string;
     files: string[];
-    allergies: string[];
-    medications: string[];
-    bloodType: string;
+    clinicalData: Types.ObjectId;
+    allergiesData: Types.ObjectId;
+    pathologycalData: Types.ObjectId;
+    nonPathogicalData: Types.ObjectId;
+    familyInheritance: Types.ObjectId;
+    vaccinationShedule: Types.ObjectId;
+    documents: Types.ObjectId[];
+    medications: Types.ObjectId[];
+    authorizedDoctors: Types.ObjectId[];
 }
 
 export interface PatientCreateFields {
@@ -18,13 +25,50 @@ export interface PatientCreateFields {
     password: string;
 }
 
-export interface PatientResponse {
-    id: string;
-    firstName?: string;
-    lastName?: string;
+export interface PatientUpdateFields {
+    firstName: string;
+    lastName: string;
+    dateOfBirth: Date;
+    gender: Genders;
+    aboutMe: string;
     email: string;
-    role: string;
-    avatarUrl?: string;
+    avatar: string;
+    phone: number;
+    location: string;
+    height: number;
+    weight: number;
+    bloodType: string;
+    bloodPressureTrend: BloodPressureTrend;
+    isDonor: boolean;
+    hasAllergies: boolean;
+    hasChronicDiseases: boolean;
+    hasHealthyLifestyle: boolean;
+}
+
+export interface PatientResponse
+    extends Omit<
+        IPatient,
+        | "password"
+        | "clinicalData"
+        | "allergiesData"
+        | "pathologycalData"
+        | "nonPathogicalData"
+        | "familyInheritance"
+        | "vaccinationShedule"
+        | "documents"
+        | "medications"
+        | "authorizedDoctors"
+    > {
+    id: string;
+    clinicalData: string | Partial<IPatientClinicalData>;
+    allergiesData: string;
+    pathologycalData: string;
+    nonPathogicalData: string;
+    familyInheritance: string;
+    vaccinationShedule: string;
+    documents: string[];
+    medications: string[];
+    authorizedDoctors: string[];
 }
 
 export interface PatientLoginFields {

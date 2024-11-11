@@ -15,10 +15,6 @@ export default async function authenticate(
         !req.headers.authorization ||
         req.headers.authorization.indexOf("Bearer ") === -1
     ) {
-        token = req.headers.authorization?.substring(7);
-    }
-
-    if (!token) {
         const response = apiResponse(
             false,
             new HttpError(
@@ -31,17 +27,17 @@ export default async function authenticate(
         return;
     }
 
+    token = req.headers.authorization?.substring(7);
+
     try {
         const decodedToken = jwt.verify(token, config.JWT_SECRET);
 
         const tokenData = JSON.stringify(decodedToken);
 
-        const user = {
-            id: JSON.parse(tokenData).id,
-            role: JSON.parse(tokenData).role,
-        };
+        const user = JSON.parse(tokenData);
 
-        req.body.user = user;
+        res.locals.user = user;
+
         next();
     } catch (error) {
         const response = apiResponse(

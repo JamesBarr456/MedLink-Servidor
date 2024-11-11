@@ -33,6 +33,7 @@ export default class DoctorService {
 
             const doctorPayload: IDoctor = new Doctor({
                 ...doctorData,
+
                 createdAt: new Date(),
             });
 

@@ -13,7 +13,7 @@ class UserDAO<T> {
     }
 
     async read(id: string): Promise<T | null> {
-        return await this.model.findById(id).exec();
+        return (await this.model.findById(id).lean()) as T | null;
     }
 
     async update(id: string, data: Partial<T>): Promise<T | null> {

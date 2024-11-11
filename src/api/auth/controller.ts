@@ -11,11 +11,11 @@ import UserService from "../user/service";
 import apiResponse from "../../utils/apiResponse.utils";
 
 export default class AuthController {
-  static async register(req: Request, res: Response): Promise<void> {
-    // FIXME: Check if the requester is an admin, and admit only admins to create users with roles
+    static async register(req: Request, res: Response): Promise<void> {
+        // FIXME: Check if the requester is an admin, and admit only admins to create users with roles
+        try {
+            let userResponse: Partial<PatientResponse> | DoctorResponse;
 
-    try {
-      let userResponse: PatientResponse | DoctorResponse;
 
       if (req.body.licenseNumber) {
         const doctorData: DoctorCreateFields = req.body;

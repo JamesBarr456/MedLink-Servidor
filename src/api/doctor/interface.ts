@@ -6,7 +6,7 @@ import { SPECIALITIES } from "../../constants/Specializations";
 
 export interface IDoctor extends IUser {
     specialization: SPECIALITIES;
-    address: string;
+    location: string;
     licenseNumber: number;
     clinic: string;
     patients: Types.ObjectId[];
@@ -37,7 +37,7 @@ export interface DoctorResponse {
     email: string;
     role: string;
     specialization: SPECIALITIES;
-    address?: string;
+    location?: string;
     avatar?: string;
     phone?: number;
     clinic?: string;
