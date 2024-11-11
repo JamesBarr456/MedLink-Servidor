@@ -1,13 +1,14 @@
-import { Request, Response } from "express";
-import HTTP_STATUS from "../../constants/HttpStatus";
-import apiResponse from "../../utils/apiResponse.utils";
-import HttpError from "../../utils/HttpError.utils";
 import { DoctorCreateFields, DoctorResponse } from "../doctor/interface";
 import { PatientCreateFields, PatientResponse } from "../patient/interface";
-import PatientService from "../patient/service";
+import { Request, Response } from "express";
+
 import DoctorService from "../doctor/service";
+import HTTP_STATUS from "../../constants/HttpStatus";
+import HttpError from "../../utils/HttpError.utils";
+import PatientService from "../patient/service";
 import { UserLoginFields } from "../user/interface";
 import UserService from "../user/service";
+import apiResponse from "../../utils/apiResponse.utils";
 
 export default class AuthController {
     static async register(req: Request, res: Response): Promise<void> {
