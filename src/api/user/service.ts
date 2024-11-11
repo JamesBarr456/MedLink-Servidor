@@ -203,7 +203,6 @@ export default class UserService {
         try {
             const userDao = new UserDAO(User);
             const user = await userDao.read(id);
-            console.log("🚀 ~ user:", user);
 
             if (!user) {
                 throw new HttpError(

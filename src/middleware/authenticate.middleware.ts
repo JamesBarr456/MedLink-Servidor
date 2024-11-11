@@ -4,7 +4,6 @@ import HTTP_STATUS from "../constants/HttpStatus";
 import HttpError from "../utils/HttpError.utils";
 import apiResponse from "../utils/apiResponse.utils";
 import config from "../config/enviroment.config";
-import UserService from "../api/user/service";
 
 export default async function authenticate(
     req: Request,
@@ -16,10 +15,6 @@ export default async function authenticate(
         !req.headers.authorization ||
         req.headers.authorization.indexOf("Bearer ") === -1
     ) {
-        token = req.headers.authorization?.substring(7);
-    }
-
-    if (!token) {
         const response = apiResponse(
             false,
             new HttpError(
@@ -32,26 +27,16 @@ export default async function authenticate(
         return;
     }
 
+    token = req.headers.authorization?.substring(7);
+
     try {
         const decodedToken = jwt.verify(token, config.JWT_SECRET);
 
         const tokenData = JSON.stringify(decodedToken);
 
-        const user = await UserService.getUserById(JSON.parse(tokenData).id);
+        const user = JSON.parse(tokenData);
 
-        if (!user) {
-            const response = apiResponse(
-                false,
-                new HttpError(
-                    "User not found",
-                    "USER_NOT_FOUND",
-                    HTTP_STATUS.NOT_FOUND
-                )
-            );
-            res.status(HTTP_STATUS.NOT_FOUND).json(response);
-            return;
-        }
-        req.body.user = user;
+        res.locals.user = user;
         next();
     } catch (error) {
         const response = apiResponse(

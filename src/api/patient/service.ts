@@ -1,6 +1,3 @@
-// LIBRARIES
-import { compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
 // MODELS
 import Patient from "./model";
 // DAOS
@@ -13,107 +10,135 @@ import HttpError from "../../utils/HttpError.utils";
 import HTTP_STATUS from "../../constants/HttpStatus";
 // INTERFACES
 import {
-  IPatient,
-  PatientCreateFields,
-  PatientResponse,
-  PatientLoginFields,
+    IPatient,
+    PatientCreateFields,
+    PatientResponse,
+    PatientUpdateFields,
 } from "./interface";
+import { ITokenPayload } from "../auth/interface";
+import PatientDAO from "./dao";
+import { Types } from "mongoose";
+import PatientClinicalDataService from "../patientClinicalData/services";
 
 export default class PatientService {
-  static async createPatient(
-    patient: PatientCreateFields
-  ): Promise<PatientResponse> {
-    try {
-      const patientDao = new UserDAO(Patient);
-      const patientFound = await patientDao.find({
-        email: patient.email,
-      });
+    static ClinicalFields = [
+        "height",
+        "weight",
+        "bloodType",
+        "bloodPressureTrend",
+        "isDonor",
+        "hasAllergies",
+        "hasChronicDiseases",
+        "hasHealthyLifestyle",
+    ];
+    static async createPatient(
+        patient: PatientCreateFields
+    ): Promise<Partial<PatientResponse>> {
+        try {
+            const patientDao = new UserDAO(Patient);
+            const patientFound = await patientDao.find({
+                email: patient.email,
+            });
 
-      if (patientFound && patientFound.length > 0) {
-        throw new HttpError(
-          "User already exists",
-          "USER_ALREADY_EXISTS",
-          HTTP_STATUS.CONFLICT
-        );
-      }
+            if (patientFound && patientFound.length > 0) {
+                throw new HttpError(
+                    "User already exists",
+                    "USER_ALREADY_EXISTS",
+                    HTTP_STATUS.CONFLICT
+                );
+            }
 
-      const patientPayload: IPatient = new Patient({
-        ...patient,
-        createdAt: new Date(),
-      });
+            const patientPayload: IPatient = new Patient({
+                ...patient,
+                createdAt: new Date(),
+            });
 
-      const patientCreated: IPatient = await patientDao.create(patientPayload);
+            const patientCreated: IPatient = await patientDao.create(
+                patientPayload
+            );
 
-      if (!patientCreated) {
-        throw new HttpError(
-          "User not created",
-          "USER_NOT_CREATED",
-          HTTP_STATUS.SERVER_ERROR
-        );
-      }
+            if (!patientCreated) {
+                throw new HttpError(
+                    "User not created",
+                    "USER_NOT_CREATED",
+                    HTTP_STATUS.SERVER_ERROR
+                );
+            }
 
-      const userCleaned: PatientResponse =
-        PatientDto.patientDTO(patientCreated);
-      return userCleaned;
-    } catch (err: any) {
-      const error: HttpError = new HttpError(
-        err.description || err.message,
-        err.details || err.message,
-        err.status || HTTP_STATUS.SERVER_ERROR
-      );
+            const userCleaned: Partial<PatientResponse> =
+                PatientDto.patientDTO(patientCreated);
+            return userCleaned;
+        } catch (err: any) {
+            const error: HttpError = new HttpError(
+                err.description || err.message,
+                err.details || err.message,
+                err.status || HTTP_STATUS.SERVER_ERROR
+            );
 
-      throw error;
+            throw error;
+        }
     }
-  }
 
-  static async loginPatient(
-    patient: PatientLoginFields
-  ): Promise<{ token: string }> {
-    try {
-      const patientDao = new UserDAO(Patient);
+    static async updatePatient(
+        user: ITokenPayload,
+        updateFields: Partial<PatientUpdateFields>
+    ): Promise<Partial<PatientResponse>> {
+        try {
+            const patientDao = new PatientDAO();
+            const patientFound = await patientDao.read(user.id);
+            if (!patientFound) {
+                throw new HttpError(
+                    "User not found",
+                    "USER_NOT_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
 
-      const patientFound = await patientDao.find({
-        email: patient.email,
-      });
+            const patientPayload: Partial<IPatient> = {
+                ...patientFound,
+                ...updateFields,
+            };
 
-      if (!patientFound || patientFound.length === 0) {
-        throw new HttpError(
-          "User not found",
-          "USER_NOT_FOUND",
-          HTTP_STATUS.NOT_FOUND
-        );
-      }
+            if (
+                Object.keys(updateFields).some((field) =>
+                    this.ClinicalFields.includes(field)
+                )
+            ) {
+                const patientClinicalDataCreated =
+                    await PatientClinicalDataService.createClinicalData(
+                        updateFields,
+                        new Types.ObjectId(user.id)
+                    );
 
-      const user = patientFound[0];
+                patientPayload.clinicalData =
+                    patientClinicalDataCreated._id as Types.ObjectId;
+            }
 
-      const isPasswordValid = await compare(patient.password, user.password!);
-      if (!isPasswordValid) {
-        throw new HttpError(
-          "Invalid credentials",
-          "INVALID_CREDENTIALS",
-          HTTP_STATUS.UNAUTHORIZED
-        );
-      }
+            const updatedPatient = await patientDao.update(
+                patientFound._id.toString(),
+                patientPayload
+            );
 
-      const token = sign(
-        {
-          id: user._id,
-          role: user.role,
-          nbf: Math.floor(Date.now() / 1000),
-        },
-        process.env.JWT_SECRET!,
-        { expiresIn: "1h" }
-      );
+            if (!updatedPatient) {
+                throw new HttpError(
+                    "User not updated",
+                    "USER_NOT_UPDATED",
+                    HTTP_STATUS.SERVER_ERROR
+                );
+            }
 
-      return { token };
-    } catch (err: any) {
-      const error: HttpError = new HttpError(
-        err.description || err.message,
-        err.details || err.message,
-        err.status || HTTP_STATUS.SERVER_ERROR
-      );
+            const userCleaned: Partial<PatientResponse> =
+                PatientDto.patientDTO(updatedPatient);
 
-      throw error;
+            return userCleaned;
+        } catch (err: any) {
+            const error: HttpError = new HttpError(
+                err.description || err.message,
+                err.details || err.message,
+                err.status || HTTP_STATUS.SERVER_ERROR
+            );
+
+            throw error;
+        }
     }
-  }
 }

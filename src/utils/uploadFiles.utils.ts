@@ -5,8 +5,8 @@ import { rootPath } from "./path.utils";
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        if (file.fieldname === "profile") {
-            cb(null, rootPath + "/public/uploads/profiles");
+        if (file.fieldname === "avatar") {
+            cb(null, rootPath + "/public/uploads/avatars");
         } else if (file.fieldname === "studies") {
             cb(null, rootPath + "/public/uploads/studies");
         } else {

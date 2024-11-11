@@ -6,12 +6,18 @@ import { Roles } from "../../constants/Roles";
 import { BcryptUtils } from "../../utils/bcrypt.utils";
 // INTERFACES
 import { IUser } from "./interface";
-import { number } from "zod";
+import { Genders } from "../../constants/Genders";
 
 const userSchema = new Schema<IUser>(
     {
         firstName: { type: String },
         lastName: { type: String },
+        dateOfBirth: { type: Date },
+        gender: {
+            type: String,
+            enum: Genders,
+        },
+        aboutMe: { type: String },
         email: {
             type: String,
             required: true,
@@ -23,6 +29,7 @@ const userSchema = new Schema<IUser>(
         },
         password: { type: String, required: true },
         phone: { type: Number },
+        location: { type: String },
         role: {
             type: String,
             enum: Roles,

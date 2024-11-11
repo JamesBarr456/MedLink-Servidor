@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink
+    version: 1.0.0
+paths:
+    /patient:
+        put:
+            summary: Update patient information
+            tags:
+                - Patient
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    example: John
+                                lastName:
+                                    type: string
+                                    example: Doe
+                                dateOfBirth:
+                                    type: string
+                                    format: date
+                                    example: 1990-01-01
+                                gender:
+                                    type: string
+                                    enum:
+                                        - MALE
+                                        - FEMALE
+                                        - OTHER
+                                    example: MALE
+                                aboutMe:
+                                    type: string
+                                    example: I am a software developer.
+                                email:
+                                    type: string
+                                    format: email
+                                    example: john.doe@example.com
+                                avatar:
+                                    type: string
+                                    format: binary
+                                phone:
+                                    type: string
+                                    example: "1234567890"
+                                location:
+                                    type: string
+                                    example: New York
+                                height:
+                                    type: number
+                                    example: 180
+                                weight:
+                                    type: number
+                                    example: 75
+                                bloodType:
+                                    type: string
+                                    enum:
+                                        - A+
+                                        - A-
+                                        - B+
+                                        - B-
+                                        - AB+
+                                        - AB-
+                                        - O+
+                                        - O-
+                                    example: O+
+                                bloodPressureTrend:
+                                    type: string
+                                    enum:
+                                        - NORMAL
+                                        - RISING
+                                        - FALLING
+                                    example: NORMAL
+                                isDonor:
+                                    type: boolean
+                                    example: true
+                                hasAllergies:
+                                    type: boolean
+                                    example: false
+                                hasChronicDiseases:
+                                    type: boolean
+                                    example: false
+                                hasHealthyLifestyle:
+                                    type: boolean
+                                    example: true
+            responses:
+                200:
+                    description: Patient information updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: string
+                                                example: 60d0fe4f5311236168a109ca
+                                            firstName:
+                                                type: string
+                                                example: John
+                                            lastName:
+                                                type: string
+                                                example: Doe
+                                            dateOfBirth:
+                                                type: string
+                                                format: date
+                                                example: 1990-01-01
+                                            gender:
+                                                type: string
+                                                example: MALE
+                                            aboutMe:
+                                                type: string
+                                                example: I am a software developer.
+                                            email:
+                                                type: string
+                                                format: email
+                                                example: john.doe@example.com
+                                            avatar:
+                                                type: string
+                                                example: /uploads/avatars/avatar.png
+                                            phone:
+                                                type: string
+                                                example: "1234567890"
+                                            location:
+                                                type: string
+                                                example: New York
+                                            clinicalData:
+                                                type: object
+                                                properties:
+                                                    height:
+                                                        type: number
+                                                        example: 180
+                                                    weight:
+                                                        type: number
+                                                        example: 75
+                                                    bloodType:
+                                                        type: string
+                                                        example: O+
+                                                    bloodPressureTrend:
+                                                        type: string
+                                                        example: NORMAL
+                                                    isDonor:
+                                                        type: boolean
+                                                        example: true
+                                                    hasAllergies:
+                                                        type: boolean
+                                                        example: false
+                                                    hasChronicDiseases:
+                                                        type: boolean
+                                                        example: false
+                                                    hasHealthyLifestyle:
+                                                        type: boolean
+                                                        example: true
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Invalid request payload
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Unauthorized
+                403:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Forbidden
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Internal server error
+components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
