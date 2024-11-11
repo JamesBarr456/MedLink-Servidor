@@ -6,6 +6,8 @@ import UserDAO from "../user/dao";
 import PatientDto from "./dto";
 // UTILS
 import HttpError from "../../utils/HttpError.utils";
+//ROLES
+import { Roles } from "../../constants/Roles";
 // CONSTANTS
 import HTTP_STATUS from "../../constants/HttpStatus";
 // INTERFACES
@@ -141,4 +143,34 @@ export default class PatientService {
             throw error;
         }
     }
+
+  }
+
+  static async getAllPatients(): Promise<PatientResponse[] | null> {
+    try {
+      const patientDao = new UserDAO(Patient);
+      const patients = await patientDao.find({ role: Roles.PATIENT });
+
+
+      if (!patients || patients.length === 0) {
+        throw new HttpError(
+            "No patients found",
+            "NO_PATIENTS_FOUND",
+            HTTP_STATUS.NOT_FOUND
+        );
+      }
+
+      const patientsResponse = PatientDto.patientsArrayDTO(patients);
+
+      return patientsResponse;
+    } catch (err: any) {
+      const error: HttpError = new HttpError(
+        err.description || err.message,
+        err.details || err.message,
+        err.status || HTTP_STATUS.SERVER_ERROR
+      );
+      throw error;
+    }
+  }
+
 }
