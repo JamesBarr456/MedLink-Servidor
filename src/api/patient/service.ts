@@ -144,9 +144,7 @@ export default class PatientService {
         }
     }
 
-  }
-
-  static async getAllPatients(): Promise<PatientResponse[] | null> {
+  static async getAllPatients(): Promise<Partial<PatientResponse>[]> {
     try {
       const patientDao = new UserDAO(Patient);
       const patients = await patientDao.find({ role: Roles.PATIENT });
