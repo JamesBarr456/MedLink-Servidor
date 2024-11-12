@@ -2,7 +2,6 @@ import HTTP_STATUS from "../../constants/HttpStatus";
 import HttpError from "../../utils/HttpError.utils";
 import { PatientResponse } from "../patient/interface";
 import IPatientAllergieData from "./interfaces";
-import PatientAllergieData from "./model";
 import PatientAllergieDataDAO from "./dao";
 import PatientService from "../patient/service";
 import { ITokenPayload } from "../auth/interface";

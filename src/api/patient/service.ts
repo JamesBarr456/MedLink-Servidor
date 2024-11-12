@@ -21,7 +21,6 @@ import { ITokenPayload } from "../auth/interface";
 import PatientDAO from "./dao";
 import { Types } from "mongoose";
 import PatientClinicalDataService from "../patientClinicalData/services";
-import IPatientAllergieData from "../patientAllergieData/interfaces";
 import { PatientFields } from "../../constants/PatientFields";
 
 export default class PatientService {
