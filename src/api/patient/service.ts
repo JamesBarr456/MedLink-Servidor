@@ -21,6 +21,7 @@ import { ITokenPayload } from "../auth/interface";
 import PatientDAO from "./dao";
 import { Types } from "mongoose";
 import PatientClinicalDataService from "../patientClinicalData/services";
+import { PatientFields } from "../../constants/PatientFields";
 
 export default class PatientService {
     static ClinicalFields = [
@@ -144,31 +145,101 @@ export default class PatientService {
         }
     }
 
-  static async getAllPatients(): Promise<Partial<PatientResponse>[]> {
-    try {
-      const patientDao = new UserDAO(Patient);
-      const patients = await patientDao.find({ role: Roles.PATIENT });
+    static async addMedicalInformation(
+        user: ITokenPayload,
+        modelID: Types.ObjectId,
+        fieldToUpdate: PatientFields
+    ): Promise<Partial<PatientResponse>> {
+        try {
+            const patientDao = new PatientDAO();
+            const patientFound = await patientDao.read(user.id);
+            if (!patientFound) {
+                throw new HttpError(
+                    "User not found",
+                    "USER_NOT_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
+            const patientPayload: Partial<IPatient> = {
+                ...patientFound,
+                [fieldToUpdate]: modelID,
+            };
 
+            const updatedPatient = await patientDao.update(
+                patientFound._id.toString(),
+                patientPayload
+            );
 
-      if (!patients || patients.length === 0) {
-        throw new HttpError(
-            "No patients found",
-            "NO_PATIENTS_FOUND",
-            HTTP_STATUS.NOT_FOUND
-        );
-      }
+            if (!updatedPatient) {
+                throw new HttpError(
+                    "User not updated",
+                    "USER_NOT_UPDATED",
+                    HTTP_STATUS.SERVER_ERROR
+                );
+            }
+            const userCleaned: Partial<PatientResponse> =
+                PatientDto.patientDTO(updatedPatient);
 
-      const patientsResponse = PatientDto.patientsArrayDTO(patients);
+            return userCleaned;
+        } catch (err: any) {
+            const error: HttpError = new HttpError(
+                err.description || err.message,
+                err.details || err.message,
+                err.status || HTTP_STATUS.SERVER_ERROR
+            );
 
-      return patientsResponse;
-    } catch (err: any) {
-      const error: HttpError = new HttpError(
-        err.description || err.message,
-        err.details || err.message,
-        err.status || HTTP_STATUS.SERVER_ERROR
-      );
-      throw error;
+            throw error;
+        }
     }
-  }
 
+    static async getAllPatients(): Promise<Partial<PatientResponse>[]> {
+        try {
+            const patientDao = new UserDAO(Patient);
+            const patients = await patientDao.find({ role: Roles.PATIENT });
+
+            if (!patients || patients.length === 0) {
+                throw new HttpError(
+                    "No patients found",
+                    "NO_PATIENTS_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
+
+            const patientsResponse = PatientDto.patientsArrayDTO(patients);
+
+            return patientsResponse;
+        } catch (err: any) {
+            const error: HttpError = new HttpError(
+                err.description || err.message,
+                err.details || err.message,
+                err.status || HTTP_STATUS.SERVER_ERROR
+            );
+            throw error;
+        }
+    }
+
+    static async getPatientById(id: string): Promise<Partial<PatientResponse>> {
+        try {
+            const patientDao = new UserDAO(Patient);
+            const patient = await patientDao.read(id);
+
+            if (!patient) {
+                throw new HttpError(
+                    "Patient not found",
+                    "PATIENT_NOT_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
+            const patientCleaned: Partial<PatientResponse> =
+                PatientDto.patientDTO(patient);
+            return patientCleaned;
+        } catch (err: any) {
+            const error: HttpError = new HttpError(
+                err.description || err.message,
+                err.details || err.message,
+                err.status || HTTP_STATUS.SERVER_ERROR
+            );
+            throw error;
+        }
+    }
 }

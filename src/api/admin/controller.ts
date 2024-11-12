@@ -12,16 +12,16 @@ export default class AdminController {
             const doctors = await DoctorService.getAllDoctors();
             const response = apiResponse(true, doctors);
             res.status(HTTP_STATUS.CREATED).json(response);
-        } catch (err : any) {
+        } catch (err: any) {
             const response = apiResponse(
                 false,
                 new HttpError(
-                  err.description || err.message,
-                  err.details || err.message,
-                  err.status || HTTP_STATUS.SERVER_ERROR
+                    err.description || err.message,
+                    err.details || err.message,
+                    err.status || HTTP_STATUS.SERVER_ERROR
                 )
-              );
-              res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
+            );
+            res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
         }
     }
 
@@ -30,16 +30,16 @@ export default class AdminController {
             const patients = await PatientService.getAllPatients();
             const response = apiResponse(true, patients);
             res.status(HTTP_STATUS.CREATED).json(response);
-        } catch (err : any) {
+        } catch (err: any) {
             const response = apiResponse(
                 false,
                 new HttpError(
-                  err.description || err.message,
-                  err.details || err.message,
-                  err.status || HTTP_STATUS.SERVER_ERROR
+                    err.description || err.message,
+                    err.details || err.message,
+                    err.status || HTTP_STATUS.SERVER_ERROR
                 )
-              );
-              res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
+            );
+            res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
         }
     }
-} 
+}

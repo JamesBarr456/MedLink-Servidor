@@ -37,7 +37,6 @@ export default async function authenticate(
         const user = JSON.parse(tokenData);
 
         res.locals.user = user;
-
         next();
     } catch (error) {
         const response = apiResponse(

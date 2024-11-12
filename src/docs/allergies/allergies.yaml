@@ -1,96 +1,48 @@
 openapi: 3.0.0
 info:
     title: MedLink API
-    description: API documentation for MedLink
+    description: API documentation for MedLink application
     version: 1.0.0
 paths:
-    /patient:
+    /allergies:
         put:
-            summary: Update patient information
+            summary: Add or update patient allergies data
             tags:
-                - Patient
-            security:
-                - bearerAuth: []
+                - Allergies
             requestBody:
                 required: true
                 content:
-                    multipart/form-data:
+                    application/json:
                         schema:
                             type: object
                             properties:
-                                firstName:
-                                    type: string
-                                    example: John
-                                lastName:
-                                    type: string
-                                    example: Doe
-                                dateOfBirth:
-                                    type: string
-                                    format: date
-                                    example: 1990-01-01
-                                gender:
-                                    type: string
-                                    enum:
-                                        - MALE
-                                        - FEMALE
-                                        - OTHER
-                                    example: MALE
-                                aboutMe:
-                                    type: string
-                                    example: I am a software developer.
-                                email:
-                                    type: string
-                                    format: email
-                                    example: john.doe@example.com
-                                avatar:
-                                    type: string
-                                    format: binary
-                                phone:
-                                    type: string
-                                    example: "1234567890"
-                                location:
-                                    type: string
-                                    example: New York
-                                height:
-                                    type: number
-                                    example: 180
-                                weight:
-                                    type: number
-                                    example: 75
-                                bloodType:
-                                    type: string
-                                    enum:
-                                        - A+
-                                        - A-
-                                        - B+
-                                        - B-
-                                        - AB+
-                                        - AB-
-                                        - O+
-                                        - O-
-                                    example: O+
-                                bloodPressureTrend:
-                                    type: string
-                                    enum:
-                                        - NORMAL
-                                        - RISING
-                                        - FALLING
-                                    example: NORMAL
-                                isDonor:
+                                foodAllergy:
                                     type: boolean
-                                    example: true
-                                hasAllergies:
+                                    description: Indicates if the patient has food allergies
+                                foodAllergyDetails:
+                                    type: string
+                                    description: Details about the patient's food allergies
+                                insectAllergy:
                                     type: boolean
-                                    example: false
-                                hasChronicDiseases:
+                                    description: Indicates if the patient has insect allergies
+                                insectAllergyDetails:
+                                    type: string
+                                    description: Details about the patient's insect allergies
+                                medicineAllergy:
                                     type: boolean
-                                    example: false
-                                hasHealthyLifestyle:
+                                    description: Indicates if the patient has medicine allergies
+                                medicineAllergyDetails:
+                                    type: string
+                                    description: Details about the patient's medicine allergies
+                                otherAllergies:
                                     type: boolean
-                                    example: true
+                                    description: Indicates if the patient has other allergies
+                                otherAllergiesDetails:
+                                    type: string
+                                    description: Details about the patient's other allergies
             responses:
                 200:
-                    description: Patient information updated successfully
+                    description: Successfully added or updated patient allergies data
                     content:
                         application/json:
                             schema:
@@ -98,7 +50,6 @@ paths:
                                 properties:
                                     success:
                                         type: boolean
-                                        example: true
                                     payload:
                                         $ref: "#/components/schemas/PatientData"
                 400:
@@ -111,9 +62,15 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    payload:
-                                        type: string
-                                        example: Invalid request payload
+                                    error:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Invalid input
+                                            details:
+                                                type: string
+                                                example: Email is required
                 401:
                     description: Unauthorized
                     content:
@@ -124,22 +81,15 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    payload:
-                                        type: string
-                                        example: Unauthorized
-                403:
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    success:
-                                        type: boolean
-                                        example: false
-                                    payload:
-                                        type: string
-                                        example: Forbidden
+                                    error:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Unauthorized
+                                            details:
+                                                type: string
+                                                example: INVALID_CREDENTIALS
                 500:
                     description: Internal server error
                     content:
@@ -150,15 +100,16 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    payload:
-                                        type: string
-                                        example: Internal server error
+                                    error:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Server error
+                                            details:
+                                                type: string
+                                                example: SERVER_ERROR
 components:
-    securitySchemes:
-        bearerAuth:
-            type: http
-            scheme: bearer
-            bearerFormat: JWT
     schemas:
         PatientData:
             type: object
