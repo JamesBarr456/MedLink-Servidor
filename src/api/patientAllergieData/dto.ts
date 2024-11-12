@@ -5,7 +5,6 @@ export default class PatientAllergieDataDto {
         data: IPatientAllergieData
     ): Partial<IPatientAllergieData> {
         return {
-            patientId: data.patientId,
             foodAllergy: data.foodAllergy,
             ...(data.foodAllergyDetails
                 ? { foodAllergyDetails: data.foodAllergyDetails }
