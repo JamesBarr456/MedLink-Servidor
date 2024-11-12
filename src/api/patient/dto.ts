@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 // INTERFACES
 import { IPatient, PatientResponse } from "./interface";
 import PatientClinicalDataDto from "../patientClinicalData/dto";
+import PatientAllergieDataDto from "../patientAllergieData/dto";
 
 export default class PatientDto {
     static patientsArrayDTO(patients: IPatient[]): Partial<PatientResponse>[] {
@@ -110,7 +111,14 @@ export default class PatientDto {
                   }
                 : {}),
             ...(patient.allergiesData
-                ? { allergiesData: patient.allergiesData.toString() }
+                ? {
+                      allergiesData:
+                          patient.allergiesData instanceof Types.ObjectId
+                              ? patient.allergiesData.toString()
+                              : PatientAllergieDataDto.patientAllergieDataDTO(
+                                    patient.allergiesData
+                                ),
+                  }
                 : {}),
             ...(patient.pathologycalData
                 ? { pathologycalData: patient.pathologycalData.toString() }

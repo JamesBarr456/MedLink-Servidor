@@ -18,7 +18,9 @@ class PatientDAO extends UserDAO<IPatient> {
         const patientId = new Types.ObjectId(id);
         return await Patient.findOneAndUpdate({ _id: patientId }, data, {
             new: true,
-        }).populate("clinicalData");
+        })
+            .populate(["clinicalData", "allergiesData"])
+            .lean();
     }
 }
 

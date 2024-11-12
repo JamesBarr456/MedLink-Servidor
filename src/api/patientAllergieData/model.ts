@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose";
 import IPatientAllergieData from "./interfaces";
 
 const patientAllergieData = new Schema<IPatientAllergieData>({
+    patientId: { type: Schema.Types.ObjectId, unique: true },
     foodAllergy: { type: Boolean },
     foodAllergyDetails: { type: String },
     insectAllergy: { type: Boolean },

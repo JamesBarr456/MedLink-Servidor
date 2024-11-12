@@ -4,6 +4,7 @@ import { IUser } from "../user/interface";
 import { Genders } from "../../constants/Genders";
 import { BloodPressureTrend } from "../../constants/BloodPressureTrend";
 import IPatientClinicalData from "../patientClinicalData/interface";
+import IPatientAllergieData from "../patientAllergieData/interfaces";
 
 export interface IPatient extends IUser {
     insuranceProvider: string;
@@ -61,7 +62,7 @@ export interface PatientResponse
     > {
     id: string;
     clinicalData: string | Partial<IPatientClinicalData>;
-    allergiesData: string;
+    allergiesData: string | Partial<IPatientAllergieData>;
     pathologycalData: string;
     nonPathogicalData: string;
     familyInheritance: string;

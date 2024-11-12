@@ -1,6 +1,7 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export default interface IPatientAllergieData extends Document {
+    patientId: Types.ObjectId;
     foodAllergy: boolean;
     foodAllergyDetails: string;
     insectAllergy: boolean;
