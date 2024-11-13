@@ -6,8 +6,17 @@ import PatientController from "./controller";
 import schemaValidator from "../../middleware/schemaValidators.middlewares";
 import { patientUpdatePayloadValidator } from "./validator";
 import { uploadFields } from "../../middleware/uploadFields.middlewares";
+import { mongoIdValidator } from "../../generalValidator/idValidator";
 
 const patientRouter = Router();
+
+patientRouter.get(
+    "/:id",
+    authenticate,
+    authorizeRoles([Roles.PATIENT, Roles.DOCTOR, Roles.ADMIN]),
+    schemaValidator(null, mongoIdValidator),
+    PatientController.getPatient
+);
 
 patientRouter.put(
     "/",

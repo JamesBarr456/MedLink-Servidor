@@ -22,6 +22,7 @@ import PatientDAO from "./dao";
 import { Types } from "mongoose";
 import PatientClinicalDataService from "../patientClinicalData/services";
 import { PatientFields } from "../../constants/PatientFields";
+import PatientRepository from "./repository";
 
 export default class PatientService {
     static ClinicalFields = [
@@ -218,10 +219,30 @@ export default class PatientService {
         }
     }
 
-    static async getPatientById(id: string): Promise<Partial<PatientResponse>> {
+    static async getPatientById(
+        id: string,
+        user?: ITokenPayload
+    ): Promise<Partial<PatientResponse>> {
         try {
-            const patientDao = new UserDAO(Patient);
-            const patient = await patientDao.read(id);
+            if (user && user.role === Roles.PATIENT && user.id !== id) {
+                throw new HttpError(
+                    "You are not authorized to access this patient",
+                    "NOT_AUTHORIZED",
+                    HTTP_STATUS.UNAUTHORIZED
+                );
+            }
+            let patient;
+
+            if (user && user.role === Roles.DOCTOR && user.id !== id) {
+                const patientRepository = new PatientRepository(Patient);
+                const patientByDoctor = await patientRepository.getPatient({
+                    and: [{ _id: id }, { authorizedDoctors: user.id }],
+                });
+                patient = patientByDoctor;
+            } else {
+                const patientDao = new UserDAO(Patient);
+                patient = await patientDao.read(id);
+            }
 
             if (!patient) {
                 throw new HttpError(
