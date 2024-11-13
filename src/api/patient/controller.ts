@@ -7,6 +7,30 @@ import { PatientUpdateFields } from "./interface";
 import { MulterFiles } from "../../interfaces/file.interface";
 
 export default class PatientController {
+    static async getPatient(req: Request, res: Response) {
+        try {
+            const { user } = res.locals;
+            const patientId = req.params.id;
+            const patient = await PatientService.getPatientById(
+                patientId,
+                user
+            );
+
+            const response = apiResponse(true, patient);
+            res.status(HTTP_STATUS.OK).json(response);
+        } catch (err: any) {
+            const response = apiResponse(
+                false,
+                new HttpError(
+                    err.description || err.message,
+                    err.details || err.message,
+                    err.status || HTTP_STATUS.SERVER_ERROR
+                )
+            );
+            res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
+        }
+    }
+
     static async update(req: Request, res: Response) {
         try {
             const { user } = res.locals;
