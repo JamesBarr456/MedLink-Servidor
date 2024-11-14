@@ -1,6 +1,7 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export default interface IPatientFamilyInheritance extends Document {
+    patientId: Types.ObjectId;
     diabetes: boolean;
     diabetesDetails: string;
     heartDiseases: boolean;
