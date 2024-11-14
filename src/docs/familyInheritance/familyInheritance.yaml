@@ -1,0 +1,110 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink application
+    version: 1.0.0
+paths:
+    /familyInheritance:
+        put:
+            summary: Add or update patient family inheritance data
+            tags:
+                - Family Inheritance
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PatientFamilyInheritance"
+
+            responses:
+                200:
+                    description: Successfully added or updated patient family inheritance data
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PatientFamilyInheritanceResponse"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    schemas:
+        PatientFamilyInheritance:
+            type: object
+            properties:
+                diabetes:
+                    type: boolean
+                    example: false
+                diabetesDetails:
+                    type: string
+                    example: "Type 1 diabetes"
+                heartDiseases:
+                    type: boolean
+                    example: false
+                heartDiseasesDetails:
+                    type: string
+                    example: "Coronary artery disease"
+                hypertension:
+                    type: boolean
+                    example: false
+                hypertensionDetails:
+                    type: string
+                    example: "Primary hypertension"
+                thyroidDiseases:
+                    type: boolean
+                    example: false
+                thyroidDiseasesDetails:
+                    type: string
+                    example: "Hypothyroidism"
+                chronicKidneyDisease:
+                    type: boolean
+                    example: false
+                chronicKidneyDiseaseDetails:
+                    type: string
+                    example: "Stage 3 CKD"
+                other:
+                    type: boolean
+                    example: false
+                otherDetails:
+                    type: string
+                    example: "Asthma"
+
+        PatientFamilyInheritanceResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                data:
+                    $ref: "#/components/schemas/PatientFamilyInheritance"
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                error:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"

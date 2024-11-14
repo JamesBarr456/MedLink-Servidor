@@ -19,7 +19,7 @@ class PatientDAO extends UserDAO<IPatient> {
         return await Patient.findOneAndUpdate({ _id: patientId }, data, {
             new: true,
         })
-            .populate(["clinicalData", "allergiesData"])
+            .populate(["clinicalData", "allergiesData", "familyInheritance"])
             .lean();
     }
 }
