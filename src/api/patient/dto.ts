@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 import { IPatient, PatientResponse } from "./interface";
 import PatientClinicalDataDto from "../patientClinicalData/dto";
 import PatientAllergieDataDto from "../patientAllergieData/dto";
+import PatientFamilyInheritanceDto from "../patientFamilyInheritance/dto";
 
 export default class PatientDto {
     static patientsArrayDTO(patients: IPatient[]): Partial<PatientResponse>[] {
@@ -30,7 +31,14 @@ export default class PatientDto {
                       }
                     : {}),
                 ...(patient.allergiesData
-                    ? { allergiesData: patient.allergiesData.toString() }
+                    ? {
+                          allergiesData:
+                              patient.allergiesData instanceof Types.ObjectId
+                                  ? patient.allergiesData.toString()
+                                  : PatientAllergieDataDto.patientAllergieDataDTO(
+                                        patient.allergiesData
+                                    ),
+                      }
                     : {}),
                 ...(patient.pathologycalData
                     ? { pathologycalData: patient.pathologycalData.toString() }
@@ -44,7 +52,12 @@ export default class PatientDto {
                 ...(patient.familyInheritance
                     ? {
                           familyInheritance:
-                              patient.familyInheritance.toString(),
+                              patient.familyInheritance instanceof
+                              Types.ObjectId
+                                  ? patient.familyInheritance.toString()
+                                  : PatientFamilyInheritanceDto.patientFamilyInheritanceDTO(
+                                        patient.familyInheritance
+                                    ),
                       }
                     : {}),
                 ...(patient.vaccinationShedule
@@ -130,7 +143,12 @@ export default class PatientDto {
                 : {}),
             ...(patient.familyInheritance
                 ? {
-                      familyInheritance: patient.familyInheritance.toString(),
+                      familyInheritance:
+                          patient.familyInheritance instanceof Types.ObjectId
+                              ? patient.familyInheritance.toString()
+                              : PatientFamilyInheritanceDto.patientFamilyInheritanceDTO(
+                                    patient.familyInheritance
+                                ),
                   }
                 : {}),
             ...(patient.vaccinationShedule

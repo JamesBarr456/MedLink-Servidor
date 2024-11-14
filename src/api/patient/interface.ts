@@ -5,6 +5,7 @@ import { Genders } from "../../constants/Genders";
 import { BloodPressureTrend } from "../../constants/BloodPressureTrend";
 import IPatientClinicalData from "../patientClinicalData/interface";
 import IPatientAllergieData from "../patientAllergieData/interfaces";
+import IPatientFamilyInheritance from "../patientFamilyInheritance/interface";
 
 export interface IPatient extends IUser {
     insuranceProvider: string;
@@ -65,7 +66,7 @@ export interface PatientResponse
     allergiesData: string | Partial<IPatientAllergieData>;
     pathologycalData: string;
     nonPathogicalData: string;
-    familyInheritance: string;
+    familyInheritance: string | Partial<IPatientFamilyInheritance>;
     vaccinationShedule: string;
     documents: string[];
     medications: string[];
