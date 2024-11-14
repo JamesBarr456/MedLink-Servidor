@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose";
 import IPatientPathologicalData from "./interface";
 
 const patientPathologicalDataSchema = new Schema<IPatientPathologicalData>({
+    patientId: { type: Schema.Types.ObjectId, unique: true },
     hospitalization: { type: Boolean },
     hospitalizationDetails: { type: String },
     diabetes: { type: Boolean },

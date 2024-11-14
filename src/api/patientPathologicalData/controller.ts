@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 import apiResponse from "../../utils/apiResponse.utils";
-import HttpError from "../../utils/HttpError.utils";
 import HTTP_STATUS from "../../constants/HttpStatus";
-import PatientFamilyInheritanceService from "./service";
+import HttpError from "../../utils/HttpError.utils";
+import PatientPathologicalDataService from "./service";
 
-export default class PatientFamilyInheritanceController {
+export default class PatientPathologicalDataController {
     static async add(req: Request, res: Response) {
         try {
             const { user } = res.locals;
             const { ...Fields } = req.body;
 
             const patientUpdated =
-                await PatientFamilyInheritanceService.createOrUpdateFamilyInheritanceData(
+                await PatientPathologicalDataService.createOrUpdatePatientPathologicalData(
                     user,
                     Fields
                 );

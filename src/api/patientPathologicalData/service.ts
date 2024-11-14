@@ -3,40 +3,37 @@ import HTTP_STATUS from "../../constants/HttpStatus";
 import { PatientFields } from "../../constants/PatientFields";
 import HttpError from "../../utils/HttpError.utils";
 import { ITokenPayload } from "../auth/interface";
-import IPatientFamilyInheritance from "./interface";
 import PatientService from "../patient/service";
-import PatientFamilyInheritanceDAO from "./dao";
+import PatientPathologicalDataDAO from "./dao";
+import IPatientPathologicalData from "./interface";
 
-export default class PatientFamilyInheritanceService {
-    static async createOrUpdateFamilyInheritanceData(
+export default class PatientPathologicalDataService {
+    static async createOrUpdatePatientPathologicalData(
         user: ITokenPayload,
-        Fields: Partial<IPatientFamilyInheritance>
+        fields: Partial<IPatientPathologicalData>
     ) {
         try {
-            const PatientFamilyInheritancePayload = {
+            const patientPathologicalPayload = {
                 patientId: user.id,
-                ...Fields,
+                ...fields,
             };
-
-            const patientFamilyInheritanceDataSaved =
-                await PatientFamilyInheritanceDAO.createOrUpdate(
-                    PatientFamilyInheritancePayload as Partial<IPatientFamilyInheritance>
+            const patientPathologicalDataSaved =
+                await PatientPathologicalDataDAO.createOrUpdate(
+                    patientPathologicalPayload as Partial<IPatientPathologicalData>
                 );
 
             const patientUpdated = await PatientService.addMedicalInformation(
                 user,
-                patientFamilyInheritanceDataSaved._id as Types.ObjectId,
-                PatientFields.FAMILY_INHERITANCE_DATA
+                patientPathologicalDataSaved._id as Types.ObjectId,
+                PatientFields.PATHOLOGICAL_DATA
             );
-
             return patientUpdated;
         } catch (err: any) {
-            const error: HttpError = new HttpError(
+            const error = new HttpError(
                 err.description || err.message,
                 err.details || err.message,
                 err.status || HTTP_STATUS.SERVER_ERROR
             );
-
             throw error;
         }
     }

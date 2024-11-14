@@ -4,6 +4,7 @@ import { IPatient, PatientResponse } from "./interface";
 import PatientClinicalDataDto from "../patientClinicalData/dto";
 import PatientAllergieDataDto from "../patientAllergieData/dto";
 import PatientFamilyInheritanceDto from "../patientFamilyInheritance/dto";
+import PatientPathologicalDataDto from "../patientPathologicalData/dto";
 
 export default class PatientDto {
     static patientsArrayDTO(patients: IPatient[]): Partial<PatientResponse>[] {
@@ -40,8 +41,15 @@ export default class PatientDto {
                                     ),
                       }
                     : {}),
-                ...(patient.pathologycalData
-                    ? { pathologycalData: patient.pathologycalData.toString() }
+                ...(patient.pathologicalData
+                    ? {
+                          pathologicalData:
+                              patient.pathologicalData instanceof Types.ObjectId
+                                  ? patient.pathologicalData.toString()
+                                  : PatientPathologicalDataDto.patientPathologicalDataDTO(
+                                        patient.pathologicalData
+                                    ),
+                      }
                     : {}),
                 ...(patient.nonPathogicalData
                     ? {
@@ -133,8 +141,15 @@ export default class PatientDto {
                                 ),
                   }
                 : {}),
-            ...(patient.pathologycalData
-                ? { pathologycalData: patient.pathologycalData.toString() }
+            ...(patient.pathologicalData
+                ? {
+                      pathologicalData:
+                          patient.pathologicalData instanceof Types.ObjectId
+                              ? patient.pathologicalData.toString()
+                              : PatientPathologicalDataDto.patientPathologicalDataDTO(
+                                    patient.pathologicalData
+                                ),
+                  }
                 : {}),
             ...(patient.nonPathogicalData
                 ? {

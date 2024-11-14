@@ -6,6 +6,7 @@ import { BloodPressureTrend } from "../../constants/BloodPressureTrend";
 import IPatientClinicalData from "../patientClinicalData/interface";
 import IPatientAllergieData from "../patientAllergieData/interfaces";
 import IPatientFamilyInheritance from "../patientFamilyInheritance/interface";
+import IPatientPathologicalData from "../patientPathologicalData/interface";
 
 export interface IPatient extends IUser {
     insuranceProvider: string;
@@ -13,7 +14,7 @@ export interface IPatient extends IUser {
     files: string[];
     clinicalData: Types.ObjectId;
     allergiesData: Types.ObjectId;
-    pathologycalData: Types.ObjectId;
+    pathologicalData: Types.ObjectId;
     nonPathogicalData: Types.ObjectId;
     familyInheritance: Types.ObjectId;
     vaccinationShedule: Types.ObjectId;
@@ -53,7 +54,7 @@ export interface PatientResponse
         | "password"
         | "clinicalData"
         | "allergiesData"
-        | "pathologycalData"
+        | "pathologicalData"
         | "nonPathogicalData"
         | "familyInheritance"
         | "vaccinationShedule"
@@ -64,7 +65,7 @@ export interface PatientResponse
     id: string;
     clinicalData: string | Partial<IPatientClinicalData>;
     allergiesData: string | Partial<IPatientAllergieData>;
-    pathologycalData: string;
+    pathologicalData: string | Partial<IPatientPathologicalData>;
     nonPathogicalData: string;
     familyInheritance: string | Partial<IPatientFamilyInheritance>;
     vaccinationShedule: string;

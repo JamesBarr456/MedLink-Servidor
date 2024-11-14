@@ -19,9 +19,9 @@ const Patient = User.discriminator(
             type: Schema.Types.ObjectId,
             ref: "PatientAllergieData",
         },
-        pathologycalData: {
+        pathologicalData: {
             type: Schema.Types.ObjectId,
-            ref: "PatientPathologycalData",
+            ref: "PatientPathologicalData",
         },
         nonPathogicalData: {
             type: Schema.Types.ObjectId,
