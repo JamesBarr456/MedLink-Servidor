@@ -18,7 +18,7 @@ class UserDAO<T> {
             .populate([
                 "clinicalData",
                 "allergiesData",
-                "pathologycalData",
+                "pathologicalData",
                 "nonPathogicalData",
                 "familyInheritance",
                 "vaccinationShedule",

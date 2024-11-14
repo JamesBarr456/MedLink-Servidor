@@ -12,7 +12,7 @@ export default class PatientRepository {
             .populate([
                 "clinicalData",
                 "allergiesData",
-                "pathologycalData",
+                "pathologicalData",
                 "nonPathogicalData",
                 "familyInheritance",
                 "vaccinationShedule",
