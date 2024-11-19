@@ -1,0 +1,509 @@
+{
+	"info": {
+		"_postman_id": "33280458-6aee-4aed-8dd5-ff6d91a3c8a6",
+		"name": "MedLink",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17992777",
+		"_collection_link": "https://deva-app.postman.co/workspace/DevLights~6a3ddb2e-803a-477f-856a-5ef33138710e/collection/17992777-33280458-6aee-4aed-8dd5-ff6d91a3c8a6?action=share&source=collection_link&creator=17992777"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Patient Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"Qwerty123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Doctor Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"Qwerty123!\",\n  \"licenseNumber\": {{$randomInt}},\n  \"specialization\": \"Cardiology\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"Arjun.Russel@gmail.com\",\n    \"password\": \"Qwerty123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot-password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"medlinkdevlights@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/forgot-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"Qwerty123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/reset-password/8ae6c472af69ff8e86c26fc0939aea8a8b31b6a35b1f832a6e901c2fcb3f6d29",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"reset-password",
+								"8ae6c472af69ff8e86c26fc0939aea8a8b31b6a35b1f832a6e901c2fcb3f6d29"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticar Test",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Mjg0Mjc4ZTlhYWE0NWY2NmE5ZTBhYiIsInJvbGUiOiJQYXRpZW50IiwibmJmIjoxNzMwNzMzNzYxLCJpYXQiOjE3MzA3MzM3NjEsImV4cCI6MTczMDczNzM2MX0._RMMxLQRIyje675vz9JBiCvaSp17OXIsPL6cV2zowVc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/test",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patient",
+			"item": [
+				{
+					"name": "Update Patient",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNkNWNhY2U4NDUxMDlhNTFhMWMyZSIsInJvbGUiOiJQYXRpZW50IiwibmJmIjoxNzMxMzMxMjg4LCJpYXQiOjE3MzEzMzEyODgsImV4cCI6MTczMTMzNDg4OH0.0vuR2wcM89wzS9tQTTcVdzH-O89ovpa1N9tEb-SXIok",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/Users/Summer/Library/CloudStorage/OneDrive-Personal/MacOS/Certificados/IMG_2197.jpg",
+									"disabled": true
+								},
+								{
+									"key": "firstName",
+									"value": "{{$randomFirstName}}",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "{{$randomLastName}}",
+									"type": "text"
+								},
+								{
+									"key": "dateOfBirth",
+									"value": "{{$randomDatePast}}",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "aboutMe",
+									"value": "{{$randomLoremSentences}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "phone",
+									"value": "{{$randomPhoneNumber}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "location",
+									"value": "{{$randomStreetAddress}}",
+									"type": "text"
+								},
+								{
+									"key": "height",
+									"value": "{{$randomInt}}",
+									"type": "text"
+								},
+								{
+									"key": "weight",
+									"value": "{{$randomInt}}",
+									"type": "text"
+								},
+								{
+									"key": "bloodType",
+									"value": "0+",
+									"type": "text"
+								},
+								{
+									"key": "bloodPressureTrend",
+									"value": "RISING",
+									"type": "text"
+								},
+								{
+									"key": "isDonor",
+									"value": "{{$randomBoolean}}",
+									"type": "text"
+								},
+								{
+									"key": "hasAllergies",
+									"value": "{{$randomBoolean}}",
+									"type": "text"
+								},
+								{
+									"key": "hasChronicDiseases",
+									"value": "{{$randomBoolean}}",
+									"type": "text"
+								},
+								{
+									"key": "hasHealthyLifestyle",
+									"value": "{{$randomBoolean}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/patient/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"patient",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Patient By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNkNWNhY2U4NDUxMDlhNTFhMWMyZSIsInJvbGUiOiJQYXRpZW50IiwibmJmIjoxNzMxNjczOTY0LCJpYXQiOjE3MzE2NzM5NjQsImV4cCI6MTczMTY3NzU2NH0.IAnP28C3n20-s9NZhWvY9evGhPP7Jx6-NRSygLkik9A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/patient/672cd5cace845109a51a1c2e",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"patient",
+								"672cd5cace845109a51a1c2e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Allergies",
+			"item": [
+				{
+					"name": "Add Allergies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNkNWNhY2U4NDUxMDlhNTFhMWMyZSIsInJvbGUiOiJQYXRpZW50IiwibmJmIjoxNzMxMzc1MTg5LCJpYXQiOjE3MzEzNzUxODksImV4cCI6MTczMTM3ODc4OX0.v7C7xWV6zYAj_eOQlHqauWgwvC6AOw9nraoPnGKgRmU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"foodAllergy\": {{$randomBoolean}}  ,\n\"foodAllergyDetails\": \"{{$randomLoremParagraph}}\",\n\"insectAllergy\": {{$randomBoolean}}   ,\n\"insectAllergyDetails\":  \"{{$randomLoremParagraph}}\" ,\n\"medicineAllergy\": {{$randomBoolean}}   ,\n\"medicineAllergyDetails\":  \"{{$randomLoremParagraph}} \",\n\"otherAllergies\":  {{$randomBoolean}}  ,\n\"otherAllergiesDetails\":  \"{{$randomLoremParagraph}} \"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/allergie",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"allergie"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Family Inheritance",
+			"item": [
+				{
+					"name": "Add Family Inheritances",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNkNWNhY2U4NDUxMDlhNTFhMWMyZSIsInJvbGUiOiJQYXRpZW50IiwibmJmIjoxNzMxNTkyODUxLCJpYXQiOjE3MzE1OTI4NTEsImV4cCI6MTczMTU5NjQ1MX0.AaPR1MlZAjXo7Ukn8qO9BmC8GO6u4S1KAanRxOJPI5Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"diabetes\": {{$randomBoolean}},\n    \"diabetesDetails\": \"{{$randomLoremParagraph}}\",\n    \"heartDiseases\": {{$randomBoolean}},\n    \"heartDiseasesDetails\": \"{{$randomLoremParagraph}}\",\n    \"hypertension\": {{$randomBoolean}},\n    \"hypertensionDetails\": \"{{$randomLoremParagraph}}\",\n    \"thyroidDiseases\": {{$randomBoolean}},\n    \"thyroidDiseasesDetails\": \"{{$randomLoremParagraph}}\",\n    \"chronicKidneyDisease\": {{$randomBoolean}},\n    \"chronicKidneyDiseaseDetails\": \"{{$randomLoremParagraph}}\",\n    \"other\": {{$randomBoolean}},\n    \"otherDetails\": \"{{$randomLoremParagraph}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/family-inheritance",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"family-inheritance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pathological Data",
+			"item": [
+				{
+					"name": "Add Pathological Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNkNWNhY2U4NDUxMDlhNTFhMWMyZSIsInJvbGUiOiJQYXRpZW50IiwibmJmIjoxNzMxNTk5NDg1LCJpYXQiOjE3MzE1OTk0ODUsImV4cCI6MTczMTYwMzA4NX0.sH4jU7E0Xf_-dt4O8CyFX_2IKjJKmdlVrcfMgFkkv1A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"hospitalization\": {{$randomBoolean}},\n    \"hospitalizationDetails\": \"{{$randomLoremParagraph}}\",\n    \"diabetes\": {{$randomBoolean}},\n    \"diabetesDetails\": \"{{$randomLoremParagraph}}\",\n    \"thyroidDiseases\": {{$randomBoolean}},\n    \"thyroidDiseasesDetails\": \"{{$randomLoremParagraph}}\",\n    \"hypertension\": {{$randomBoolean}},\n    \"hypertensionDetails\": \"{{$randomLoremParagraph}}\",\n    \"heartDiseases\": {{$randomBoolean}},\n    \"heartDiseasesDetails\": \"{{$randomLoremParagraph}}\",\n    \"trauma\": {{$randomBoolean}},\n    \"traumaDetails\": \"{{$randomLoremParagraph}}\",\n    \"cancer\": {{$randomBoolean}},\n    \"cancerDetails\": \"{{$randomLoremParagraph}}\",\n    \"tuberculosis\": {{$randomBoolean}},\n    \"tuberculosisDetails\": \"{{$randomLoremParagraph}}\",\n    \"transfusions\": {{$randomBoolean}},\n    \"transfusionsDetails\": \"{{$randomLoremParagraph}}\",\n    \"respiratoryDiseases\": {{$randomBoolean}},\n    \"respiratoryDiseasesDetails\": \"{{$randomLoremParagraph}}\",\n    \"gastrointestinalDiseases\": {{$randomBoolean}},\n    \"gastrointestinalDiseasesDetails\": \"{{$randomLoremParagraph}}\",\n    \"sexuallyTransmittedDiseases\": {{$randomBoolean}},\n    \"sexuallyTransmittedDiseasesDetails\": \"{{$randomLoremParagraph}}\",\n    \"chronicKidneyDisease\": {{$randomBoolean}},\n    \"chronicKidneyDiseaseDetails\": \"{{$randomLoremParagraph}}\",\n    \"other\": {{$randomBoolean}},\n    \"otherDetails\": \"{{$randomLoremParagraph}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/pathological-data",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pathological-data"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Non Pathological Data",
+			"item": [
+				{
+					"name": "Add Non Pathological Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNkNWNhY2U4NDUxMDlhNTFhMWMyZSIsInJvbGUiOiJQYXRpZW50IiwibmJmIjoxNzMyMDUyMjA4LCJpYXQiOjE3MzIwNTIyMDgsImV4cCI6MTczMjA1NTgwOH0.q_7vkERVriRlMKEe1sJ-IaaIfG9zzidmSQKHF_006Lg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"physicalActivity\": {{$randomBoolean}},\n    \"physicalActivityDetails\": \"{{$randomLoremParagraph}}\",\n    \"smoking\": {{$randomBoolean}},\n    \"smokingDetails\": \"{{$randomLoremParagraph}}\",\n    \"alcoholism\": {{$randomBoolean}},\n    \"alcoholismDetails\": \"{{$randomLoremParagraph}}\",\n    \"otherSubstances\": {{$randomBoolean}},\n    \"otherSubstancesDetails\": \"{{$randomLoremParagraph}}\",\n    \"recentVaccination\": {{$randomBoolean}},\n    \"recentVaccinationDetails\": \"{{$randomLoremParagraph}}\",\n    \"other\": {{$randomBoolean}},\n    \"otherDetails\": \"{{$randomLoremParagraph}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/non-pathological-data",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"non-pathological-data"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

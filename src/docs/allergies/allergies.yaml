@@ -4,7 +4,7 @@ info:
     description: API documentation for MedLink application
     version: 1.0.0
 paths:
-    /allergies:
+    /allergie:
         put:
             summary: Add or update patient allergies data
             tags:
