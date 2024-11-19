@@ -5,6 +5,7 @@ import PatientClinicalDataDto from "../patientClinicalData/dto";
 import PatientAllergieDataDto from "../patientAllergieData/dto";
 import PatientFamilyInheritanceDto from "../patientFamilyInheritance/dto";
 import PatientPathologicalDataDto from "../patientPathologicalData/dto";
+import PatientNonPathologicalDataDto from "../patientNonPathologicalData/dto";
 
 export default class PatientDto {
     static patientsArrayDTO(patients: IPatient[]): Partial<PatientResponse>[] {
@@ -51,10 +52,15 @@ export default class PatientDto {
                                     ),
                       }
                     : {}),
-                ...(patient.nonPathogicalData
+                ...(patient.nonPathologicalData
                     ? {
-                          nonPathogicalData:
-                              patient.nonPathogicalData.toString(),
+                          nonPathologicalData:
+                              patient.nonPathologicalData instanceof
+                              Types.ObjectId
+                                  ? patient.nonPathologicalData.toString()
+                                  : PatientNonPathologicalDataDto.patientNonPathologicalDataDTO(
+                                        patient.nonPathologicalData
+                                    ),
                       }
                     : {}),
                 ...(patient.familyInheritance
@@ -151,9 +157,14 @@ export default class PatientDto {
                                 ),
                   }
                 : {}),
-            ...(patient.nonPathogicalData
+            ...(patient.nonPathologicalData
                 ? {
-                      nonPathogicalData: patient.nonPathogicalData.toString(),
+                      nonPathologicalData:
+                          patient.nonPathologicalData instanceof Types.ObjectId
+                              ? patient.nonPathologicalData.toString()
+                              : PatientNonPathologicalDataDto.patientNonPathologicalDataDTO(
+                                    patient.nonPathologicalData
+                                ),
                   }
                 : {}),
             ...(patient.familyInheritance

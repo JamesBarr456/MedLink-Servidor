@@ -24,6 +24,7 @@ class PatientDAO extends UserDAO<IPatient> {
                 "allergiesData",
                 "familyInheritance",
                 "pathologicalData",
+                "nonPathologicalData",
             ])
             .lean();
     }

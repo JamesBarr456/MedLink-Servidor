@@ -19,7 +19,7 @@ class UserDAO<T> {
                 "clinicalData",
                 "allergiesData",
                 "pathologicalData",
-                "nonPathogicalData",
+                "nonPathologicalData",
                 "familyInheritance",
                 "vaccinationShedule",
                 "authorizedDoctors",

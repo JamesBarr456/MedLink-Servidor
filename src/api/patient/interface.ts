@@ -7,6 +7,7 @@ import IPatientClinicalData from "../patientClinicalData/interface";
 import IPatientAllergieData from "../patientAllergieData/interfaces";
 import IPatientFamilyInheritance from "../patientFamilyInheritance/interface";
 import IPatientPathologicalData from "../patientPathologicalData/interface";
+import IPatientNonPathologicalData from "../patientNonPathologicalData/interface";
 
 export interface IPatient extends IUser {
     insuranceProvider: string;
@@ -15,7 +16,7 @@ export interface IPatient extends IUser {
     clinicalData: Types.ObjectId;
     allergiesData: Types.ObjectId;
     pathologicalData: Types.ObjectId;
-    nonPathogicalData: Types.ObjectId;
+    nonPathologicalData: Types.ObjectId;
     familyInheritance: Types.ObjectId;
     vaccinationShedule: Types.ObjectId;
     documents: Types.ObjectId[];
@@ -55,7 +56,7 @@ export interface PatientResponse
         | "clinicalData"
         | "allergiesData"
         | "pathologicalData"
-        | "nonPathogicalData"
+        | "nonPathologicalData"
         | "familyInheritance"
         | "vaccinationShedule"
         | "documents"
@@ -66,7 +67,7 @@ export interface PatientResponse
     clinicalData: string | Partial<IPatientClinicalData>;
     allergiesData: string | Partial<IPatientAllergieData>;
     pathologicalData: string | Partial<IPatientPathologicalData>;
-    nonPathogicalData: string;
+    nonPathologicalData: string | Partial<IPatientNonPathologicalData>;
     familyInheritance: string | Partial<IPatientFamilyInheritance>;
     vaccinationShedule: string;
     documents: string[];
