@@ -1,6 +1,7 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
-export default interface IPatitientVaccinationShedule extends Document {
+export default interface IPatientVaccinationShedule extends Document {
+    patientId: Types.ObjectId;
     atBirth: { bcg: boolean; hepatitisB1: boolean };
     twoMonths: {
         pentavalent1: boolean;

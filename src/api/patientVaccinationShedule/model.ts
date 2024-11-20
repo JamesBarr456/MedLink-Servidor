@@ -1,57 +1,99 @@
 import { model, Schema } from "mongoose";
-import IPatitientVaccinationShedule from "./interface";
+import IPatientVaccinationShedule from "./interface";
 
-const patientVaccinationSheduleSchema =
-    new Schema<IPatitientVaccinationShedule>({
-        atBirth: {
-            bcg: { type: Boolean, required: true, default: false },
-            hepatitisB1: { type: Boolean, required: true, default: false },
-        },
-        twoMonths: {
-            pentavalent1: { type: Boolean, required: true, default: false },
-            hepatitisB2: { type: Boolean, required: true, default: false },
-            rotavirus1: { type: Boolean, required: true, default: false },
-            pneumococcal1: { type: Boolean, required: true, default: false },
-        },
-        fourMonths: {
-            pentavalent2: { type: Boolean, required: true, default: false },
-            rotavirus2: { type: Boolean, required: true, default: false },
-            pneumococcal2: { type: Boolean, required: true, default: false },
-        },
-        sixMonths: {
-            pentavalent3: { type: Boolean, required: true, default: false },
-            hepatitisB3: { type: Boolean, required: true, default: false },
-            rotavirus3: { type: Boolean, required: true, default: false },
-            influenza1: { type: Boolean, required: true, default: false },
-        },
-        sevenMonths: {
-            influenza2: { type: Boolean, required: true, default: false },
-        },
-        twelveMonths: {
-            srp1: { type: Boolean, required: true, default: false },
-            pneumococcal3: { type: Boolean, required: true, default: false },
-        },
-        eighteenMonths: {
-            pentavalent4: { type: Boolean, required: true, default: false },
-        },
-        twoYears: {
-            influenzaAnnual1: { type: Boolean, required: true, default: false },
-        },
-        threeYears: {
-            influenzaAnnual2: { type: Boolean, required: true, default: false },
-        },
-        fourYears: {
-            dpt: { type: Boolean, required: true, default: false },
-            influenzaAnnual3: { type: Boolean, required: true, default: false },
-        },
-        fiveYears: {
-            influenzaAnnual4: { type: Boolean, required: true, default: false },
-            vopOpv: { type: Boolean, required: true, default: false },
-        },
-        elevenYears: { vph: { type: Boolean, required: true, default: false } },
-        otherVaccines: { Boolean, required: true, default: false },
-        otherVaccinesDetails: { type: String },
-    });
+const patientVaccinationSheduleSchema = new Schema<IPatientVaccinationShedule>({
+    patientId: {
+        type: Schema.Types.ObjectId,
+        ref: "Patient",
+        required: true,
+    },
+    atBirth: {
+        type: new Schema({
+            bcg: { type: Boolean, default: false },
+            hepatitisB1: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    twoMonths: {
+        type: new Schema({
+            pentavalent1: { type: Boolean, default: false },
+            hepatitisB2: { type: Boolean, default: false },
+            rotavirus1: { type: Boolean, default: false },
+            pneumococcal1: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    fourMonths: {
+        type: new Schema({
+            pentavalent2: { type: Boolean, default: false },
+            rotavirus2: { type: Boolean, default: false },
+            pneumococcal2: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    sixMonths: {
+        type: new Schema({
+            pentavalent3: { type: Boolean, default: false },
+            hepatitisB3: { type: Boolean, default: false },
+            rotavirus3: { type: Boolean, default: false },
+            influenza1: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    sevenMonths: {
+        type: new Schema({
+            influenza2: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    twelveMonths: {
+        type: new Schema({
+            srp1: { type: Boolean, default: false },
+            pneumococcal3: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    eighteenMonths: {
+        type: new Schema({
+            pentavalent4: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    twoYears: {
+        type: new Schema({
+            influenzaAnnual1: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    threeYears: {
+        type: new Schema({
+            influenzaAnnual2: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    fourYears: {
+        type: new Schema({
+            dpt: { type: Boolean, default: false },
+            influenzaAnnual3: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    fiveYears: {
+        type: new Schema({
+            influenzaAnnual4: { type: Boolean, default: false },
+            vopOpv: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    elevenYears: {
+        type: new Schema({
+            vph: { type: Boolean, default: false },
+        }),
+        default: {},
+    },
+    otherVaccines: { type: Boolean, default: false },
+    otherVaccinesDetails: { type: String },
+});
 
 const PatientVaccinationShedule = model(
     "PatientVaccinationShedule",
