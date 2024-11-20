@@ -99,7 +99,7 @@ components:
                 success:
                     type: boolean
                     example: false
-                error:
+                payload:
                     type: object
                     properties:
                         message:

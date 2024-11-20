@@ -62,7 +62,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -81,7 +81,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -100,7 +100,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:

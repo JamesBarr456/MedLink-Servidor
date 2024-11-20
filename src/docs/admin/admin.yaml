@@ -4,7 +4,7 @@ info:
     description: API documentation for MedLink admin endpoints.
     version: 1.0.0
 paths:
-      /admin/patients:
+    /admin/patients:
         get:
             summary: Get all registered patients
             tags:
@@ -22,7 +22,7 @@ paths:
                             required:
                                 - role
             security:
-                - bearerAuth: []  
+                - bearerAuth: []
             description: >
                 Retrieve a list of all registered patients. 
                 This is a protected route that requires authentication and is accessible only to users with the 'admin' role.
@@ -70,7 +70,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -86,7 +86,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -102,7 +102,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -111,7 +111,7 @@ paths:
                                             details:
                                                 type: string
                                                 example: "An unexpected error occurred while fetching patients"
-      /admin/doctors:
+    /admin/doctors:
         get:
             summary: Get all registered doctors
             tags:
@@ -129,7 +129,7 @@ paths:
                             required:
                                 - role
             security:
-                - bearerAuth: []  
+                - bearerAuth: []
             description: >
                 Retrieve a list of all registered doctors. 
                 This is a protected route that requires authentication and is accessible only to users with the 'admin' role.
@@ -167,24 +167,28 @@ paths:
                                                 specialization:
                                                     type: SPECIALITIES
                                                     example: "Gastroenterology"
-                                                address: 
+                                                address:
                                                     type: string
                                                     example: "Junin 1706"
-                                                avatar: 
+                                                avatar:
                                                     type: string
                                                     example: "https://example.com/avatar.jpg"
-                                                phone: 
+                                                phone:
                                                     type: number
                                                     example: 112334456
-                                                clinic: 
+                                                clinic:
                                                     type: string
                                                     example: "Clinica Mayo"
-                                                patients: 
+                                                patients:
                                                     type: Types.ObjectId[]
-                                                    example: ["de12d23d45g556hhh67yy6h6h6", "a35vl57l7m7lnb5gvv4fh"]
+                                                    example:
+                                                        [
+                                                            "de12d23d45g556hhh67yy6h6h6",
+                                                            "a35vl57l7m7lnb5gvv4fh",
+                                                        ]
                                                 consultations:
                                                     type: Consultations[]
-                                                    example: 
+                                                    example:
                 403:
                     description: Forbidden - User is not authorized to access this resource
                     content:
@@ -195,7 +199,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -211,7 +215,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -227,7 +231,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: false
-                                    error:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
