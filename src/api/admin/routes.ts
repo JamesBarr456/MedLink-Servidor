@@ -9,6 +9,11 @@ adminRouter.get(
     AdminController.getAllDoctors
 );
 
+adminRouter.post(
+    "/doctors",
+    AdminController.createDoctor
+);
+
 adminRouter.get(
     "/patients",
     AdminController.getAllPatients

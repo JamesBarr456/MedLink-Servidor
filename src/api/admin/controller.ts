@@ -5,6 +5,8 @@ import HttpError from "../../utils/HttpError.utils";
 import DoctorService from "../doctor/service";
 import PatientService from "../patient/service";
 import apiResponse from "../../utils/apiResponse.utils";
+import { DoctorCreateFields, DoctorResponse } from "../doctor/interface";
+
 
 export default class AdminController {
     static async getAllDoctors(req: Request, res: Response): Promise<void> {
@@ -31,6 +33,24 @@ export default class AdminController {
             const response = apiResponse(true, patients);
             res.status(HTTP_STATUS.CREATED).json(response);
         } catch (err: any) {
+            const response = apiResponse(
+                false,
+                new HttpError(
+                    err.description || err.message,
+                    err.details || err.message,
+                    err.status || HTTP_STATUS.SERVER_ERROR
+                )
+            );
+            res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
+        }
+    }
+    static async createDoctor(req: Request, res: Response): Promise<void> {
+        try {
+            const doctorData: DoctorCreateFields = req.body;
+            const doctorResponse : DoctorResponse = await DoctorService.createDoctor(doctorData);
+            const response = apiResponse(true, doctorResponse);
+            res.status(HTTP_STATUS.CREATED).json(response);
+        } catch (err : any) {
             const response = apiResponse(
                 false,
                 new HttpError(
