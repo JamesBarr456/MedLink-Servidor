@@ -1,6 +1,7 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export default interface IPatientNonPathologicalData extends Document {
+    patientId: Types.ObjectId;
     physicalActivity: boolean;
     physicalActivityDetails: string;
     smoking: boolean;

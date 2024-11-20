@@ -13,7 +13,7 @@ export default class PatientRepository {
                 "clinicalData",
                 "allergiesData",
                 "pathologicalData",
-                "nonPathogicalData",
+                "nonPathologicalData",
                 "familyInheritance",
                 "vaccinationShedule",
                 "authorizedDoctors",

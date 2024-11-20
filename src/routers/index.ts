@@ -1,4 +1,3 @@
-// LIBRARIES
 import { Router } from "express";
 import authRouter from "../api/auth/routes";
 import patientRouter from "../api/patient/routes";
@@ -8,7 +7,7 @@ import authorizeAdmin from "../middleware/authorizationAdmin.middelware";
 import patientAllergieDataRouter from "../api/patientAllergieData/routes";
 import patientFamilyInheritanceRouter from "../api/patientFamilyInheritance/routes";
 import patientPathologicalDataRouter from "../api/patientPathologicalData/routes";
-// Routes
+import patientNonPathologicalDataRouter from "../api/patientNonPathologicalData/routes";
 
 const apiRouter = Router();
 
@@ -17,6 +16,7 @@ apiRouter.use("/patient", patientRouter);
 apiRouter.use("/allergie", patientAllergieDataRouter);
 apiRouter.use("/family-inheritance", patientFamilyInheritanceRouter);
 apiRouter.use("/pathological-data", patientPathologicalDataRouter);
+apiRouter.use("/non-pathological-data", patientNonPathologicalDataRouter);
 apiRouter.use("/admin", authenticate, authorizeAdmin, adminRouter);
 
 export default apiRouter;

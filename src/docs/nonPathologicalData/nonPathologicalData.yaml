@@ -4,25 +4,25 @@ info:
     description: API documentation for MedLink application
     version: 1.0.0
 paths:
-    /family-inheritance:
+    /non-pathological-data:
         put:
-            summary: Add or update patient family inheritance data
+            summary: Add or update patient non-pathological data
             tags:
-                - Family Inheritance
+                - Non-Pathological Data
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: "#/components/schemas/PatientFamilyInheritance"
+                            $ref: "#/components/schemas/PatientNonPathologicalData"
 
             responses:
                 200:
-                    description: Successfully added or updated patient family inheritance data
+                    description: Successfully added or updated patient non-pathological data
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/PatientFamilyInheritanceResponse"
+                                $ref: "#/components/schemas/PatientNonPathologicalDataResponse"
                 400:
                     description: Bad request
                     content:
@@ -44,54 +44,54 @@ paths:
 
 components:
     schemas:
-        PatientFamilyInheritance:
+        PatientNonPathologicalData:
             type: object
             properties:
-                diabetes:
+                physicalActivity:
                     type: boolean
                     example: false
-                diabetesDetails:
+                physicalActivityDetails:
                     type: string
-                    example: "Type 1 diabetes"
-                heartDiseases:
+                    example: "Jogging 3 times a week"
+                smoking:
                     type: boolean
                     example: false
-                heartDiseasesDetails:
+                smokingDetails:
                     type: string
-                    example: "Coronary artery disease"
-                hypertension:
+                    example: "Occasional smoker"
+                alcoholism:
                     type: boolean
                     example: false
-                hypertensionDetails:
+                alcoholismDetails:
                     type: string
-                    example: "Primary hypertension"
-                thyroidDiseases:
+                    example: "Drinks socially"
+                otherSubstances:
                     type: boolean
                     example: false
-                thyroidDiseasesDetails:
+                otherSubstancesDetails:
                     type: string
-                    example: "Hypothyroidism"
-                chronicKidneyDisease:
+                    example: "Occasional marijuana use"
+                recentVaccination:
                     type: boolean
                     example: false
-                chronicKidneyDiseaseDetails:
+                recentVaccinationDetails:
                     type: string
-                    example: "Stage 3 CKD"
+                    example: "Received flu vaccine last month"
                 other:
                     type: boolean
                     example: false
                 otherDetails:
                     type: string
-                    example: "Asthma"
+                    example: "Practices yoga"
 
-        PatientFamilyInheritanceResponse:
+        PatientNonPathologicalDataResponse:
             type: object
             properties:
                 success:
                     type: boolean
                     example: true
                 payload:
-                    $ref: "#/components/schemas/PatientFamilyInheritance"
+                    $ref: "#/components/schemas/PatientNonPathologicalData"
 
         ErrorResponse:
             type: object

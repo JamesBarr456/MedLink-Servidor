@@ -150,7 +150,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: true
-                                    data:
+                                    payload:
                                         type: object
                                         properties:
                                             id:
@@ -429,7 +429,7 @@ paths:
                                     success:
                                         type: boolean
                                         example: true
-                                    data:
+                                    payload:
                                         type: object
                                         properties:
                                             message:
@@ -492,4 +492,3 @@ paths:
                                             details:
                                                 type: string
                                                 example: SERVER_ERROR
-    
