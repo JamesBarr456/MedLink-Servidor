@@ -4,3 +4,4 @@ dist
 models.txt
 
 /src/public/
+jsonExample.json

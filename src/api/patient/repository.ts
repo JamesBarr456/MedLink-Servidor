@@ -17,6 +17,7 @@ export default class PatientRepository {
                 "familyInheritance",
                 "vaccinationShedule",
                 "authorizedDoctors",
+                "medications",
             ])
             .lean()) as IPatient;
         return patient;

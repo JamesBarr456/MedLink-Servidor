@@ -504,6 +504,47 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Vavvination Shedule",
+			"item": [
+				{
+					"name": "Add Vaccination Shedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmNkNWNhY2U4NDUxMDlhNTFhMWMyZSIsInJvbGUiOiJQYXRpZW50IiwibmJmIjoxNzMyMDYwNzQwLCJpYXQiOjE3MzIwNjA3NDAsImV4cCI6MTczMjA2NDM0MH0.1jP31ApqdcMAfauxvT7RB4MEQ-PorZL9aFwzfj9-wuE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"atBirth\": {\n        \"bcg\": {{$randomBoolean}},\n        \"hepatitisB1\": {{$randomBoolean}}\n    },\n    \"twoMonths\": {\n        \"pentavalent1\": {{$randomBoolean}},\n        \"hepatitisB2\": {{$randomBoolean}},\n        \"rotavirus1\": {{$randomBoolean}},\n        \"pneumococcal1\": {{$randomBoolean}}\n    },\n    \"fourMonths\": {\n        \"pentavalent2\": {{$randomBoolean}},\n        \"rotavirus2\": {{$randomBoolean}},\n        \"pneumococcal2\": {{$randomBoolean}}\n    },\n    \"sixMonths\": {\n        \"pentavalent3\": {{$randomBoolean}},\n        \"hepatitisB3\": {{$randomBoolean}},\n        \"rotavirus3\": {{$randomBoolean}},\n        \"influenza1\": {{$randomBoolean}}\n    },\n    \"sevenMonths\": {\n        \"influenza2\": {{$randomBoolean}}\n    },\n    \"twelveMonths\": {\n        \"srp1\": {{$randomBoolean}},\n        \"pneumococcal3\": {{$randomBoolean}}\n    },\n    \"eighteenMonths\": {\n        \"pentavalent4\": {{$randomBoolean}}\n    },\n    \"twoYears\": {\n        \"influenzaAnnual1\": {{$randomBoolean}}\n    },\n    \"threeYears\": {\n        \"influenzaAnnual2\": {{$randomBoolean}}\n    },\n    \"fourYears\": {\n        \"dpt\": {{$randomBoolean}},\n        \"influenzaAnnual3\": {{$randomBoolean}}\n    },\n    \"fiveYears\": {\n        \"influenzaAnnual4\": {{$randomBoolean}},\n        \"vopOpv\": {{$randomBoolean}}\n    },\n    \"otherVaccines\": {{$randomBoolean}},\n    \"otherVaccinesDetails\": \"{{$randomLoremParagraph}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/vaccination-shedule",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vaccination-shedule"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
