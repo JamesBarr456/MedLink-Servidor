@@ -240,3 +240,118 @@ paths:
                                             details:
                                                 type: string
                                                 example: "An unexpected error occurred while fetching patients"
+    /admin/doctors/{id}:
+    delete:
+        summary: Delete a doctor by ID
+        tags:
+            - Admin
+        parameters:
+            - in: path
+              name: id
+              required: true
+              description: The ID of the doctor to delete
+              schema:
+                type: string
+                example: "60d0fe4f5311236168a109ca"
+        security:
+            - bearerAuth: []
+        description: >
+            This route allows an admin to delete a doctor by their unique ID. 
+            The ID must be provided in the URL path.
+        responses:
+            200:
+                description: Successfully deleted the doctor
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: true
+                                message:
+                                    type: string
+                                    example: "Doctor deleted successfully"
+            400:
+                description: Bad request - Invalid doctor ID format
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: false
+                                error:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: "Invalid doctor ID format"
+            404:
+                description: Not found - Doctor with the provided ID does not exist
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: false
+                                error:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: "Doctor not found"
+            401:
+                description: Unauthorized - Authentication required
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: false
+                                error:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: "Authentication token is missing or invalid"
+            403:
+                description: Forbidden - User is not authorized to delete a doctor
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: false
+                                error:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: "You are not authorized to delete this doctor"
+            500:
+                description: Internal server error
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: false
+                                error:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: "Server error"
+                                        details:
+                                            type: string
+                                            example: "An unexpected error occurred while deleting the doctor"
