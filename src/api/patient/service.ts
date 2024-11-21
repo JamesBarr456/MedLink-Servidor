@@ -161,9 +161,14 @@ export default class PatientService {
                     HTTP_STATUS.NOT_FOUND
                 );
             }
+            const idToAdd: Types.ObjectId | Types.ObjectId[] =
+                fieldToUpdate === PatientFields.MEDICATIONS_DATA
+                    ? [...patientFound.medications, modelID]
+                    : modelID;
+
             const patientPayload: Partial<IPatient> = {
                 ...patientFound,
-                [fieldToUpdate]: modelID,
+                [fieldToUpdate]: idToAdd,
             };
 
             const updatedPatient = await patientDao.update(

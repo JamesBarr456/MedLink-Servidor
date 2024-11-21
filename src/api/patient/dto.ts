@@ -6,8 +6,8 @@ import PatientAllergieDataDto from "../patientAllergieData/dto";
 import PatientFamilyInheritanceDto from "../patientFamilyInheritance/dto";
 import PatientPathologicalDataDto from "../patientPathologicalData/dto";
 import PatientNonPathologicalDataDto from "../patientNonPathologicalData/dto";
-import PatientVaccinationShedule from "../patientVaccinationShedule/model";
 import PatientVaccinationSheduleDto from "../patientVaccinationShedule/dto";
+import PatientMedicationDto from "../patientMedications/dto";
 
 export default class PatientDto {
     static patientsArrayDTO(patients: IPatient[]): Partial<PatientResponse>[] {
@@ -97,7 +97,11 @@ export default class PatientDto {
                 ...(patient.medications
                     ? {
                           medications: patient.medications.map((med) =>
-                              med.toString()
+                              med instanceof Types.ObjectId
+                                  ? med.toString()
+                                  : PatientMedicationDto.PatientMedicationDTO(
+                                        med
+                                    )
                           ),
                       }
                     : {}),
@@ -202,7 +206,9 @@ export default class PatientDto {
             ...(patient.medications
                 ? {
                       medications: patient.medications.map((med) =>
-                          med.toString()
+                          med instanceof Types.ObjectId
+                              ? med.toString()
+                              : PatientMedicationDto.PatientMedicationDTO(med)
                       ),
                   }
                 : {}),
