@@ -14,6 +14,11 @@ adminRouter.post(
     AdminController.createDoctor
 );
 
+adminRouter.delete(
+    "/doctors/:id",
+    AdminController.deleteDoctor
+);
+
 adminRouter.get(
     "/patients",
     AdminController.getAllPatients
