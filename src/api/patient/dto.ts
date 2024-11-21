@@ -19,6 +19,13 @@ export default class PatientDto {
                 ...(patient.firstName ? { firstName: patient.firstName } : {}),
                 ...(patient.lastName ? { lastName: patient.lastName } : {}),
                 ...(patient.avatar ? { avatar: patient.avatar } : {}),
+
+                ...(patient.dateOfBirth
+                    ? { dateOfBirth: patient.dateOfBirth }
+                    : {}),
+                ...(patient.gender ? { gender: patient.gender } : {}),
+                ...(patient.aboutMe ? { aboutMe: patient.aboutMe } : {}),
+                ...(patient.phone ? { phone: patient.phone } : {}),
                 ...(patient.insuranceProvider
                     ? { insuranceProvider: patient.insuranceProvider }
                     : {}),
@@ -31,7 +38,9 @@ export default class PatientDto {
                           clinicalData:
                               patient.clinicalData instanceof Types.ObjectId
                                   ? patient.clinicalData.toString()
-                                  : patient.clinicalData,
+                                  : PatientClinicalDataDto.patientClinicalDataDTO(
+                                        patient.clinicalData
+                                    ),
                       }
                     : {}),
                 ...(patient.allergiesData
@@ -127,10 +136,14 @@ export default class PatientDto {
             role: patient.role,
             ...(patient.firstName ? { firstName: patient.firstName } : {}),
             ...(patient.lastName ? { lastName: patient.lastName } : {}),
+            ...(patient.avatar ? { avatar: patient.avatar } : {}),
+
             ...(patient.dateOfBirth
                 ? { dateOfBirth: patient.dateOfBirth }
                 : {}),
-            ...(patient.avatar ? { avatar: patient.avatar } : {}),
+            ...(patient.gender ? { gender: patient.gender } : {}),
+            ...(patient.aboutMe ? { aboutMe: patient.aboutMe } : {}),
+            ...(patient.phone ? { phone: patient.phone } : {}),
             ...(patient.insuranceProvider
                 ? { insuranceProvider: patient.insuranceProvider }
                 : {}),
