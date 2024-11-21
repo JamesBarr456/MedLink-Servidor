@@ -4,7 +4,7 @@ import apiResponse from "../utils/apiResponse.utils";
 import HTTP_STATUS from "../constants/HttpStatus";
 
 const authorizeAdmin = (req: Request, res: Response, next: NextFunction) => {
-    const userRole = req.body.role;
+    const userRole = res.locals.user?.role;
 
     if (userRole === Roles.ADMIN) {
         next();
