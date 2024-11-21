@@ -2,8 +2,6 @@ import { Router } from "express";
 import authRouter from "../api/auth/routes";
 import patientRouter from "../api/patient/routes";
 import adminRouter from "../api/admin/routes";
-import authenticate from "../middleware/authenticate.middleware";
-import authorizeAdmin from "../middleware/authorizationAdmin.middelware";
 import patientAllergieDataRouter from "../api/patientAllergieData/routes";
 import patientFamilyInheritanceRouter from "../api/patientFamilyInheritance/routes";
 import patientPathologicalDataRouter from "../api/patientPathologicalData/routes";
@@ -21,6 +19,6 @@ apiRouter.use("/pathological-data", patientPathologicalDataRouter);
 apiRouter.use("/non-pathological-data", patientNonPathologicalDataRouter);
 apiRouter.use("/vaccination-shedule", PatientVaccinationSheduleRouter);
 apiRouter.use("/medication", patientMedicationsRouter);
-apiRouter.use("/admin", authenticate, authorizeAdmin, adminRouter);
+apiRouter.use("/admin", adminRouter);
 
 export default apiRouter;
