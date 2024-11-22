@@ -148,7 +148,7 @@ export default class PatientService {
 
     static async addMedicalInformation(
         user: ITokenPayload,
-        modelID: Types.ObjectId,
+        modelID: Types.ObjectId | Types.ObjectId[],
         fieldToUpdate: PatientFields
     ): Promise<Partial<PatientResponse>> {
         try {
@@ -161,10 +161,16 @@ export default class PatientService {
                     HTTP_STATUS.NOT_FOUND
                 );
             }
+
             const idToAdd: Types.ObjectId | Types.ObjectId[] =
-                fieldToUpdate === PatientFields.MEDICATIONS_DATA
-                    ? [...patientFound.medications, modelID]
-                    : modelID;
+                fieldToUpdate === PatientFields.DOCUMENTS
+                    ? [
+                          ...patientFound.documents,
+                          ...(modelID as Types.ObjectId[]),
+                      ]
+                    : fieldToUpdate === PatientFields.MEDICATIONS_DATA
+                    ? [...patientFound.medications, modelID as Types.ObjectId]
+                    : (modelID as Types.ObjectId);
 
             const patientPayload: Partial<IPatient> = {
                 ...patientFound,
@@ -245,7 +251,7 @@ export default class PatientService {
                 });
                 patient = patientByDoctor;
             } else {
-                const patientDao = new UserDAO(Patient);
+                const patientDao = new PatientDAO();
                 patient = await patientDao.read(id);
             }
 

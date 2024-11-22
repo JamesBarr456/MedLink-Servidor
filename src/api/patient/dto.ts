@@ -8,6 +8,7 @@ import PatientPathologicalDataDto from "../patientPathologicalData/dto";
 import PatientNonPathologicalDataDto from "../patientNonPathologicalData/dto";
 import PatientVaccinationSheduleDto from "../patientVaccinationShedule/dto";
 import PatientMedicationDto from "../patientMedications/dto";
+import PatientDocumentsDto from "../documents/dto";
 
 export default class PatientDto {
     static patientsArrayDTO(patients: IPatient[]): Partial<PatientResponse>[] {
@@ -32,7 +33,6 @@ export default class PatientDto {
                 ...(patient.insuranceNumber
                     ? { insuranceNumber: patient.insuranceNumber }
                     : {}),
-                ...(patient.files ? { files: patient.files } : {}),
                 ...(patient.clinicalData
                     ? {
                           clinicalData:
@@ -99,7 +99,9 @@ export default class PatientDto {
                 ...(patient.documents
                     ? {
                           documents: patient.documents.map((doc) =>
-                              doc.toString()
+                              doc instanceof Types.ObjectId
+                                  ? doc.toString()
+                                  : PatientDocumentsDto.PatientDocumentsDTO(doc)
                           ),
                       }
                     : {}),
@@ -150,7 +152,6 @@ export default class PatientDto {
             ...(patient.insuranceNumber
                 ? { insuranceNumber: patient.insuranceNumber }
                 : {}),
-            ...(patient.files ? { files: patient.files } : {}),
             ...(patient.clinicalData
                 ? {
                       clinicalData:
@@ -213,7 +214,11 @@ export default class PatientDto {
                 : {}),
             ...(patient.documents
                 ? {
-                      documents: patient.documents.map((doc) => doc.toString()),
+                      documents: patient.documents.map((doc) =>
+                          doc instanceof Types.ObjectId
+                              ? doc.toString()
+                              : PatientDocumentsDto.PatientDocumentsDTO(doc)
+                      ),
                   }
                 : {}),
             ...(patient.medications

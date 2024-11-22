@@ -11,6 +11,22 @@ class PatientDAO extends UserDAO<IPatient> {
         super(Patient);
     }
 
+    async read(id: string): Promise<IPatient | null> {
+        return await Patient.findById(id)
+            .populate([
+                "clinicalData",
+                "allergiesData",
+                "pathologicalData",
+                "nonPathologicalData",
+                "familyInheritance",
+                "vaccinationShedule",
+                "authorizedDoctors",
+                "medications",
+                "documents",
+            ])
+            .lean();
+    }
+
     async update(
         id: string,
         data: Partial<IPatient>
@@ -27,6 +43,7 @@ class PatientDAO extends UserDAO<IPatient> {
                 "nonPathologicalData",
                 "vaccinationShedule",
                 "medications",
+                "documents",
             ])
             .lean();
     }

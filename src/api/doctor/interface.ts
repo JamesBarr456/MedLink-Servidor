@@ -6,21 +6,20 @@ import { SPECIALITIES } from "../../constants/Specializations";
 
 export interface IDoctor extends IUser {
     specialization: SPECIALITIES;
-    location: string;
     licenseNumber: number;
-    clinic: string;
+    clinic: string[];
     patients: Types.ObjectId[];
-    consultations: IConsultation[];
+    // consultations: IConsultation[];
 }
 
-export interface IConsultation {
-    consultationId: Types.ObjectId;
-    patientId: Types.ObjectId;
-    date: Date;
-    diagnosis: string;
-    treatment: string;
-    notes: string;
-}
+// export interface IConsultation {
+//     consultationId: Types.ObjectId;
+//     patientId: Types.ObjectId;
+//     date: Date;
+//     diagnosis: string;
+//     treatment: string;
+//     notes: string;
+// }
 
 export interface DoctorCreateFields {
     email: string;
@@ -40,7 +39,7 @@ export interface DoctorResponse {
     location?: string;
     avatar?: string;
     phone?: number;
-    clinic?: string;
+    clinic?: string[];
     patients?: Types.ObjectId[];
     consultations?: Consultations[];
 }
