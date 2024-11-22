@@ -3,9 +3,10 @@ import { Types } from "mongoose";
 // INTERFACES
 import { IUser } from "../user/interface";
 import { SPECIALITIES } from "../../constants/Specializations";
+import { PatientResponse } from "../patient/interface";
 
 export interface IDoctor extends IUser {
-    specialization: SPECIALITIES;
+    specialization: SPECIALITIES[];
     licenseNumber: number;
     clinic: string[];
     patients: Types.ObjectId[];
@@ -35,12 +36,12 @@ export interface DoctorResponse {
     licenseNumber: number;
     email: string;
     role: string;
-    specialization: SPECIALITIES;
+    specialization: SPECIALITIES[];
     location?: string;
     avatar?: string;
     phone?: number;
     clinic?: string[];
-    patients?: Types.ObjectId[];
+    patients?: (Types.ObjectId | Partial<PatientResponse>)[];
     consultations?: Consultations[];
 }
 
@@ -51,4 +52,16 @@ interface Consultations {
     diagnosis: string;
     treatment: string;
     notes: string;
+}
+
+export interface DoctorUpdateFields {
+    firstName: string;
+    lastName: string;
+    birth_date: string;
+    genre: string;
+    about_me: string;
+    phone: number;
+    email: string;
+    location: string;
+    specialization: string | string[];
 }
