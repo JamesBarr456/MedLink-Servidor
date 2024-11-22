@@ -39,7 +39,7 @@ export interface DoctorResponse {
     location?: string;
     avatar?: string;
     phone?: number;
-    clinic?: string;
+    clinic?: string[];
     patients?: Types.ObjectId[];
     consultations?: Consultations[];
 }

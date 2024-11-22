@@ -15,9 +15,9 @@ export default class DoctorDto {
             ...(doctor.phone ? { phone: doctor.phone } : {}),
             ...(doctor.clinic ? { clinic: doctor.clinic } : {}),
             ...(doctor.patients ? { patients: doctor.patients } : {}),
-            ...(doctor.consultations
-                ? { consultations: doctor.consultations }
-                : {}),
+            // ...(doctor.consultations
+            //     ? { consultations: doctor.consultations }
+            //     : {}),
         };
     }
 
@@ -36,9 +36,9 @@ export default class DoctorDto {
                 ...(doctor.phone ? { phone: doctor.phone } : {}),
                 ...(doctor.clinic ? { clinic: doctor.clinic } : {}),
                 ...(doctor.patients ? { patients: doctor.patients } : {}),
-                ...(doctor.consultations
-                    ? { consultations: doctor.consultations }
-                    : {}),
+                // ...(doctor.consultations
+                //     ? { consultations: doctor.consultations }
+                //     : {}),
             };
         });
     }
