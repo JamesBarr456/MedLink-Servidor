@@ -10,11 +10,11 @@ import IPatientPathologicalData from "../patientPathologicalData/interface";
 import IPatientNonPathologicalData from "../patientNonPathologicalData/interface";
 import IPatientVaccinationShedule from "../patientVaccinationShedule/interface";
 import IPatientMedication from "../patientMedications/interface";
+import IDocument from "../documents/interface";
 
 export interface IPatient extends IUser {
     insuranceProvider: string;
     insuranceNumber: string;
-    files: string[];
     clinicalData: Types.ObjectId;
     allergiesData: Types.ObjectId;
     pathologicalData: Types.ObjectId;
@@ -72,7 +72,7 @@ export interface PatientResponse
     nonPathologicalData: string | Partial<IPatientNonPathologicalData>;
     familyInheritance: string | Partial<IPatientFamilyInheritance>;
     vaccinationShedule: string | Partial<IPatientVaccinationShedule>;
-    documents: string[];
+    documents: (string | Partial<IDocument>)[];
     medications: (string | Partial<IPatientMedication>)[];
     authorizedDoctors: string[];
 }

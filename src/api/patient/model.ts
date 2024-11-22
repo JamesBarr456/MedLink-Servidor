@@ -10,7 +10,6 @@ const Patient = User.discriminator(
     new Schema<IPatient>({
         insuranceProvider: { type: String },
         insuranceNumber: { type: String },
-        files: [{ type: String }],
         clinicalData: {
             type: Schema.Types.ObjectId,
             ref: "PatientClinicalData",

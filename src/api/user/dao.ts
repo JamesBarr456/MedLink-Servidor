@@ -13,18 +13,7 @@ class UserDAO<T> {
     }
 
     async read(id: string): Promise<T | null> {
-        return (await this.model
-            .findById(id)
-            .populate([
-                "clinicalData",
-                "allergiesData",
-                "pathologicalData",
-                "nonPathologicalData",
-                "familyInheritance",
-                "vaccinationShedule",
-                "authorizedDoctors",
-            ])
-            .lean()) as T | null;
+        return (await this.model.findById(id).lean()) as T | null;
     }
 
     async update(id: string, data: Partial<T>): Promise<T | null> {
