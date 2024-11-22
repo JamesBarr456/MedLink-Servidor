@@ -27,6 +27,7 @@ class PatientDAO extends UserDAO<IPatient> {
                 "nonPathologicalData",
                 "vaccinationShedule",
                 "medications",
+                "documents",
             ])
             .lean();
     }

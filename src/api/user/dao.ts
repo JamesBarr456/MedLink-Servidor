@@ -23,6 +23,8 @@ class UserDAO<T> {
                 "familyInheritance",
                 "vaccinationShedule",
                 "authorizedDoctors",
+                "medications",
+                "documents",
             ])
             .lean()) as T | null;
     }

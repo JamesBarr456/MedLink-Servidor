@@ -5,4 +5,5 @@ export enum PatientFields {
     FAMILY_INHERITANCE_DATA = "familyInheritance",
     VACCINATION_SHEDULE = "vaccinationShedule",
     MEDICATIONS_DATA = "medications",
+    DOCUMENTS = "documents",
 }
