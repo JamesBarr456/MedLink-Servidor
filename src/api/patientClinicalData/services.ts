@@ -46,12 +46,7 @@ export default class PatientClinicalDataService {
                 patientClinicalDataPayload
             );
 
-            const patientClinicalDataResponse =
-                PatientClinicalDataDto.patientClinicalDataDTO(
-                    createdClinicalData
-                );
-
-            return patientClinicalDataResponse;
+            return createdClinicalData;
         } catch (err: any) {
             const error: HttpError = new HttpError(
                 err.description || err.message,
