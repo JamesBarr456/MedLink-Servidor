@@ -5,7 +5,6 @@ import PatientClinicalDataDAO from "./dao";
 import IPatientClinicalData from "./interface";
 import { PatientUpdateFields } from "../patient/interface";
 import PatientClinicalData from "./model";
-import PatientClinicalDataDto from "./dto";
 
 export default class PatientClinicalDataService {
     static async createClinicalData(
