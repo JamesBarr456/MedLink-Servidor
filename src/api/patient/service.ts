@@ -251,7 +251,7 @@ export default class PatientService {
                 });
                 patient = patientByDoctor;
             } else {
-                const patientDao = new UserDAO(Patient);
+                const patientDao = new PatientDAO();
                 patient = await patientDao.read(id);
             }
 
