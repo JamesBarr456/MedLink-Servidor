@@ -174,7 +174,6 @@ export default class DoctorService {
         user: ITokenPayload,
         updateFields: Partial<DoctorUpdateFields>
     ): Promise<Partial<DoctorResponse>> {
-        console.log("🚀 ~ updateFields:", updateFields);
         try {
             const doctorDao = new DoctorDAO();
             const doctorFound = await doctorDao.read(user.id);
