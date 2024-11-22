@@ -1,4 +1,6 @@
+import { Types } from "mongoose";
 import { DoctorResponse, IDoctor } from "./interface";
+import PatientDto from "../patient/dto";
 
 export default class DoctorDto {
     static doctorDTO(doctor: IDoctor): DoctorResponse {
@@ -14,7 +16,15 @@ export default class DoctorDto {
             ...(doctor.avatar ? { avatar: doctor.avatar } : {}),
             ...(doctor.phone ? { phone: doctor.phone } : {}),
             ...(doctor.clinic ? { clinic: doctor.clinic } : {}),
-            ...(doctor.patients ? { patients: doctor.patients } : {}),
+            ...(doctor.patients
+                ? {
+                      patients: doctor.patients.map((patient) =>
+                          patient instanceof Types.ObjectId
+                              ? patient._id
+                              : PatientDto.patientDTO(patient)
+                      ),
+                  }
+                : {}),
             // ...(doctor.consultations
             //     ? { consultations: doctor.consultations }
             //     : {}),
@@ -35,7 +45,15 @@ export default class DoctorDto {
                 ...(doctor.avatar ? { avatar: doctor.avatar } : {}),
                 ...(doctor.phone ? { phone: doctor.phone } : {}),
                 ...(doctor.clinic ? { clinic: doctor.clinic } : {}),
-                ...(doctor.patients ? { patients: doctor.patients } : {}),
+                ...(doctor.patients
+                    ? {
+                          patients: doctor.patients.map((patient) =>
+                              patient instanceof Types.ObjectId
+                                  ? patient._id
+                                  : PatientDto.patientDTO(patient)
+                          ),
+                      }
+                    : {}),
                 // ...(doctor.consultations
                 //     ? { consultations: doctor.consultations }
                 //     : {}),

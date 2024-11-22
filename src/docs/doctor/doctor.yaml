@@ -53,6 +53,87 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/ErrorResponse"
+    /doctor:
+        put:
+            summary: Update doctor information
+            tags:
+                - Doctor
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    example: John
+                                lastName:
+                                    type: string
+                                    example: Doe
+                                birth_date:
+                                    type: string
+                                    format: date
+                                    example: 1990-01-01
+                                genre:
+                                    type: string
+                                    example: Male
+                                about_me:
+                                    type: string
+                                    example: "Experienced cardiologist"
+                                phone:
+                                    type: string
+                                    example: "1234567890"
+                                email:
+                                    type: string
+                                    format: email
+                                    example: john.doe@example.com
+                                location:
+                                    type: string
+                                    example: New York
+                                specialization:
+                                    type: string
+                                    example: "Cardiology"
+                                avatar:
+                                    type: string
+                                    format: binary
+            responses:
+                200:
+                    description: Doctor information updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        $ref: "#/components/schemas/DoctorResponse"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                403:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
 
 components:
     schemas:

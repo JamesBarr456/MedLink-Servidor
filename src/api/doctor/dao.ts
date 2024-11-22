@@ -5,16 +5,46 @@ import UserDAO from "../user/dao";
 // INTERFACES
 import { IDoctor } from "./interface";
 
-class DoctorDAO extends UserDAO<IDoctor> {
+export default class DoctorDAO extends UserDAO<IDoctor> {
     constructor() {
         super(Doctor);
     }
 
     async read(id: string): Promise<IDoctor | null> {
         return (await Doctor.findById(id)
-            .populate("patients")
+            .populate({
+                path: "patients",
+                populate: [
+                    { path: "clinicalData" },
+                    { path: "allergiesData" },
+                    { path: "pathologicalData" },
+                    { path: "nonPathologicalData" },
+                    { path: "familyInheritance" },
+                    { path: "vaccinationShedule" },
+                    { path: "authorizedDoctors" },
+                    { path: "medications" },
+                    { path: "documents" },
+                ],
+            })
+            .lean()) as IDoctor | null;
+    }
+
+    async update(id: string, data: Partial<IDoctor>): Promise<IDoctor | null> {
+        return (await Doctor.findByIdAndUpdate(id, data, { new: true })
+            .populate({
+                path: "patients",
+                populate: [
+                    { path: "clinicalData" },
+                    { path: "allergiesData" },
+                    { path: "pathologicalData" },
+                    { path: "nonPathologicalData" },
+                    { path: "familyInheritance" },
+                    { path: "vaccinationShedule" },
+                    { path: "authorizedDoctors" },
+                    { path: "medications" },
+                    { path: "documents" },
+                ],
+            })
             .lean()) as IDoctor | null;
     }
 }
-
-export default DoctorDAO;

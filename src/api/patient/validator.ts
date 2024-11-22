@@ -19,7 +19,7 @@ export const patientUpdatePayloadValidator = z.object({
     birth_date: z.string().date().optional(),
     genre: z
         .nativeEnum(Genders, {
-            message: "Invalid specialization",
+            message: "Invalid gender",
         })
         .optional(),
     about_me: z

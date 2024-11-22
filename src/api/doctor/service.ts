@@ -5,10 +5,17 @@ import DoctorDto from "./dto";
 //ROLES
 import { Roles } from "../../constants/Roles";
 
-import { DoctorCreateFields, DoctorResponse, IDoctor } from "./interface";
+import {
+    DoctorCreateFields,
+    DoctorResponse,
+    DoctorUpdateFields,
+    IDoctor,
+} from "./interface";
 import Doctor from "./model";
 import Patient from "../patient/model";
 import DoctorDAO from "./dao";
+import { ITokenPayload } from "../auth/interface";
+import { SPECIALITIES } from "../../constants/Specializations";
 
 export default class DoctorService {
     static async createDoctor(
@@ -160,6 +167,65 @@ export default class DoctorService {
                 err.status || HTTP_STATUS.SERVER_ERROR
             );
             throw error;
+        }
+    }
+
+    static async updateDoctor(
+        user: ITokenPayload,
+        updateFields: Partial<DoctorUpdateFields>
+    ): Promise<Partial<DoctorResponse>> {
+        try {
+            const doctorDao = new DoctorDAO();
+            const doctorFound = await doctorDao.read(user.id);
+            if (!doctorFound) {
+                throw new HttpError(
+                    "Doctor not found",
+                    "DOCTOR_NOT_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
+
+            if (
+                updateFields.specialization &&
+                typeof updateFields.specialization === "string"
+            ) {
+                const specilities = updateFields.specialization
+                    .split(",")
+                    .map((spec) => spec.trim());
+
+                updateFields.specialization = specilities;
+            }
+
+            const doctorPayload: Partial<IDoctor> = {
+                ...doctorFound,
+                ...updateFields,
+                specialization: updateFields.specialization as SPECIALITIES[],
+                updatedAt: new Date(),
+            };
+
+            const updatedDoctor = await doctorDao.update(
+                user.id,
+                doctorPayload
+            );
+
+            if (!updatedDoctor) {
+                throw new HttpError(
+                    "Doctor not updated",
+                    "DOCTOR_NOT_UPDATED",
+                    HTTP_STATUS.SERVER_ERROR
+                );
+            }
+
+            const doctorResponse = DoctorDto.doctorDTO(updatedDoctor);
+
+            return doctorResponse;
+        } catch (error: any) {
+            const err: HttpError = new HttpError(
+                error.description || error.message,
+                error.details || error.message,
+                error.status || HTTP_STATUS.SERVER_ERROR
+            );
+            throw err;
         }
     }
 }
