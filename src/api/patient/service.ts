@@ -154,8 +154,6 @@ export default class PatientService {
         try {
             const patientDao = new PatientDAO();
             const patientFound = await patientDao.read(user.id);
-            console.log("🚀 ~ patientFound:", patientFound?.medications);
-            console.log("🚀 ~ modelID:", modelID);
             if (!patientFound) {
                 throw new HttpError(
                     "User not found",
@@ -176,8 +174,6 @@ export default class PatientService {
                           modelID as Types.ObjectId,
                       ]
                     : (modelID as Types.ObjectId);
-
-            console.log("🚀 ~ idToAdd:", idToAdd);
             const patientPayload: Partial<IPatient> = {
                 ...patientFound,
                 [fieldToUpdate]: idToAdd,
