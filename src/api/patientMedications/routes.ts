@@ -12,10 +12,6 @@ patientMedicationsRouter.put(
     "/",
     authenticate,
     authorizeRoles([Roles.PATIENT, Roles.ADMIN]),
-    (req, res, next) => {
-        console.log("patientMedicationsRouter -> / -> req.body", req.body);
-        next();
-    },
     schemaValidator(patientMedicationsPayloadValidator, null),
     PatientMedicationsController.add
 );
