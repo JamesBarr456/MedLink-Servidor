@@ -20,7 +20,7 @@ export default class PatientMedicationsService {
             };
 
             const patientMedicationDataSaved =
-                await PatientMedicationsDAO.createOrUpdate(
+                await PatientMedicationsDAO.create(
                     patientMedicationPayload as Partial<IPatientMedication>
                 );
 

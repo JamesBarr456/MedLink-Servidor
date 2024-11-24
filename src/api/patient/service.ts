@@ -169,9 +169,11 @@ export default class PatientService {
                           ...(modelID as Types.ObjectId[]),
                       ]
                     : fieldToUpdate === PatientFields.MEDICATIONS_DATA
-                    ? [...patientFound.medications, modelID as Types.ObjectId]
+                    ? [
+                          ...patientFound.medications.map((med) => med._id),
+                          modelID as Types.ObjectId,
+                      ]
                     : (modelID as Types.ObjectId);
-
             const patientPayload: Partial<IPatient> = {
                 ...patientFound,
                 [fieldToUpdate]: idToAdd,
