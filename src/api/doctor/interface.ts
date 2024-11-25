@@ -3,13 +3,20 @@ import { Types } from "mongoose";
 // INTERFACES
 import { IUser } from "../user/interface";
 import { SPECIALITIES } from "../../constants/Specializations";
-import { PatientResponse } from "../patient/interface";
+import { IPatient, PatientResponse } from "../patient/interface";
 
 export interface IDoctor extends IUser {
     specialization: SPECIALITIES[];
     licenseNumber: number;
     clinic: string[];
     patients: Types.ObjectId[];
+    // consultations: IConsultation[];
+}
+export interface IDoctorPopulated extends IUser {
+    specialization: SPECIALITIES[];
+    licenseNumber: number;
+    clinic: string[];
+    patients: IPatient[];
     // consultations: IConsultation[];
 }
 

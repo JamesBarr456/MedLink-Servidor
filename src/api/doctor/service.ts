@@ -16,6 +16,11 @@ import Patient from "../patient/model";
 import DoctorDAO from "./dao";
 import { ITokenPayload } from "../auth/interface";
 import { SPECIALITIES } from "../../constants/Specializations";
+import PatientService from "../patient/service";
+import { sign } from "jsonwebtoken";
+import config from "../../config/enviroment.config";
+import { IPatient } from "../patient/interface";
+import MailSender from "../../utils/mailSender.utils";
 
 export default class DoctorService {
     static async createDoctor(
@@ -219,6 +224,84 @@ export default class DoctorService {
             const doctorResponse = DoctorDto.doctorDTO(updatedDoctor);
 
             return doctorResponse;
+        } catch (error: any) {
+            const err: HttpError = new HttpError(
+                error.description || error.message,
+                error.details || error.message,
+                error.status || HTTP_STATUS.SERVER_ERROR
+            );
+            throw err;
+        }
+    }
+
+    static async requestAccess(
+        user: ITokenPayload,
+        email: string
+    ): Promise<{
+        message: string;
+    }> {
+        try {
+            const doctorDao = new DoctorDAO();
+            const doctorFound = await doctorDao.readAndPopulate(user.id);
+
+            if (!doctorFound) {
+                throw new HttpError(
+                    "Doctor don't found",
+                    "DOCTOR_DONT_FOUND",
+                    HTTP_STATUS.BAD_REQUEST
+                );
+            }
+
+            const patientExists = doctorFound.patients.some((patient) => {
+                return patient.email === email;
+            });
+
+            if (patientExists) {
+                throw new HttpError(
+                    "Patient already associated with this doctor",
+                    "PATIENT_ALREADY_ASSOCIATED",
+                    HTTP_STATUS.CONFLICT
+                );
+            }
+
+            const patient = await PatientService.getPatientByEmail(email);
+
+            const tokenPayload = {
+                doctorId: user.id,
+                patientId: patient._id,
+            };
+
+            const token = sign(tokenPayload, config.JWT_SECRET, {
+                expiresIn: "24h",
+            });
+
+            const responseAccsessLink = `${config.FRONTEND_URL}/response-access/${token}`;
+
+            const emailPayload = {
+                to: patient.email ?? "",
+                subject: "Dar acceso a tu perfil.",
+                html: `El Doctor ${doctorFound.firstName} ${doctorFound.lastName} - MP.: ${doctorFound.licenseNumber}, está solicitando acceso para ver tu perfil.\n Para aceptar o rechazar, ingresa al siguiente enlace: <a href=${responseAccsessLink}>Contestar solicitud.</a>`,
+            };
+
+            const emailSender = new MailSender(
+                emailPayload.to,
+                emailPayload.subject,
+                emailPayload.html
+            );
+
+            const emailresult = await emailSender.sendMail();
+
+            if (!emailresult) {
+                throw new HttpError(
+                    "Error sending email",
+                    "ERROR_SENDING_EMAIL",
+                    HTTP_STATUS.SERVER_ERROR
+                );
+            }
+
+            return {
+                message: "Token generated successfully and email sent",
+            };
         } catch (error: any) {
             const err: HttpError = new HttpError(
                 error.description || error.message,

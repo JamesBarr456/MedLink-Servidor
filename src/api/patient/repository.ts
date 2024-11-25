@@ -7,6 +7,7 @@ export default class PatientRepository {
     }
 
     async getPatient(query: FilterQuery<IPatient>): Promise<IPatient | null> {
+        console.log("🚀 ~ query:", query);
         const patient = (await this.patientModel
             .findOne(query)
             .populate([
