@@ -61,4 +61,29 @@ export default class PatientController {
             res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
         }
     }
+
+    static async authorizeDoctor(req: Request, res: Response) {
+        try {
+            const { user } = res.locals;
+            const { token } = req.params;
+
+            const updatedUser = await PatientService.authorizeDoctor(
+                user,
+                token
+            );
+
+            const response = apiResponse(true, updatedUser);
+            res.status(HTTP_STATUS.OK).json(response);
+        } catch (err: any) {
+            const response = apiResponse(
+                false,
+                new HttpError(
+                    err.description || err.message,
+                    err.details || err.message,
+                    err.status || HTTP_STATUS.SERVER_ERROR
+                )
+            );
+            res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
+        }
+    }
 }

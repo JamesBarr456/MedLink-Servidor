@@ -19,7 +19,6 @@ import { SPECIALITIES } from "../../constants/Specializations";
 import PatientService from "../patient/service";
 import { sign } from "jsonwebtoken";
 import config from "../../config/enviroment.config";
-import { IPatient } from "../patient/interface";
 import MailSender from "../../utils/mailSender.utils";
 
 export default class DoctorService {

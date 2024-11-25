@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 // MODELS
 import Patient from "./model";
 // DAOS
@@ -23,6 +24,10 @@ import { Types } from "mongoose";
 import PatientClinicalDataService from "../patientClinicalData/services";
 import { PatientFields } from "../../constants/PatientFields";
 import PatientRepository from "./repository";
+import config from "../../config/enviroment.config";
+import DoctorService from "../doctor/service";
+import { IDoctor } from "../doctor/interface";
+import DoctorDAO from "../doctor/dao";
 
 export default class PatientService {
     static ClinicalFields = [
@@ -302,6 +307,117 @@ export default class PatientService {
                 err.details || err.message,
                 err.status || HTTP_STATUS.SERVER_ERROR
             );
+            throw error;
+        }
+    }
+
+    static async authorizeDoctor(user: ITokenPayload, token: string) {
+        try {
+            const userDao = new UserDAO(Patient);
+            const patientFound = await userDao.read(user.id);
+            if (!patientFound) {
+                throw new HttpError(
+                    "User not found",
+                    "USER_NOT_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
+
+            const decodedToken = jwt.verify(token, config.JWT_SECRET);
+            const tokenData = JSON.stringify(decodedToken);
+
+            const doctorId = JSON.parse(tokenData).doctorId;
+
+            const doctorFound = await DoctorService.getDoctorById(doctorId);
+
+            if (!doctorFound) {
+                throw new HttpError(
+                    "Doctor not found",
+                    "DOCTOR_NOT_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
+
+            const patientDoctorsAuthorized = patientFound.authorizedDoctors.map(
+                (authDoc) => authDoc.toString()
+            );
+
+            if (!doctorFound.id) {
+                throw new HttpError(
+                    "Doctor not found",
+                    "DOCTOR_NOT_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
+
+            if (patientDoctorsAuthorized.includes(doctorFound.id)) {
+                throw new HttpError(
+                    "Doctor already authorized",
+                    "DOCTOR_ALREADY_AUTHORIZED",
+                    HTTP_STATUS.CONFLICT
+                );
+            }
+
+            const patientPayload: Partial<IPatient> = {
+                ...patientFound,
+                authorizedDoctors: [
+                    ...patientFound.authorizedDoctors.map(
+                        (authorizeDoctor) => new Types.ObjectId(authorizeDoctor)
+                    ),
+                    new Types.ObjectId(doctorFound.id),
+                ],
+                updatedAt: new Date(),
+            };
+
+            const patientDao = new PatientDAO();
+
+            const doctorPayload: Partial<IDoctor> = {
+                ...doctorFound,
+                patients: [
+                    ...(doctorFound.patients
+                        ? doctorFound.patients?.map(
+                              (pat) => new Types.ObjectId(pat._id)
+                          )
+                        : []),
+                    new Types.ObjectId(patientFound.id),
+                ],
+                updatedAt: new Date(),
+                role: doctorFound.role as Roles,
+            };
+
+            const doctorDao = new DoctorDAO();
+
+            const [updatedPatient, updatedDoctor] = await Promise.all([
+                patientDao.update(patientFound._id.toString(), patientPayload),
+                doctorDao.update(doctorFound.id, doctorPayload),
+            ]);
+
+            if (!updatedPatient) {
+                throw new HttpError(
+                    "User not updated",
+                    "USER_NOT_UPDATED",
+                    HTTP_STATUS.SERVER_ERROR
+                );
+            }
+
+            if (!updatedDoctor) {
+                throw new HttpError(
+                    "Doctor not updated",
+                    "DOCTOR_NOT_UPDATED",
+                    HTTP_STATUS.SERVER_ERROR
+                );
+            }
+            const userCleaned: Partial<PatientResponse> =
+                PatientDto.patientDTO(updatedPatient);
+
+            return userCleaned;
+        } catch (err: any) {
+            const error: HttpError = new HttpError(
+                err.description || err.message,
+                err.details || err.message,
+                err.status || HTTP_STATUS.SERVER_ERROR
+            );
+
             throw error;
         }
     }
