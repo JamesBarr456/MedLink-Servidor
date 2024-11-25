@@ -276,4 +276,33 @@ export default class PatientService {
             throw error;
         }
     }
+
+    static async getPatientByEmail(
+        email: string
+    ): Promise<Partial<PatientResponse>> {
+        try {
+            const patientRepository = new PatientRepository(Patient);
+            const patient = await patientRepository.getPatient({
+                email: email,
+            });
+            console.log("🚀 ~ patient:", patient);
+            if (!patient) {
+                throw new HttpError(
+                    "Patient not found",
+                    "PATIENT_NOT_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
+            const patientCleaned: Partial<PatientResponse> =
+                PatientDto.patientDTO(patient);
+            return patientCleaned;
+        } catch (err: any) {
+            const error: HttpError = new HttpError(
+                err.description || err.message,
+                err.details || err.message,
+                err.status || HTTP_STATUS.SERVER_ERROR
+            );
+            throw error;
+        }
+    }
 }

@@ -27,6 +27,7 @@ export default class PatientDto {
                 ...(patient.gender ? { gender: patient.gender } : {}),
                 ...(patient.aboutMe ? { aboutMe: patient.aboutMe } : {}),
                 ...(patient.phone ? { phone: patient.phone } : {}),
+                ...(patient.location ? { location: patient.location } : {}),
                 ...(patient.insuranceProvider
                     ? { insuranceProvider: patient.insuranceProvider }
                     : {}),
@@ -146,6 +147,7 @@ export default class PatientDto {
             ...(patient.gender ? { gender: patient.gender } : {}),
             ...(patient.aboutMe ? { aboutMe: patient.aboutMe } : {}),
             ...(patient.phone ? { phone: patient.phone } : {}),
+            ...(patient.location ? { location: patient.location } : {}),
             ...(patient.insuranceProvider
                 ? { insuranceProvider: patient.insuranceProvider }
                 : {}),
