@@ -10,6 +10,7 @@ import PatientVaccinationSheduleRouter from "../api/patientVaccinationShedule/ro
 import patientMedicationsRouter from "../api/patientMedications/routes";
 import documentsRouter from "../api/documents/routes";
 import doctorRouter from "../api/doctor/routes";
+import contactRouter from "../api/contact/routes";
 
 const apiRouter = Router();
 
@@ -24,5 +25,6 @@ apiRouter.use("/vaccination-shedule", PatientVaccinationSheduleRouter);
 apiRouter.use("/medication", patientMedicationsRouter);
 apiRouter.use("/document", documentsRouter);
 apiRouter.use("/admin", adminRouter);
+apiRouter.use("/contact", contactRouter);
 
 export default apiRouter;

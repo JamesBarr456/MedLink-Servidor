@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink application
+    version: 1.0.0
+paths:
+    /contact:
+        get:
+            summary: Get contact information
+            tags:
+                - Contact
+            responses:
+                200:
+                    description: Contact information retrieved successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        $ref: "#/components/schemas/ContactResponse"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                403:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                404:
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    schemas:
+        ContactResponse:
+            type: object
+            properties:
+                id:
+                    type: string
+                    example: "60d0fe4f5311236168a109ca"
+                name:
+                    type: string
+                    example: "John Doe"
+                email:
+                    type: string
+                    example: "john.doe@example.com"
+                phone:
+                    type: string
+                    example: "1234567890"
+                address:
+                    type: string
+                    example: "123 Main St, Anytown, USA"
+                message:
+                    type: string
+                    example: "This is a sample contact message."
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                error:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"

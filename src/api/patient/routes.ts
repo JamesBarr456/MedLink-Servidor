@@ -4,7 +4,10 @@ import authorizeRoles from "../../middleware/authorization.middleware";
 import { Roles } from "../../constants/Roles";
 import PatientController from "./controller";
 import schemaValidator from "../../middleware/schemaValidators.middlewares";
-import { patientUpdatePayloadValidator } from "./validator";
+import {
+    authorizeDoctorPayloadValidator,
+    patientUpdatePayloadValidator,
+} from "./validator";
 import { uploadFields } from "../../middleware/uploadFields.middlewares";
 import { mongoIdValidator } from "../../generalValidator/idValidator";
 
@@ -25,6 +28,14 @@ patientRouter.put(
     schemaValidator(patientUpdatePayloadValidator, null),
     uploadFields,
     PatientController.update
+);
+
+patientRouter.post(
+    "/authorize-doctor/:token",
+    authenticate,
+    authorizeRoles([Roles.PATIENT]),
+    schemaValidator(null, authorizeDoctorPayloadValidator),
+    PatientController.authorizeDoctor
 );
 
 export default patientRouter;

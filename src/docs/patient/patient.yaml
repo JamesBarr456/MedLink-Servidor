@@ -247,6 +247,74 @@ paths:
                                         type: string
                                         example: Internal server error
 
+    /patient/authorize-doctor/{token}:
+        post:
+            summary: Authorize doctor access to patient profile
+            tags:
+                - Patient
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: token
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                token:
+                                    type: string
+                                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+            responses:
+                200:
+                    description: Doctor authorized successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        $ref: "#/components/schemas/PatientData"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                403:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                409:
+                    description: Conflict
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
 components:
     securitySchemes:
         bearerAuth:
@@ -288,16 +356,29 @@ components:
                     properties:
                         height:
                             type: number
-                            example: 40
+                            example: 180
                         weight:
                             type: number
-                            example: 925
+                            example: 75
                         bloodType:
                             type: string
-                            example: "0+"
+                            enum:
+                                - A+
+                                - A-
+                                - B+
+                                - B-
+                                - AB+
+                                - AB-
+                                - O+
+                                - O-
+                            example: O+
                         bloodPressureTrend:
                             type: string
-                            example: "RISING"
+                            enum:
+                                - NORMAL
+                                - RISING
+                                - FALLING
+                            example: NORMAL
                         isDonor:
                             type: boolean
                             example: true
@@ -360,3 +441,19 @@ components:
                     type: string
                     format: date-time
                     example: "2024-11-12T01:52:26.332Z"
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                error:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"

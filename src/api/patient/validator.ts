@@ -56,3 +56,7 @@ export const patientUpdatePayloadValidator = z.object({
     hasAllergies: z.boolean().optional(),
     hasChronicDiseases: z.boolean().optional(),
 });
+
+export const authorizeDoctorPayloadValidator = z
+    .string()
+    .regex(/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/, "Invalid JWT");
