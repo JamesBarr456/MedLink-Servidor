@@ -41,8 +41,9 @@ export const doctorUpdatePayloadValidator = z.object({
         .max(100, "Location is too long")
         .optional(),
     specialization: z
-        .array(
-            z.nativeEnum(SPECIALITIES, { message: "Invalid specialization" })
-        )
+        .string()
+        .min(3, "Specialization is too short")
+        .max(100, "Specialization is too long")
+        .trim()
         .optional(),
 });
