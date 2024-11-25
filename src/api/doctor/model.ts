@@ -13,6 +13,7 @@ const Doctor = User.discriminator(
         licenseNumber: { type: Number, required: true },
         clinic: [{ type: String }],
         patients: [{ type: Schema.Types.ObjectId, ref: "Patient" }],
+        skills: [{ type: String }],
         // FIXME: Esto lo ponemos en un nuevo modelo?
         // consultations: [
         //     {

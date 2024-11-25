@@ -197,7 +197,7 @@ export default class DoctorService {
                     .split(",")
                     .map((spec) => spec.trim());
 
-                updateFields.specialization = specilities;
+                updateFields.skills = specilities;
             }
 
             const doctorPayload: Partial<IDoctor> = {

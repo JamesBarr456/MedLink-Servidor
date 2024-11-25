@@ -9,6 +9,8 @@ export default class DoctorDto {
             licenseNumber: doctor.licenseNumber,
             email: doctor.email,
             role: doctor.role,
+            ...(doctor.gender ? { gender: doctor.gender } : {}),
+            ...(doctor.location ? { location: doctor.location } : {}),
             specialization: doctor.specialization,
             ...(doctor.firstName ? { firstName: doctor.firstName } : {}),
             ...(doctor.lastName ? { lastName: doctor.lastName } : {}),

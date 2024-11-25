@@ -4,12 +4,14 @@ import { Types } from "mongoose";
 import { IUser } from "../user/interface";
 import { SPECIALITIES } from "../../constants/Specializations";
 import { IPatient, PatientResponse } from "../patient/interface";
+import { Genders } from "../../constants/Genders";
 
 export interface IDoctor extends IUser {
     specialization: SPECIALITIES[];
     licenseNumber: number;
     clinic: string[];
     patients: Types.ObjectId[];
+    skills: string[];
     // consultations: IConsultation[];
 }
 export interface IDoctorPopulated extends IUser {
@@ -41,6 +43,7 @@ export interface DoctorResponse {
     firstName?: string;
     lastName?: string;
     licenseNumber: number;
+    gender?: Genders;
     email: string;
     role: string;
     specialization: SPECIALITIES[];
@@ -71,4 +74,5 @@ export interface DoctorUpdateFields {
     email: string;
     location: string;
     specialization: string | string[];
+    skills: string[];
 }
