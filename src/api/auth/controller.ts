@@ -115,4 +115,29 @@ export default class AuthController {
             res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
         }
     }
+
+    static async updatePassword(req: Request, res: Response): Promise<void> {
+        try {
+            const { password } = req.body;
+            const { user } = res.locals;
+
+            const passwordUpdated = await UserService.updatePassword(
+                user,
+                password
+            );
+
+            const response = apiResponse(true, passwordUpdated);
+            res.status(HTTP_STATUS.OK).json(response);
+        } catch (err: any) {
+            const response = apiResponse(
+                false,
+                new HttpError(
+                    err.description || err.message,
+                    err.details || err.message,
+                    err.status || HTTP_STATUS.SERVER_ERROR
+                )
+            );
+            res.status(err.status || HTTP_STATUS.SERVER_ERROR).json(response);
+        }
+    }
 }

@@ -492,3 +492,114 @@ paths:
                                             details:
                                                 type: string
                                                 example: SERVER_ERROR
+
+    /auth/update-password:
+        post:
+            summary: Update user password
+            tags:
+                - Auth
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                password:
+                                    type: string
+                                    format: password
+                                    example: newPassword123
+                            required:
+                                - password
+            responses:
+                200:
+                    description: Password updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Password updated successfully
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Invalid input
+                                            details:
+                                                type: string
+                                                example: Password is the same as the current one
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Unauthorized
+                                            details:
+                                                type: string
+                                                example: Invalid credentials
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Server error
+                                            details:
+                                                type: string
+                                                example: Password not updated
+
+components:
+    schemas:
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                error:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"
