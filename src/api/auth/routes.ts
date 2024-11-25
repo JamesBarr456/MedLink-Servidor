@@ -8,6 +8,7 @@ import {
     resetPasswordTokenValidator,
 } from "./validator";
 import AuthController from "./controller";
+import authenticate from "../../middleware/authenticate.middleware";
 
 const authRouter = Router();
 
@@ -27,6 +28,13 @@ authRouter.post(
     "/forgot-password",
     schemaValidator(userForgotPasswordPayloadValidator, null),
     AuthController.forgotPassword
+);
+
+authRouter.post(
+    "/update-password",
+    authenticate,
+    schemaValidator(userResetPasswordPayloadValidator, null),
+    AuthController.updatePassword
 );
 
 authRouter.post(

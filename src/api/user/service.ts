@@ -8,6 +8,7 @@ import User from "./model";
 import { generetePasswordResetToken } from "../../utils/resetToken.utils";
 import config from "../../config/enviroment.config";
 import MailSender from "../../utils/mailSender.utils";
+import { ITokenPayload } from "../auth/interface";
 
 export default class UserService {
     static async loginUser(
@@ -213,6 +214,59 @@ export default class UserService {
             }
 
             return user;
+        } catch (err: any) {
+            const error: HttpError = new HttpError(
+                err.description || err.message,
+                err.details || err.message,
+                err.status || HTTP_STATUS.SERVER_ERROR
+            );
+            throw error;
+        }
+    }
+
+    static async updatePassword(
+        user: ITokenPayload,
+        newPassword: string
+    ): Promise<{ message: string }> {
+        try {
+            const userDao = new UserDAO(User);
+            const currentUser = await userDao.read(user.id);
+
+            if (!currentUser) {
+                throw new HttpError(
+                    "User not found",
+                    "USER_NOT_FOUND",
+                    HTTP_STATUS.NOT_FOUND
+                );
+            }
+
+            if (BcryptUtils.isValidPassword(currentUser, newPassword)) {
+                throw new HttpError(
+                    "Password is the same as the current one",
+                    "SAME_PASSWORD",
+                    HTTP_STATUS.BAD_REQUEST
+                );
+            }
+
+            const userPayload = {
+                password: BcryptUtils.createHash(newPassword),
+                updatedAt: new Date(),
+                updatedBy: user.id,
+            };
+
+            const userUpdated = await userDao.update(user.id, userPayload);
+
+            if (!userUpdated) {
+                throw new HttpError(
+                    "Error during password update",
+                    "ERROR_UPDATING_PASSWORD",
+                    HTTP_STATUS.SERVER_ERROR
+                );
+            }
+
+            return {
+                message: "Password updated successfully",
+            };
         } catch (err: any) {
             const error: HttpError = new HttpError(
                 err.description || err.message,
