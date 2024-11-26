@@ -27,6 +27,8 @@ export default class DoctorDto {
                       ),
                   }
                 : {}),
+            ...(doctor.aboutMe ? { aboutMe: doctor.aboutMe } : {}),
+
             // ...(doctor.consultations
             //     ? { consultations: doctor.consultations }
             //     : {}),
@@ -56,6 +58,7 @@ export default class DoctorDto {
                           ),
                       }
                     : {}),
+                ...(doctor.aboutMe ? { aboutMe: doctor.aboutMe } : {}),
                 // ...(doctor.consultations
                 //     ? { consultations: doctor.consultations }
                 //     : {}),
