@@ -5,7 +5,7 @@ import ContactController from "./controller";
 
 const contactRouter = Router();
 
-contactRouter.get(
+contactRouter.post(
     "/",
     schemaValidator(contactFormValidator, null),
     ContactController.sendMail
