@@ -11,7 +11,7 @@ export default class DoctorDAO extends UserDAO<IDoctor> {
     }
 
     async read(id: string): Promise<IDoctor | null> {
-        return (await Doctor.findById(id)
+        return await Doctor.findById(id)
             .populate({
                 path: "patients",
                 populate: [
@@ -27,7 +27,7 @@ export default class DoctorDAO extends UserDAO<IDoctor> {
                 ],
             })
             .populate("clinics")
-            .lean()) as IDoctor | null;
+            .lean();
     }
     async readAndPopulate(id: string): Promise<IDoctorPopulated | null> {
         return (await Doctor.findById(id)

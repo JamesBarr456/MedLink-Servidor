@@ -290,7 +290,6 @@ export default class PatientService {
             const patient = await patientRepository.getPatient({
                 email: email,
             });
-            console.log("🚀 ~ patient:", patient);
             if (!patient) {
                 throw new HttpError(
                     "Patient not found",
@@ -370,21 +369,19 @@ export default class PatientService {
             };
 
             const patientDao = new PatientDAO();
-
             const doctorPayload: Partial<IDoctor> = {
                 ...doctorFound,
                 patients: [
                     ...(doctorFound.patients
                         ? doctorFound.patients?.map(
-                              (pat) => new Types.ObjectId(pat._id)
+                              (pat) => pat._id as Types.ObjectId
                           )
                         : []),
-                    new Types.ObjectId(patientFound.id),
+                    patientFound._id as Types.ObjectId,
                 ],
                 updatedAt: new Date(),
                 role: doctorFound.role as Roles,
             };
-
             const doctorDao = new DoctorDAO();
 
             const [updatedPatient, updatedDoctor] = await Promise.all([

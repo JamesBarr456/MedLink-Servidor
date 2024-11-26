@@ -23,7 +23,6 @@ import MailSender from "../../utils/mailSender.utils";
 import { IClinic } from "../clinic/interface";
 import PatientClinicalDataDAO from "../patientClinicalData/dao";
 import ClinicDAO from "../clinic/dao";
-import { literal } from "zod";
 import { Types } from "mongoose";
 
 export default class DoctorService {
