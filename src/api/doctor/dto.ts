@@ -17,7 +17,13 @@ export default class DoctorDto {
             ...(doctor.location ? { location: doctor.location } : {}),
             ...(doctor.avatar ? { avatar: doctor.avatar } : {}),
             ...(doctor.phone ? { phone: doctor.phone } : {}),
-            ...(doctor.clinic ? { clinic: doctor.clinic } : {}),
+            ...(doctor.clinics
+                ? {
+                      clinic: doctor.clinics.map((clinic) =>
+                          clinic instanceof Types.ObjectId ? clinic._id : clinic
+                      ),
+                  }
+                : {}),
             ...(doctor.patients
                 ? {
                       patients: doctor.patients.map((patient) =>
@@ -48,7 +54,15 @@ export default class DoctorDto {
                 ...(doctor.location ? { location: doctor.location } : {}),
                 ...(doctor.avatar ? { avatar: doctor.avatar } : {}),
                 ...(doctor.phone ? { phone: doctor.phone } : {}),
-                ...(doctor.clinic ? { clinic: doctor.clinic } : {}),
+                ...(doctor.clinics
+                    ? {
+                          clinic: doctor.clinics.map((clinic) =>
+                              clinic instanceof Types.ObjectId
+                                  ? clinic._id
+                                  : clinic
+                          ),
+                      }
+                    : {}),
                 ...(doctor.patients
                     ? {
                           patients: doctor.patients.map((patient) =>

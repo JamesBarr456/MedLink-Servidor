@@ -11,7 +11,7 @@ const Doctor = User.discriminator(
     new Schema<IDoctor>({
         specialization: [{ type: String, enum: SPECIALITIES, required: true }],
         licenseNumber: { type: Number, required: true },
-        clinic: [{ type: String }],
+        clinics: [{ type: Schema.Types.ObjectId, ref: "Clinic" }],
         patients: [{ type: Schema.Types.ObjectId, ref: "Patient" }],
         skills: [{ type: String }],
         // FIXME: Esto lo ponemos en un nuevo modelo?

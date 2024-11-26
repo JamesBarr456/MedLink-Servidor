@@ -20,6 +20,11 @@ import PatientService from "../patient/service";
 import { sign } from "jsonwebtoken";
 import config from "../../config/enviroment.config";
 import MailSender from "../../utils/mailSender.utils";
+import { IClinic } from "../clinic/interface";
+import PatientClinicalDataDAO from "../patientClinicalData/dao";
+import ClinicDAO from "../clinic/dao";
+import { literal } from "zod";
+import { Types } from "mongoose";
 
 export default class DoctorService {
     static async createDoctor(
@@ -300,6 +305,79 @@ export default class DoctorService {
             return {
                 message: "Token generated successfully and email sent",
             };
+        } catch (error: any) {
+            const err: HttpError = new HttpError(
+                error.description || error.message,
+                error.details || error.message,
+                error.status || HTTP_STATUS.SERVER_ERROR
+            );
+            throw err;
+        }
+    }
+
+    static async updateClinics(
+        user: ITokenPayload,
+        clinic: IClinic
+    ): Promise<Partial<DoctorResponse>> {
+        try {
+            const doctorDao = new DoctorDAO();
+            const doctorFound = await doctorDao.readAndPopulate(user.id);
+
+            if (!doctorFound) {
+                throw new HttpError(
+                    "Doctor don't found",
+                    "DOCTOR_DONT_FOUND",
+                    HTTP_STATUS.BAD_REQUEST
+                );
+            }
+
+            const clinicDao = new ClinicDAO();
+            let clinicFound = await clinicDao.findByName(
+                clinic.name.toUpperCase()
+            );
+
+            if (!clinicFound) {
+                const clinicPlayload: Partial<IClinic> = {
+                    ...clinic,
+                    name: clinic.name.toUpperCase(),
+                };
+
+                clinicFound = await clinicDao.create(clinicPlayload);
+            }
+
+            const doctorPayload: Partial<IDoctor> = {
+                ...doctorFound,
+                patients: [
+                    ...doctorFound.patients.map(
+                        (patient) => patient._id as Types.ObjectId
+                    ),
+                ],
+                clinics: [
+                    ...(doctorFound.clinics
+                        ? doctorFound.clinics.map(
+                              (clinic) => clinic._id as Types.ObjectId
+                          )
+                        : []),
+                    clinicFound._id as Types.ObjectId,
+                ],
+                updatedAt: new Date(),
+            };
+
+            const updatedDoctor = await doctorDao.update(
+                user.id,
+                doctorPayload
+            );
+            if (!updatedDoctor) {
+                throw new HttpError(
+                    "Doctor not updated",
+                    "DOCTOR_NOT_UPDATED",
+                    HTTP_STATUS.SERVER_ERROR
+                );
+            }
+
+            const doctorResponse = DoctorDto.doctorDTO(updatedDoctor);
+
+            return doctorResponse;
         } catch (error: any) {
             const err: HttpError = new HttpError(
                 error.description || error.message,

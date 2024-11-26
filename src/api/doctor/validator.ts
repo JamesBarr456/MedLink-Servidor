@@ -47,3 +47,21 @@ export const doctorUpdatePayloadValidator = z.object({
         .trim()
         .optional(),
 });
+
+export const clinicsUpdatePayloadValidator = z.object({
+    name: z
+        .string()
+        .min(3, "Clinic name is too short")
+        .max(100, "Clinic name is too long")
+        .trim(),
+    address: z
+        .string()
+        .min(3, "Clinic Address is to short")
+        .max(100, "Clinic Address is to long")
+        .trim(),
+    openingHours: z
+        .string()
+        .min(3, "Clinic opening hours is to short")
+        .max(100, "Clinic opening hours is to long")
+        .trim(),
+});
