@@ -48,7 +48,7 @@ export default class DoctorDAO extends UserDAO<IDoctor> {
     }
 
     async update(id: string, data: Partial<IDoctor>): Promise<IDoctor | null> {
-        return (await Doctor.findByIdAndUpdate(id, data, { new: true })
+        return await Doctor.findByIdAndUpdate(id, data, { new: true })
             .populate({
                 path: "patients",
                 populate: [
@@ -63,6 +63,6 @@ export default class DoctorDAO extends UserDAO<IDoctor> {
                     { path: "documents" },
                 ],
             })
-            .lean()) as IDoctor | null;
+            .lean();
     }
 }

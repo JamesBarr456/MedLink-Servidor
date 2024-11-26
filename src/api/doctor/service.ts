@@ -204,14 +204,13 @@ export default class DoctorService {
                 ...doctorFound,
                 ...updateFields,
                 specialization: updateFields.specialization as SPECIALITIES[],
+                aboutMe: updateFields.about_me,
                 updatedAt: new Date(),
             };
-
             const updatedDoctor = await doctorDao.update(
                 user.id,
                 doctorPayload
             );
-
             if (!updatedDoctor) {
                 throw new HttpError(
                     "Doctor not updated",

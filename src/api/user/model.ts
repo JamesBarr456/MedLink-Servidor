@@ -18,6 +18,7 @@ const userSchema = new Schema<IUser>(
             enum: Genders,
         },
         aboutMe: { type: String },
+        location: { type: String },
         email: {
             type: String,
             required: true,
