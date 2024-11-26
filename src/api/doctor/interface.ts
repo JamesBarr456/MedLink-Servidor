@@ -5,11 +5,12 @@ import { IUser } from "../user/interface";
 import { SPECIALITIES } from "../../constants/Specializations";
 import { IPatient, PatientResponse } from "../patient/interface";
 import { Genders } from "../../constants/Genders";
+import { IClinic } from "../clinic/interface";
 
 export interface IDoctor extends IUser {
     specialization: SPECIALITIES[];
     licenseNumber: number;
-    clinic: string[];
+    clinics: Types.ObjectId[];
     patients: Types.ObjectId[];
     skills: string[];
     // consultations: IConsultation[];
@@ -17,7 +18,7 @@ export interface IDoctor extends IUser {
 export interface IDoctorPopulated extends IUser {
     specialization: SPECIALITIES[];
     licenseNumber: number;
-    clinic: string[];
+    clinics: IClinic[];
     patients: IPatient[];
     // consultations: IConsultation[];
 }
@@ -50,7 +51,7 @@ export interface DoctorResponse {
     location?: string;
     avatar?: string;
     phone?: number;
-    clinic?: string[];
+    clinic?: (Types.ObjectId | Partial<IClinic>)[];
     patients?: (Types.ObjectId | Partial<PatientResponse>)[];
     consultations?: Consultations[];
 }

@@ -26,6 +26,7 @@ export default class DoctorDAO extends UserDAO<IDoctor> {
                     { path: "documents" },
                 ],
             })
+            .populate("clinics")
             .lean()) as IDoctor | null;
     }
     async readAndPopulate(id: string): Promise<IDoctorPopulated | null> {
@@ -44,6 +45,7 @@ export default class DoctorDAO extends UserDAO<IDoctor> {
                     { path: "documents" },
                 ],
             })
+            .populate("clinics")
             .lean()) as IDoctorPopulated | null;
     }
 
@@ -63,6 +65,7 @@ export default class DoctorDAO extends UserDAO<IDoctor> {
                     { path: "documents" },
                 ],
             })
+            .populate("clinics")
             .lean();
     }
 }

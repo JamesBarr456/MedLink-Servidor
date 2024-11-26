@@ -6,7 +6,10 @@ import authenticate from "../../middleware/authenticate.middleware";
 import authorizeRoles from "../../middleware/authorization.middleware";
 import { Roles } from "../../constants/Roles";
 import { uploadFields } from "../../middleware/uploadFields.middlewares";
-import { doctorUpdatePayloadValidator } from "./validator";
+import {
+    clinicsUpdatePayloadValidator,
+    doctorUpdatePayloadValidator,
+} from "./validator";
 import { emailValidator } from "../../generalValidator/emailValidator";
 
 const doctorRouter = Router();
@@ -24,6 +27,14 @@ doctorRouter.put(
     schemaValidator(doctorUpdatePayloadValidator, null),
     uploadFields,
     DoctorController.update
+);
+
+doctorRouter.put(
+    "/clinics",
+    authenticate,
+    authorizeRoles([Roles.DOCTOR, Roles.ADMIN]),
+    schemaValidator(clinicsUpdatePayloadValidator, null),
+    DoctorController.updateClinics
 );
 
 doctorRouter.post(
