@@ -254,8 +254,12 @@ export default class PatientService {
             if (user && user.role === Roles.DOCTOR && user.id !== id) {
                 const patientRepository = new PatientRepository(Patient);
                 const patientByDoctor = await patientRepository.getPatient({
-                    and: [{ _id: id }, { authorizedDoctors: user.id }],
+                    $and: [
+                        { _id: new Types.ObjectId(id) },
+                        { authorizedDoctors: new Types.ObjectId(user.id) },
+                    ],
                 });
+                console.log("🚀 ~ patientByDoctor:", patientByDoctor);
                 patient = patientByDoctor;
             } else {
                 const patientDao = new PatientDAO();

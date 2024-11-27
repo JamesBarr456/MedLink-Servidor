@@ -11,6 +11,7 @@ export default async function authenticate(
     next: NextFunction
 ) {
     let token: string | undefined;
+
     if (
         !req.headers.authorization ||
         req.headers.authorization.indexOf("Bearer ") === -1
@@ -28,10 +29,8 @@ export default async function authenticate(
     }
 
     token = req.headers.authorization?.substring(7);
-
     try {
         const decodedToken = jwt.verify(token, config.JWT_SECRET);
-
         const tokenData = JSON.stringify(decodedToken);
 
         const user = JSON.parse(tokenData);
