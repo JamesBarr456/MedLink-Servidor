@@ -9,13 +9,7 @@ import { userCreatePayloadValidator } from "../auth/validator";
 
 const adminRouter = Router();
 
-
-adminRouter.get(
-    "/doctors",
-    authenticate,
-    authorizeRoles([Roles.ADMIN]),
-    AdminController.getAllDoctors
-);
+adminRouter.get("/doctors", AdminController.getAllDoctors);
 
 adminRouter.post(
     "/doctors",
