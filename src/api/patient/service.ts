@@ -259,7 +259,6 @@ export default class PatientService {
                         { authorizedDoctors: new Types.ObjectId(user.id) },
                     ],
                 });
-                console.log("🚀 ~ patientByDoctor:", patientByDoctor);
                 patient = patientByDoctor;
             } else {
                 const patientDao = new PatientDAO();
