@@ -1,0 +1,188 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink application
+    version: 1.0.0
+paths:
+    /vaccination-shedule:
+        put:
+            summary: Add or update patient vaccination schedule
+            tags:
+                - Vaccination Schedule
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PatientVaccinationShedule"
+
+            responses:
+                200:
+                    description: Successfully added or updated patient vaccination schedule
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PatientVaccinationSheduleResponse"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    schemas:
+        PatientVaccinationShedule:
+            type: object
+            properties:
+                atBirth:
+                    type: object
+                    properties:
+                        bcg:
+                            type: boolean
+                            example: false
+                        hepatitisB1:
+                            type: boolean
+                            example: false
+                twoMonths:
+                    type: object
+                    properties:
+                        pentavalent1:
+                            type: boolean
+                            example: false
+                        hepatitisB2:
+                            type: boolean
+                            example: false
+                        rotavirus1:
+                            type: boolean
+                            example: false
+                        pneumococcal1:
+                            type: boolean
+                            example: false
+                fourMonths:
+                    type: object
+                    properties:
+                        pentavalent2:
+                            type: boolean
+                            example: false
+                        rotavirus2:
+                            type: boolean
+                            example: false
+                        pneumococcal2:
+                            type: boolean
+                            example: false
+                sixMonths:
+                    type: object
+                    properties:
+                        pentavalent3:
+                            type: boolean
+                            example: false
+                        hepatitisB3:
+                            type: boolean
+                            example: false
+                        rotavirus3:
+                            type: boolean
+                            example: false
+                        influenza1:
+                            type: boolean
+                            example: false
+                sevenMonths:
+                    type: object
+                    properties:
+                        influenza2:
+                            type: boolean
+                            example: false
+                twelveMonths:
+                    type: object
+                    properties:
+                        srp1:
+                            type: boolean
+                            example: false
+                        pneumococcal3:
+                            type: boolean
+                            example: false
+                eighteenMonths:
+                    type: object
+                    properties:
+                        pentavalent4:
+                            type: boolean
+                            example: false
+                twoYears:
+                    type: object
+                    properties:
+                        influenzaAnnual1:
+                            type: boolean
+                            example: false
+                threeYears:
+                    type: object
+                    properties:
+                        influenzaAnnual2:
+                            type: boolean
+                            example: false
+                fourYears:
+                    type: object
+                    properties:
+                        dpt:
+                            type: boolean
+                            example: false
+                        influenzaAnnual3:
+                            type: boolean
+                            example: false
+                fiveYears:
+                    type: object
+                    properties:
+                        influenzaAnnual4:
+                            type: boolean
+                            example: false
+                        vopOpv:
+                            type: boolean
+                            example: false
+                elevenYears:
+                    type: object
+                    properties:
+                        vph:
+                            type: boolean
+                            example: false
+                otherVaccines:
+                    type: boolean
+                    example: false
+                otherVaccinesDetails:
+                    type: string
+                    example: "Details about other vaccines"
+
+        PatientVaccinationSheduleResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                payload:
+                    $ref: "#/components/schemas/PatientVaccinationShedule"
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                payload:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"

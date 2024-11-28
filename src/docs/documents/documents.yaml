@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink application
+    version: 1.0.0
+paths:
+    /document:
+        put:
+            summary: Add or update patient documents
+            tags:
+                - Documents
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                files:
+                                    type: array
+                                    items:
+                                        type: string
+                                        format: binary
+            responses:
+                200:
+                    description: Successfully added or updated patient documents
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PatientDocumentsResponse"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    schemas:
+        PatientDocuments:
+            type: object
+            properties:
+                url:
+                    type: string
+                    example: "/uploads/studies/document.pdf"
+                name:
+                    type: string
+                    example: "document.pdf"
+                type:
+                    type: string
+                    example: "application/pdf"
+                date:
+                    type: string
+                    format: date-time
+                    example: "2023-01-01T00:00:00.000Z"
+
+        PatientDocumentsResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                payload:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/PatientDocuments"
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                error:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"
