@@ -28,7 +28,7 @@ class MiddlewareConfig {
      */
     static config(app) {
         app.use((0, cors_1.default)({
-            origin: "http://localhost:3000",
+            origin: "https://medlink-six.vercel.app",
             methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
             preflightContinue: false,
             optionsSuccessStatus: 204,
