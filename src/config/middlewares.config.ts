@@ -25,7 +25,7 @@ export default class MiddlewareConfig {
     static config(app: express.Application): void {
         app.use(
             cors({
-                origin: "http://localhost:3000",
+                origin: "https://medlink-six.vercel.app:3000",
                 methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
                 preflightContinue: false,
                 optionsSuccessStatus: 204,
