@@ -1,7 +1,3 @@
 node_modules
 dist
 .env
-models.txt
-
-/src/public/
-jsonExample.json
