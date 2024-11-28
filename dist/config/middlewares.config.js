@@ -28,11 +28,11 @@ class MiddlewareConfig {
      */
     static config(app) {
         app.use((0, cors_1.default)({
-            origin: "https://medlink-six.vercel.app",
+            origin: "*",
             methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
             preflightContinue: false,
             optionsSuccessStatus: 204,
-            credentials: true,
+            credentials: false,
             allowedHeaders: [
                 "Content-Type",
                 "Authorization",
