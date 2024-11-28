@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const schemaValidators_middlewares_1 = __importDefault(require("../../middleware/schemaValidators.middlewares"));
+const idValidator_1 = require("../../generalValidator/idValidator");
+const controller_1 = __importDefault(require("./controller"));
+const authenticate_middleware_1 = __importDefault(require("../../middleware/authenticate.middleware"));
+const authorization_middleware_1 = __importDefault(require("../../middleware/authorization.middleware"));
+const Roles_1 = require("../../constants/Roles");
+const uploadFields_middlewares_1 = require("../../middleware/uploadFields.middlewares");
+const validator_1 = require("./validator");
+const emailValidator_1 = require("../../generalValidator/emailValidator");
+const doctorRouter = (0, express_1.Router)();
+doctorRouter.get("/:id", (0, schemaValidators_middlewares_1.default)(null, idValidator_1.mongoIdValidator), controller_1.default.getDoctor);
+doctorRouter.put("/", authenticate_middleware_1.default, (0, authorization_middleware_1.default)([Roles_1.Roles.DOCTOR, Roles_1.Roles.ADMIN]), (0, schemaValidators_middlewares_1.default)(validator_1.doctorUpdatePayloadValidator, null), uploadFields_middlewares_1.uploadFields, controller_1.default.update);
+doctorRouter.put("/clinics", authenticate_middleware_1.default, (0, authorization_middleware_1.default)([Roles_1.Roles.DOCTOR, Roles_1.Roles.ADMIN]), (0, schemaValidators_middlewares_1.default)(validator_1.clinicsUpdatePayloadValidator, null), controller_1.default.updateClinics);
+doctorRouter.post("/request-access", authenticate_middleware_1.default, (0, authorization_middleware_1.default)([Roles_1.Roles.DOCTOR]), (0, schemaValidators_middlewares_1.default)(emailValidator_1.emailValidator, null), controller_1.default.requestAccess);
+exports.default = doctorRouter;

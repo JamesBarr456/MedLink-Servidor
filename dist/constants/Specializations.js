@@ -1,0 +1,27 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SPECIALITIES = void 0;
+var SPECIALITIES;
+(function (SPECIALITIES) {
+    SPECIALITIES["CARDIOLOGY"] = "Cardiology";
+    SPECIALITIES["PEDIATRICS"] = "Pediatrics";
+    SPECIALITIES["DERMATOLOGY"] = "Dermatology";
+    SPECIALITIES["GYNECOLOGY"] = "Gynecology";
+    SPECIALITIES["NEUROLOGY"] = "Neurology";
+    SPECIALITIES["ONCOLOGY"] = "Oncology";
+    SPECIALITIES["TRAUMATOLOGY"] = "Traumatology";
+    SPECIALITIES["OPHTHALMOLOGY"] = "Ophthalmology";
+    SPECIALITIES["PSYCHIATRY"] = "Psychiatry";
+    SPECIALITIES["ENDOCRINOLOGY"] = "Endocrinology";
+    SPECIALITIES["INFECTOLOGY"] = "Infectology";
+    SPECIALITIES["INTERNAL_MEDICINE"] = "Internal Medicine";
+    SPECIALITIES["RHEUMATOLOGY"] = "Rheumatology";
+    SPECIALITIES["UROLOGY"] = "Urology";
+    SPECIALITIES["OTOLARYNGOLOGY"] = "Otolaryngology";
+    SPECIALITIES["GASTROENTEROLOGY"] = "Gastroenterology";
+    SPECIALITIES["GENERAL_SURGERY"] = "General Surgery";
+    SPECIALITIES["PULMONOLOGY"] = "Pulmonology";
+    SPECIALITIES["NUTRITION"] = "Nutrition";
+    SPECIALITIES["FAMILY_MEDICINE"] = "Family Medicine";
+    SPECIALITIES["OTHERS"] = "Others";
+})(SPECIALITIES || (exports.SPECIALITIES = SPECIALITIES = {}));
