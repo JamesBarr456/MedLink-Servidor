@@ -4,7 +4,7 @@ import multer from "multer";
 import { rootPath } from "./path.utils";
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
+    destination: (_req, file, cb) => {
         if (file.fieldname === "avatar") {
             cb(null, rootPath + "/public/uploads/avatars");
         } else if (file.fieldname === "studies") {
@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
             cb(null, rootPath + "/public/uploads/others");
         }
     },
-    filename: (req, file, cb) => {
+    filename: (_req, file, cb) => {
         cb(
             null,
             `${Date.now()}-${file.originalname

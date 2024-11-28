@@ -4,7 +4,7 @@ import apiResponse from "../utils/apiResponse.utils";
 import HTTP_STATUS from "../constants/HttpStatus";
 
 const authorizeRoles = (roles: Roles[]) => {
-    return (req: Request, res: Response, next: NextFunction) => {
+    return (_req: Request, res: Response, next: NextFunction) => {
         const userRole = res.locals.user.role;
         if (roles.includes(userRole)) {
             res.locals.user.role = userRole;

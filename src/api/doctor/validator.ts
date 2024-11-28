@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { SPECIALITIES } from "../../constants/Specializations";
 import { Genders } from "../../constants/Genders";
 
 export const doctorUpdatePayloadValidator = z.object({

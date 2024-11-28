@@ -2,7 +2,6 @@ import { Router } from "express";
 import AdminController from "./controller";
 import authorizeRoles from "../../middleware/authorization.middleware";
 import schemaValidator from "../../middleware/schemaValidators.middlewares";
-import { mongoIdValidator } from "../../generalValidator/idValidator";
 import { Roles } from "../../constants/Roles";
 import authenticate from "../../middleware/authenticate.middleware";
 import { userCreatePayloadValidator } from "../auth/validator";
@@ -19,13 +18,13 @@ adminRouter.post(
     AdminController.createDoctor
 );
 
-adminRouter.delete(
-    "/doctors/:id",
-    authenticate,
-    authorizeRoles([Roles.ADMIN]),
-    schemaValidator(null, mongoIdValidator),
-    AdminController.deleteDoctor
-);
+// adminRouter.delete(
+//     "/doctors/:id",
+//     authenticate,
+//     authorizeRoles([Roles.ADMIN]),
+//     schemaValidator(null, mongoIdValidator),
+//     AdminController.deleteDoctor
+// );
 
 adminRouter.get(
     "/patients",
