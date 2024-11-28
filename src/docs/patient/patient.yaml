@@ -1,0 +1,459 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink
+    version: 1.0.0
+paths:
+    /patient/{id}:
+        get:
+            summary: Get patient information by ID
+            tags:
+                - Patient
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      example: "672cd5cace845109a51a1c2e"
+            responses:
+                200:
+                    description: Patient information retrieved successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        $ref: "#/components/schemas/PatientData"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Invalid request payload
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Unauthorized
+                403:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Forbidden
+                404:
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Patient not found
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Internal server error
+
+    /patient:
+        put:
+            summary: Update patient information
+            tags:
+                - Patient
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    example: John
+                                lastName:
+                                    type: string
+                                    example: Doe
+                                dateOfBirth:
+                                    type: string
+                                    format: date
+                                    example: 1990-01-01
+                                gender:
+                                    type: string
+                                    enum:
+                                        - MALE
+                                        - FEMALE
+                                        - OTHER
+                                    example: MALE
+                                aboutMe:
+                                    type: string
+                                    example: I am a software developer.
+                                email:
+                                    type: string
+                                    format: email
+                                    example: john.doe@example.com
+                                avatar:
+                                    type: string
+                                    format: binary
+                                phone:
+                                    type: string
+                                    example: "1234567890"
+                                location:
+                                    type: string
+                                    example: New York
+                                height:
+                                    type: number
+                                    example: 180
+                                weight:
+                                    type: number
+                                    example: 75
+                                bloodType:
+                                    type: string
+                                    enum:
+                                        - A+
+                                        - A-
+                                        - B+
+                                        - B-
+                                        - AB+
+                                        - AB-
+                                        - O+
+                                        - O-
+                                    example: O+
+                                bloodPressureTrend:
+                                    type: string
+                                    enum:
+                                        - NORMAL
+                                        - RISING
+                                        - FALLING
+                                    example: NORMAL
+                                isDonor:
+                                    type: boolean
+                                    example: true
+                                hasAllergies:
+                                    type: boolean
+                                    example: false
+                                hasChronicDiseases:
+                                    type: boolean
+                                    example: false
+                                hasHealthyLifestyle:
+                                    type: boolean
+                                    example: true
+            responses:
+                200:
+                    description: Patient information updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        $ref: "#/components/schemas/PatientData"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Invalid request payload
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Unauthorized
+                403:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Forbidden
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: string
+                                        example: Internal server error
+
+    /patient/authorize-doctor/{token}:
+        post:
+            summary: Authorize doctor access to patient profile
+            tags:
+                - Patient
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: token
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                token:
+                                    type: string
+                                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+            responses:
+                200:
+                    description: Doctor authorized successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        $ref: "#/components/schemas/PatientData"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                403:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                409:
+                    description: Conflict
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+    schemas:
+        PatientData:
+            type: object
+            properties:
+                id:
+                    type: string
+                    example: "672cd5cace845109a51a1c2e"
+                email:
+                    type: string
+                    example: "Arjun.Russel@gmail.com"
+                role:
+                    type: string
+                    example: "Patient"
+                firstName:
+                    type: string
+                    example: "Ramiro"
+                lastName:
+                    type: string
+                    example: "Blanda"
+                dateOfBirth:
+                    type: string
+                    format: date-time
+                    example: "2024-03-06T21:47:57.000Z"
+                avatar:
+                    type: string
+                    example: "/uploads/avatars/1731027229425-IMG_2197.jpg"
+                files:
+                    type: array
+                    items:
+                        type: string
+                clinicalData:
+                    type: object
+                    properties:
+                        height:
+                            type: number
+                            example: 180
+                        weight:
+                            type: number
+                            example: 75
+                        bloodType:
+                            type: string
+                            enum:
+                                - A+
+                                - A-
+                                - B+
+                                - B-
+                                - AB+
+                                - AB-
+                                - O+
+                                - O-
+                            example: O+
+                        bloodPressureTrend:
+                            type: string
+                            enum:
+                                - NORMAL
+                                - RISING
+                                - FALLING
+                            example: NORMAL
+                        isDonor:
+                            type: boolean
+                            example: true
+                        hasAllergies:
+                            type: boolean
+                            example: false
+                        hasChronicDiseases:
+                            type: boolean
+                            example: false
+                        hasHealthyLifestyle:
+                            type: boolean
+                            example: true
+                allergiesData:
+                    type: object
+                    properties:
+                        foodAllergy:
+                            type: boolean
+                            example: true
+                        foodAllergyDetails:
+                            type: string
+                            example: "Et dignissimos est. Ipsa sit qui molestiae ut accusantium unde est. Vel doloribus porro porro qui ipsa molestiae porro. Assumenda rerum dolores quibusdam aut et."
+                        insectAllergy:
+                            type: boolean
+                            example: false
+                        insectAllergyDetails:
+                            type: string
+                            example: "Exercitationem aut enim voluptas fuga asperiores voluptas vitae perferendis nihil. Voluptas alias voluptatem quam quos soluta sed veritatis reiciendis aperiam. Nostrum sequi a molestiae. Rerum iure aut pariatur quo et et consequatur. Eveniet mollitia voluptatibus aut. Sunt libero qui est deserunt omnis."
+                        medicineAllergy:
+                            type: boolean
+                            example: false
+                        medicineAllergyDetails:
+                            type: string
+                            example: "Minus in hic aliquid. Repellat sapiente non. Eos omnis accusamus et rerum quia id. Voluptatum consequatur exercitationem esse debitis."
+                        otherAllergies:
+                            type: boolean
+                            example: false
+                        otherAllergiesDetails:
+                            type: string
+                            example: "Non cupiditate laborum vel ab molestias est. Delectus sed omnis rerum sapiente non dolore rem rerum fuga. Quis pariatur quo aut. Minus veritatis id ullam numquam ut sint mollitia."
+                documents:
+                    type: array
+                    items:
+                        type: string
+                medications:
+                    type: array
+                    items:
+                        type: string
+                authorizedDoctors:
+                    type: array
+                    items:
+                        type: string
+                status:
+                    type: boolean
+                    example: true
+                createdAt:
+                    type: string
+                    format: date-time
+                    example: "2024-11-07T14:59:22.105Z"
+                updatedAt:
+                    type: string
+                    format: date-time
+                    example: "2024-11-12T01:52:26.332Z"
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                error:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"

@@ -1,0 +1,357 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink admin endpoints.
+    version: 1.0.0
+paths:
+    /admin/patients:
+        get:
+            summary: Get all registered patients
+            tags:
+                - Admin
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                role:
+                                    type: string
+                                    example: admin
+                            required:
+                                - role
+            security:
+                - bearerAuth: []
+            description: >
+                Retrieve a list of all registered patients. 
+                This is a protected route that requires authentication and is accessible only to users with the 'admin' role.
+            responses:
+                200:
+                    description: Successfully retrieved list of patients
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: string
+                                                    example: "60d0fe4f5311236168a109ca"
+                                                firstName:
+                                                    type: string
+                                                    example: "John"
+                                                lastName:
+                                                    type: string
+                                                    example: "Doe"
+                                                email:
+                                                    type: string
+                                                    example: "patient@example.com"
+                                                role:
+                                                    type: string
+                                                    example: "patient"
+                                                avatarUrl:
+                                                    type: string
+                                                    example: "https://example.com/avatar.jpg"
+                403:
+                    description: Forbidden - User is not authorized to access this resource
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "You are not authorized to access this resource"
+                401:
+                    description: Unauthorized - Authentication required
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "Authentication token is missing or invalid"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "Server error"
+                                            details:
+                                                type: string
+                                                example: "An unexpected error occurred while fetching patients"
+    /admin/doctors:
+        get:
+            summary: Get all registered doctors
+            tags:
+                - Admin
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                role:
+                                    type: string
+                                    example: admin
+                            required:
+                                - role
+            security:
+                - bearerAuth: []
+            description: >
+                Retrieve a list of all registered doctors. 
+                This is a protected route that requires authentication and is accessible only to users with the 'admin' role.
+            responses:
+                200:
+                    description: Successfully retrieved list of doctors
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: string
+                                                    example: "60d0fe4f5311236168a109ca"
+                                                firstName:
+                                                    type: string
+                                                    example: "John"
+                                                lastName:
+                                                    type: string
+                                                    example: "Doe"
+                                                licenseNumber:
+                                                    type: number
+                                                    example: 22334
+                                                email:
+                                                    type: string
+                                                    example: "patient@example.com"
+                                                specialization:
+                                                    type: SPECIALITIES
+                                                    example: "Gastroenterology"
+                                                address:
+                                                    type: string
+                                                    example: "Junin 1706"
+                                                avatar:
+                                                    type: string
+                                                    example: "https://example.com/avatar.jpg"
+                                                phone:
+                                                    type: number
+                                                    example: 112334456
+                                                clinic:
+                                                    type: string
+                                                    example: "Clinica Mayo"
+                                                patients:
+                                                    type: Types.ObjectId[]
+                                                    example:
+                                                        [
+                                                            "de12d23d45g556hhh67yy6h6h6",
+                                                            "a35vl57l7m7lnb5gvv4fh",
+                                                        ]
+                                                consultations:
+                                                    type: Consultations[]
+                                                    example:
+                403:
+                    description: Forbidden - User is not authorized to access this resource
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "You are not authorized to access this resource"
+                401:
+                    description: Unauthorized - Authentication required
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "Authentication token is missing or invalid"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "Server error"
+                                            details:
+                                                type: string
+                                                example: "An unexpected error occurred while fetching patients"
+    /admin/doctors/{id}:
+    delete:
+        summary: Delete a doctor by ID
+        tags:
+            - Admin
+        parameters:
+            - in: path
+              name: id
+              required: true
+              description: The ID of the doctor to delete
+              schema:
+                type: string
+                example: "60d0fe4f5311236168a109ca"
+        security:
+            - bearerAuth: []
+        description: >
+            This route allows an admin to delete a doctor by their unique ID. 
+            The ID must be provided in the URL path.
+        responses:
+            200:
+                description: Successfully deleted the doctor
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: true
+                                message:
+                                    type: string
+                                    example: "Doctor deleted successfully"
+            400:
+                description: Bad request - Invalid doctor ID format
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: false
+                                error:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: "Invalid doctor ID format"
+            404:
+                description: Not found - Doctor with the provided ID does not exist
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: false
+                                error:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: "Doctor not found"
+            401:
+                description: Unauthorized - Authentication required
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: false
+                                error:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: "Authentication token is missing or invalid"
+            403:
+                description: Forbidden - User is not authorized to delete a doctor
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: false
+                                error:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: "You are not authorized to delete this doctor"
+            500:
+                description: Internal server error
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                success:
+                                    type: boolean
+                                    example: false
+                                error:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: "Server error"
+                                        details:
+                                            type: string
+                                            example: "An unexpected error occurred while deleting the doctor"

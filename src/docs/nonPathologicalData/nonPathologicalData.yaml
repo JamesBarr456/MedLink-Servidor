@@ -1,0 +1,110 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink application
+    version: 1.0.0
+paths:
+    /non-pathological-data:
+        put:
+            summary: Add or update patient non-pathological data
+            tags:
+                - Non-Pathological Data
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PatientNonPathologicalData"
+
+            responses:
+                200:
+                    description: Successfully added or updated patient non-pathological data
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PatientNonPathologicalDataResponse"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    schemas:
+        PatientNonPathologicalData:
+            type: object
+            properties:
+                physicalActivity:
+                    type: boolean
+                    example: false
+                physicalActivityDetails:
+                    type: string
+                    example: "Jogging 3 times a week"
+                smoking:
+                    type: boolean
+                    example: false
+                smokingDetails:
+                    type: string
+                    example: "Occasional smoker"
+                alcoholism:
+                    type: boolean
+                    example: false
+                alcoholismDetails:
+                    type: string
+                    example: "Drinks socially"
+                otherSubstances:
+                    type: boolean
+                    example: false
+                otherSubstancesDetails:
+                    type: string
+                    example: "Occasional marijuana use"
+                recentVaccination:
+                    type: boolean
+                    example: false
+                recentVaccinationDetails:
+                    type: string
+                    example: "Received flu vaccine last month"
+                other:
+                    type: boolean
+                    example: false
+                otherDetails:
+                    type: string
+                    example: "Practices yoga"
+
+        PatientNonPathologicalDataResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                payload:
+                    $ref: "#/components/schemas/PatientNonPathologicalData"
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                payload:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"

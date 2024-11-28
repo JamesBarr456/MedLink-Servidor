@@ -1,0 +1,605 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink authentication endpoints.
+    version: 1.0.0
+paths:
+    /auth/register:
+        post:
+            summary: Register a new Doctor
+            tags:
+                - Auth
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                    format: email
+                                    example: user@example.com
+                                password:
+                                    type: string
+                                    format: password
+                                    example: password123
+                                licenseNumber:
+                                    type: number
+                                    example: 123456
+                                specialization:
+                                    type: string
+                                    example: Cardiology
+                            required:
+                                - email
+                                - password
+                                - licenseNumber
+                                - specialization
+            responses:
+                201:
+                    description: User created successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: string
+                                                example: 60d0fe4f5311236168a109ca
+                                            email:
+                                                type: string
+                                                example: user@example.com
+                                            role:
+                                                type: string
+                                                example: Doctor
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Invalid input
+                                            details:
+                                                type: string
+                                                example: Email is required
+                409:
+                    description: Conflict
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: User already exists
+                                            details:
+                                                type: string
+                                                example: USER_ALREADY_EXISTS
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Server error
+                                            details:
+                                                type: string
+                                                example: USER_NOT_CREATED
+
+    /auth/register/:
+        post:
+            summary: Register a new Patient
+            tags:
+                - Auth
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                    format: email
+                                    example: user@example.com
+                                password:
+                                    type: string
+                                    format: password
+                                    example: password123
+                            required:
+                                - email
+                                - password
+            responses:
+                201:
+                    description: User created successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: string
+                                                example: 60d0fe4f5311236168a109ca
+                                            email:
+                                                type: string
+                                                example: user@example.com
+                                            role:
+                                                type: string
+                                                example: Patient
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                message:
+                                                    type: string
+                                                    example: Invalid input
+                                                details:
+                                                    type: string
+                                                    example: Email is required
+                409:
+                    description: Conflict
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: User already exists
+                                            details:
+                                                type: string
+                                                example: USER_ALREADY_EXISTS
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Server error
+                                            details:
+                                                type: string
+                                                example: USER_NOT_CREATED
+
+    /auth/login:
+        post:
+            summary: Login a user
+            tags:
+                - Auth
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                    format: email
+                                    example: user@example.com
+                                password:
+                                    type: string
+                                    format: password
+                                    example: password123
+            responses:
+                200:
+                    description: User logged in successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: object
+                                        properties:
+                                            token:
+                                                type: string
+                                                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Invalid credentials
+                                            details:
+                                                type: string
+                                                example: INVALID_CREDENTIALS
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Server error
+                                            details:
+                                                type: string
+                                                example: SERVER_ERROR
+
+    /auth/forgot-password:
+        post:
+            summary: Request a password reset
+            tags:
+                - Auth
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                    format: email
+                                    example: user@example.com
+                            required:
+                                - email
+            responses:
+                200:
+                    description: Password reset token generated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Token generated successfully
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                message:
+                                                    type: string
+                                                    example: Invalid input
+                                                details:
+                                                    type: string
+                                                    example: Email is required
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Invalid credentials
+                                            details:
+                                                type: string
+                                                example: INVALID_CREDENTIALS
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Server error
+                                            details:
+                                                type: string
+                                                example: SERVER_ERROR
+
+    /auth/reset-password/{token}:
+        post:
+            summary: Reset user password
+            tags:
+                - Auth
+            parameters:
+                - name: token
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      example: a3f5e6d7c8b9a0d1e2f3g4h5i6j7k8l9m0n1o2p3q4r5s6t7u8v9w0x1y2z3a4b5
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                password:
+                                    type: string
+                                    format: password
+                                    example: newpassword123
+                            required:
+                                - password
+            responses:
+                200:
+                    description: Password reset successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Password reset successfully
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Invalid input
+                                            details:
+                                                type: string
+                                                example: Password is too short
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Invalid token
+                                            details:
+                                                type: string
+                                                example: INVALID_TOKEN
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Server error
+                                            details:
+                                                type: string
+                                                example: SERVER_ERROR
+
+    /auth/update-password:
+        post:
+            summary: Update user password
+            tags:
+                - Auth
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                password:
+                                    type: string
+                                    format: password
+                                    example: newPassword123
+                            required:
+                                - password
+            responses:
+                200:
+                    description: Password updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Password updated successfully
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Invalid input
+                                            details:
+                                                type: string
+                                                example: Password is the same as the current one
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Unauthorized
+                                            details:
+                                                type: string
+                                                example: Invalid credentials
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: false
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: Server error
+                                            details:
+                                                type: string
+                                                example: Password not updated
+
+components:
+    schemas:
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                error:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"

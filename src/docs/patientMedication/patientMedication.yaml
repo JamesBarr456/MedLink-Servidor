@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink application
+    version: 1.0.0
+paths:
+    /medication:
+        put:
+            summary: Add or update patient medication data
+            tags:
+                - Medication
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PatientMedication"
+
+            responses:
+                200:
+                    description: Successfully added or updated patient medication data
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PatientMedicationResponse"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    schemas:
+        PatientMedication:
+            type: object
+            properties:
+                medication:
+                    type: string
+                    example: "Ibuprofen"
+                dosage:
+                    type: string
+                    example: "200mg"
+                frequency:
+                    type: string
+                    example: "Twice a day"
+                startDate:
+                    type: string
+                    format: date
+                    example: "2023-01-01"
+                endDate:
+                    type: string
+                    format: date
+                    example: "2023-01-10"
+
+        PatientMedicationResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                payload:
+                    $ref: "#/components/schemas/PatientMedication"
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                error:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"

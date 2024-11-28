@@ -1,0 +1,262 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink application
+    version: 1.0.0
+paths:
+    /doctor/{id}:
+        get:
+            summary: Get doctor information by ID
+            tags:
+                - Doctor
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                      example: "60d0fe4f5311236168a109ca"
+            responses:
+                200:
+                    description: Doctor information retrieved successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        $ref: "#/components/schemas/DoctorResponse"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                404:
+                    description: Doctor not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+    /doctor:
+        put:
+            summary: Update doctor information
+            tags:
+                - Doctor
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    example: John
+                                lastName:
+                                    type: string
+                                    example: Doe
+                                birth_date:
+                                    type: string
+                                    format: date
+                                    example: 1990-01-01
+                                genre:
+                                    type: string
+                                    example: Male
+                                about_me:
+                                    type: string
+                                    example: "Experienced cardiologist"
+                                phone:
+                                    type: string
+                                    example: "1234567890"
+                                email:
+                                    type: string
+                                    format: email
+                                    example: john.doe@example.com
+                                location:
+                                    type: string
+                                    example: New York
+                                specialization:
+                                    type: string
+                                    example: "Cardiology"
+                                avatar:
+                                    type: string
+                                    format: binary
+            responses:
+                200:
+                    description: Doctor information updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        $ref: "#/components/schemas/DoctorResponse"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                403:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+    /doctor/request-access:
+        post:
+            summary: Request access to a patient's profile
+            tags:
+                - Doctor
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                    format: email
+                                    example: patient@example.com
+            responses:
+                200:
+                    description: Access request sent successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    success:
+                                        type: boolean
+                                        example: true
+                                    payload:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "Token generated successfully and email sent"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                403:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                409:
+                    description: Conflict
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    schemas:
+        DoctorResponse:
+            type: object
+            properties:
+                id:
+                    type: string
+                    example: "60d0fe4f5311236168a109ca"
+                firstName:
+                    type: string
+                    example: "John"
+                lastName:
+                    type: string
+                    example: "Doe"
+                licenseNumber:
+                    type: number
+                    example: 123456
+                email:
+                    type: string
+                    example: "doctor@example.com"
+                role:
+                    type: string
+                    example: "Doctor"
+                specialization:
+                    type: string
+                    example: "Cardiology"
+                location:
+                    type: string
+                    example: "New York"
+                avatar:
+                    type: string
+                    example: "/uploads/avatars/doctor.jpg"
+                phone:
+                    type: string
+                    example: "1234567890"
+                clinic:
+                    type: array
+                    items:
+                        type: string
+                    example: ["Clinic A", "Clinic B"]
+                patients:
+                    type: array
+                    items:
+                        type: string
+                    example:
+                        ["60d0fe4f5311236168a109ca", "60d0fe4f5311236168a109cb"]
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                error:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"

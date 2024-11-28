@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+    title: MedLink API
+    description: API documentation for MedLink application
+    version: 1.0.0
+paths:
+    /pathological-data:
+        put:
+            summary: Add or update patient pathological data
+            tags:
+                - Pathological Data
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PatientPathologicalData"
+
+            responses:
+                200:
+                    description: Successfully added or updated patient pathological data
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PatientPathologicalDataResponse"
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                500:
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    schemas:
+        PatientPathologicalData:
+            type: object
+            properties:
+                hospitalization:
+                    type: boolean
+                    example: false
+                hospitalizationDetails:
+                    type: string
+                    example: "Details about hospitalization"
+                diabetes:
+                    type: boolean
+                    example: false
+                diabetesDetails:
+                    type: string
+                    example: "Type 2 diabetes"
+                thyroidDiseases:
+                    type: boolean
+                    example: false
+                thyroidDiseasesDetails:
+                    type: string
+                    example: "Hyperthyroidism"
+                hypertension:
+                    type: boolean
+                    example: false
+                hypertensionDetails:
+                    type: string
+                    example: "Secondary hypertension"
+                heartDiseases:
+                    type: boolean
+                    example: false
+                heartDiseasesDetails:
+                    type: string
+                    example: "Congenital heart disease"
+                trauma:
+                    type: boolean
+                    example: false
+                traumaDetails:
+                    type: string
+                    example: "Details about trauma"
+                cancer:
+                    type: boolean
+                    example: false
+                cancerDetails:
+                    type: string
+                    example: "Lung cancer"
+                tuberculosis:
+                    type: boolean
+                    example: false
+                tuberculosisDetails:
+                    type: string
+                    example: "Pulmonary tuberculosis"
+                transfusions:
+                    type: boolean
+                    example: false
+                transfusionsDetails:
+                    type: string
+                    example: "Details about transfusions"
+                respiratoryDiseases:
+                    type: boolean
+                    example: false
+                respiratoryDiseasesDetails:
+                    type: string
+                    example: "Asthma"
+                gastrointestinalDiseases:
+                    type: boolean
+                    example: false
+                gastrointestinalDiseasesDetails:
+                    type: string
+                    example: "Crohn's disease"
+                sexuallyTransmittedDiseases:
+                    type: boolean
+                    example: false
+                sexuallyTransmittedDiseasesDetails:
+                    type: string
+                    example: "HIV"
+                chronicKidneyDisease:
+                    type: boolean
+                    example: false
+                chronicKidneyDiseaseDetails:
+                    type: string
+                    example: "Stage 2 CKD"
+                other:
+                    type: boolean
+                    example: false
+                otherDetails:
+                    type: string
+                    example: "Other pathological conditions"
+
+        PatientPathologicalDataResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                payload:
+                    $ref: "#/components/schemas/PatientPathologicalData"
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                payload:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            example: "An error occurred"
+                        details:
+                            type: string
+                            example: "Detailed error message"
