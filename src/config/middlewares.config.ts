@@ -25,11 +25,11 @@ export default class MiddlewareConfig {
     static config(app: express.Application): void {
         app.use(
             cors({
-                origin: "https://medlink-six.vercel.app",
+                origin: "*",
                 methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
                 preflightContinue: false,
                 optionsSuccessStatus: 204,
-                credentials: true,
+                credentials: false,
                 allowedHeaders: [
                     "Content-Type",
                     "Authorization",
