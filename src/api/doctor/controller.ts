@@ -4,6 +4,7 @@ import HTTP_STATUS from "../../constants/HttpStatus";
 import HttpError from "../../utils/HttpError.utils";
 import DoctorService from "./service";
 import { MulterFiles } from "../../interfaces/file.interface";
+import cloudinaryUploader from "../../config/cloudinary.config";
 
 export default class DoctorController {
     static async getDoctor(req: Request, res: Response) {
@@ -34,7 +35,10 @@ export default class DoctorController {
             const files = req.files as MulterFiles;
 
             if (files && files.avatar) {
-                updateFields.avatar = `/uploads/avatars/${files.avatar[0].filename}`;
+                const avatarURL = await cloudinaryUploader(
+                    files.avatar[0].path
+                );
+                updateFields.avatar = avatarURL.secure_url;
             }
 
             const updatedDoctor = await DoctorService.updateDoctor(

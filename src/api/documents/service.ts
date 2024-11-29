@@ -1,3 +1,4 @@
+import cloudinaryUploader from "../../config/cloudinary.config";
 import HTTP_STATUS from "../../constants/HttpStatus";
 import { PatientFields } from "../../constants/PatientFields";
 import { MulterFiles } from "../../interfaces/file.interface";
@@ -14,14 +15,18 @@ export default class DocumentsService {
         files: MulterFiles
     ): Promise<Partial<PatientResponse>> {
         try {
-            const documentPayload = files.studies.map((file) => {
-                return {
-                    url: `/uploads/studies/${file.filename}`,
-                    name: file.originalname,
-                    type: file.mimetype,
-                    date: new Date(),
-                } as IDocument;
-            });
+            const documentPayload = await Promise.all(
+                files.studies.map(async (file) => {
+                    const documentURL = await cloudinaryUploader(file.path);
+
+                    return {
+                        url: documentURL.secure_url,
+                        name: file.originalname,
+                        type: file.mimetype,
+                        date: new Date(),
+                    } as IDocument;
+                })
+            );
 
             const documentsSaved = await DocumentDAO.saveManyDocuments(
                 documentPayload

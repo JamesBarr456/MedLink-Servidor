@@ -27,6 +27,7 @@ const apiResponse_utils_1 = __importDefault(require("../../utils/apiResponse.uti
 const HttpStatus_1 = __importDefault(require("../../constants/HttpStatus"));
 const HttpError_utils_1 = __importDefault(require("../../utils/HttpError.utils"));
 const service_1 = __importDefault(require("./service"));
+const cloudinary_config_1 = __importDefault(require("../../config/cloudinary.config"));
 class DoctorController {
     static getDoctor(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -49,7 +50,8 @@ class DoctorController {
                 const updateFields = __rest(req.body, []);
                 const files = req.files;
                 if (files && files.avatar) {
-                    updateFields.avatar = `/uploads/avatars/${files.avatar[0].filename}`;
+                    const avatarURL = yield (0, cloudinary_config_1.default)(files.avatar[0].path);
+                    updateFields.avatar = avatarURL.secure_url;
                 }
                 const updatedDoctor = yield service_1.default.updateDoctor(user, updateFields);
                 const response = (0, apiResponse_utils_1.default)(true, updatedDoctor);

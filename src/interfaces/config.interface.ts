@@ -23,4 +23,8 @@ export interface Config {
     TEST_DATABASE: string | undefined;
     NODE_ENV: string | undefined;
     FRONTEND_URL: string | undefined;
+    CLOUDINARY_CLOUD_NAME: string | undefined;
+    CLOUDINARY_API_KEY: string | undefined;
+    CLOUDINARY_API_SECRET: string | undefined;
+    CLOUDINARY_URL: string | undefined;
 }

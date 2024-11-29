@@ -45,5 +45,9 @@ const config = {
     TEST_DATABASE: process.env.TEST_DATABASE,
     NODE_ENV: process.env.NODE_ENV || "dev",
     FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:3000",
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || "",
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || "",
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || "",
+    CLOUDINARY_URL: process.env.CLOUDINARY_URL || "",
 };
 exports.default = config;
